@@ -3,8 +3,8 @@ import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import _ from 'lodash'
 import "./USState.css"
 
-const PERCENTAGE_COLOR = '#882498'
-const COUNT_COLOR = '#3324d8'
+const PERCENTAGE_COLOR = 'green'
+const COUNT_COLOR = 'sienna'
 
 class USState extends React.Component {
   stateCode() {
