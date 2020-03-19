@@ -1,6 +1,10 @@
 .App {
 }
 
+.grid {
+  padding: 5px;
+}
+
 .App-header {
   background-color: pink;
   /* min-height: 100vh; */

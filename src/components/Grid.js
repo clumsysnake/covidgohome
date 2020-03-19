@@ -73,7 +73,7 @@ class Grid extends React.Component {
     })
 
 
-    return <div>
+    return <div className="grid">
       {stateComps}
     </div>
   }

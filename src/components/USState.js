@@ -24,11 +24,22 @@ class USState extends React.Component {
       return e
     })
 
+    const totalTests = _.last(data).total
+    const totalConfirmed = _.last(data).positive
+    const totalDead = _.last(data).death || 0
+
     return (
       <div className="us-state">
-        <div className="state-code">{this.stateCode()}</div>
+        <div className="us-state-header">
+          <span className="state-code">
+            {this.stateCode()}
+          </span>
+          <span className="state-totals">
+            {totalTests} tested; {totalConfirmed} confirmed;  {totalDead} dead
+          </span>
+        </div>
         <LineChart width={600} height={300} data={data}
-                   margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
+                   margin={{ top: 10, right: 0, left: 0, bottom: 10 }}
           >
           <Line 
             yAxisId="left"
@@ -65,7 +76,7 @@ class USState extends React.Component {
             domain={[0, 100]}
             tick={{stroke: PERCENTAGE_COLOR}}
           />
-          <Legend />
+          {/*<Legend />*/}
         </LineChart>
       </div>
     )

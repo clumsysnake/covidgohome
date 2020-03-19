@@ -7,9 +7,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          We said go back in your bat hole!
+          <em>We said go back in your bat hole!</em> -- Tests vs Positive Tests
           (pulled from <a href="https://covidtracking.com/">https://covidtracking.com/</a>)
-          -- ryan at ryan dawt org
+          (ryan at ryan dawt org)
         </header>
         <Grid />
       </div>
