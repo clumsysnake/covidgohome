@@ -19,7 +19,7 @@ class USState extends React.Component {
       e.displayPosPercToday = Number.parseFloat(flooredPosPercToday).toFixed(0)
       if(!_.isFinite(e.posPercToday)) { e.displayPosPercToday = null }
 
-      e.displayDate = e.date.toString().slice(4, 6) + "-" + e.date.toString().slice(6, 8)
+      e.displayDate = e.date.toString().slice(5, 6) + "-" + e.date.toString().slice(6, 8)
 
       return e
     })
