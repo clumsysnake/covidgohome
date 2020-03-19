@@ -1,5 +1,6 @@
 import React from "react"
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import _ from 'lodash'
 import "./USState.css"
 
 const PERCENTAGE_COLOR = '#882498'
@@ -16,6 +17,8 @@ class USState extends React.Component {
       let flooredPosPercToday = Math.max(0, e.posPercToday)
 
       e.displayPosPercToday = Number.parseFloat(flooredPosPercToday).toFixed(0)
+      if(!_.isFinite(e.posPercToday)) { e.displayPosPercToday = null }
+
       e.displayDate = e.date.toString().slice(4, 6) + "-" + e.date.toString().slice(6, 8)
 
       return e
