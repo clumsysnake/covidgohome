@@ -45,6 +45,10 @@ class Grid extends React.Component {
     })
   }
 
+  sortByMostTests(pairA, pairB) {
+    return (pairA[1][0].total > pairB[1][0].total) ? -1 : 1
+  }
+
   render() {
     let groups = _.groupBy(this.state.statesDaily, 'state')
 
@@ -58,7 +62,7 @@ class Grid extends React.Component {
 
     let states = Object.entries(groups)
       .slice(0, DEBUG_MAX_STATES)
-      .sort() // alphabetic sort by state code
+      .sort(this.sortByMostTests)
 
     console.log(states);
 
