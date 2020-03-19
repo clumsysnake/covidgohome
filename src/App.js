@@ -7,8 +7,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <Grid />      
+          We said go back in your bat hole! (pulled from <a href="https://covidtracking.com/">https://covidtracking.com/</a>)
         </header>
+        <Grid />
       </div>
     )
   }
