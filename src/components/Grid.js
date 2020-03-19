@@ -64,7 +64,7 @@ class Grid extends React.Component {
       .slice(0, DEBUG_MAX_STATES)
       .sort(this.sortByMostTests)
 
-    console.log(states);
+    // console.log(states);
 
     let stateComps = states.map((pair) => {
       let entries = this.decorateTimeSeries(pair[1].reverse() )
