@@ -26,6 +26,7 @@ class USState extends React.Component {
 
     const totalTests = _.last(data).total
     const totalConfirmed = _.last(data).positive
+    const perTotalConfirmed = Number.parseFloat(100 * totalConfirmed / totalTests).toFixed(0)
     const totalDead = _.last(data).death || 0
 
     return (
@@ -35,7 +36,7 @@ class USState extends React.Component {
             {this.stateCode()}
           </span>
           <span className="state-totals">
-            {totalTests} tested; {totalConfirmed} confirmed;  {totalDead} dead
+            {totalTests} tested; {totalConfirmed}({perTotalConfirmed}%) confirmed;  {totalDead} dead
           </span>
         </div>
         <LineChart width={600} height={300} data={data}
