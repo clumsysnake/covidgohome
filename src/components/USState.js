@@ -1,5 +1,5 @@
 import React from "react"
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import _ from 'lodash'
 import "./USState.css"
 
@@ -60,7 +60,6 @@ class USState extends React.Component {
             name="% (+) Tests"
           />
           <XAxis dataKey="displayDate" domain={this.props.globalXDomain} />
-          <Tooltip />
           <YAxis
             yAxisId="left"
             orientation="left"
@@ -77,7 +76,7 @@ class USState extends React.Component {
             domain={[0, 100]}
             tick={{stroke: PERCENTAGE_COLOR}}
           />
-          {/*<Legend />*/}
+          <Tooltip />
         </LineChart>
       </div>
     )
