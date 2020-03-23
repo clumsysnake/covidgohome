@@ -1,0 +1,8 @@
+.region-header {
+  width: 100%;
+  display: block;
+  float: left;
+  text-transform: uppercase;
+  font-weight: 900;
+  text-decoration: underline
+}

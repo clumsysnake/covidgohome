@@ -5,6 +5,7 @@ import StateModel from '../models/StateModel.js'
 import RegionModel from '../models/RegionModel.js'
 // import { REGION_MAP } from '../models/StateModel.js'
 import USState from './USState.js'
+import Region from './Region.js'
 
 const COVIDTRACKING_STATESDAILY_URL = "https://covidtracking.com/api/states/daily"
 // const COVIDTRACKING_USDAILY_URL = "https://covidtracking.com/api/us/daily"
@@ -96,14 +97,30 @@ class Grid extends React.Component {
   }
 
   render() {
-    debugger
+    let sort = this.props.sort
+    let comps = []
 
-    let stateComps = this.state.states.sort(this.sortFunction(this.props.sort)).map((state) => {
-      return <USState key={state.code} state={state}/>
-    })
+
+    if(sort === "region") { //TODO: not technically a sort then!
+      let regions = RegionModel.all.map(r => <Region region={r} children={
+        r.states.map(state => {
+          return <USState key={state.code} state={state}/>
+        })
+      } />)
+
+      let unregionedStates = StateModel.withoutRegion.sort(this.sortFunction('most-tests')).map((state) => {
+        return <USState key={state.code} state={state}/>
+      })
+
+      comps.push(regions, <span className="region-header">Unregioned</span>, unregionedStates)
+    } else {
+      comps = this.state.states.sort(this.sortFunction(sort)).map((state) => {
+        return <USState key={state.code} state={state}/>
+      })
+    }
 
     return <div className="grid">
-      {stateComps.length ? stateComps : "loading..."}
+      {comps.length ? comps : "loading..."}
     </div>
   }
 }

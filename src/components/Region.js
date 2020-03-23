@@ -1,11 +1,12 @@
 import React from "react"
+import "./Region.css"
 
 class Region extends React.Component {
   render() {
     return (
-      <div>
-        <span>Region: {this.props.region}</span>
-
+      <div className="region">
+        <span className="region-header">{this.props.region.name}</span>
+        {this.props.children}
       </div>
     )
   }
@@ -13,7 +14,7 @@ class Region extends React.Component {
 
 Region.propTypes = {
   // region
-  // states
+  // children
 }
 
 export default Region

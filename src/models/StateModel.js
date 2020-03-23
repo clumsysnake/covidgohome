@@ -7,6 +7,10 @@ class StateModel {
     return allModels
   }
 
+  static get withoutRegion() {
+    return allModels.filter(m => m.region === null)
+  }
+
   constructor(props) {
     for(let [k, v] of Object.entries(props)) {
       this[k] = v
