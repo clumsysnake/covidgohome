@@ -40,7 +40,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <em>We said go back in your bat hole!</em> -- Tests & Positive Tests compared
+          <em>...go back in your bat hole!</em> -- Tests & Positive Tests compared
           (pulled from <a href="https://covidtracking.com/">https://covidtracking.com/</a>)
           (ryan at ryan dawt org)
         </header>
