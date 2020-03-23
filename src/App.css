@@ -5,6 +5,23 @@
   padding: 5px;
 }
 
+.sort {
+  padding: 0 10px;
+}
+
+.sort, .aggregate {
+  display: inline-block;
+}
+
+button {
+  border: 0;
+  background: none;
+  font-size: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  
+}
+
 .App-header {
   background-color: pink;
   /* min-height: 100vh; */

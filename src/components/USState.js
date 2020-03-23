@@ -6,17 +6,19 @@ import "./USState.css"
 const PERCENTAGE_COLOR = 'green'
 const COUNT_COLOR = 'sienna'
 
-class USState extends React.Component {
-  stateCode() {
-    return this.props.entries[0].state
-  }
+const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
 
+class USState extends React.Component {
   render() {
+    let state = this.props.state
+
+    let displayPerTotalConfirmed = percentDisplay(state.perTotalConfirmed, 1)
+
     //CRZ: fix up data such that it displays nicely.
-    let data = this.props.entries.map((e, idx, a) => {
+    let data = state.entries.map((e, idx, a) => {
       let flooredPosPercToday = Math.max(0, e.posPercToday)
 
-      e.displayPosPercToday = Number.parseFloat(flooredPosPercToday).toFixed(0)
+      e.displayPosPercToday = percentDisplay(flooredPosPercToday, 1)
       if(!_.isFinite(e.posPercToday)) { e.displayPosPercToday = null }
 
       e.displayDate = e.date.toString().slice(5, 6) + "-" + e.date.toString().slice(6, 8)
@@ -24,19 +26,14 @@ class USState extends React.Component {
       return e
     })
 
-    const totalTests = _.last(data).total
-    const totalConfirmed = _.last(data).positive
-    const perTotalConfirmed = Number.parseFloat(100 * totalConfirmed / totalTests).toFixed(0)
-    const totalDead = _.last(data).death || 0
-
     return (
       <div className="us-state">
         <div className="us-state-header">
           <span className="state-code">
-            {this.stateCode()}
+            {state.code}
           </span>
           <span className="state-totals">
-            {totalTests} tested; {totalConfirmed}({perTotalConfirmed}%) confirmed;  {totalDead} dead
+            {state.totalTests} tested; {state.totalConfirmed}({displayPerTotalConfirmed}%) confirmed; {state.totalDead} dead
           </span>
         </div>
         <LineChart width={600} height={300} data={data}
@@ -59,7 +56,7 @@ class USState extends React.Component {
             isAnimationActive={false}
             name="% (+) Tests"
           />
-          <XAxis dataKey="displayDate" domain={this.props.globalXDomain} />
+          <XAxis dataKey="displayDate" />
           <YAxis
             yAxisId="left"
             orientation="left"
@@ -85,7 +82,7 @@ class USState extends React.Component {
 
 USState.propTypes = {
   //entries, array of covidtracking rows
-  //globalXDomain
 }
 USState.defaultProps = {}
+
 export default USState
