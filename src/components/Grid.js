@@ -74,7 +74,7 @@ class Grid extends React.Component {
 
 
     return <div className="grid">
-      {stateComps}
+      {stateComps.length ? stateComps : "loading..."}
     </div>
   }
 }
