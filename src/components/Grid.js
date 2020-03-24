@@ -4,7 +4,7 @@ import _ from 'lodash'
 import StateModel from '../models/StateModel.js'
 import RegionModel from '../models/RegionModel.js'
 // import { REGION_MAP } from '../models/StateModel.js'
-import USState from './USState.js'
+import AreaChart from './AreaChart.js'
 import Region from './Region.js'
 
 const COVIDTRACKING_STATESDAILY_URL = "https://covidtracking.com/api/states/daily"
@@ -19,24 +19,19 @@ class Grid extends React.Component {
 
     this.state = {states: [], regions: [], usDaily: null}
 
-    let t = this
-    this.fetchJson(COVIDTRACKING_STATESDAILY_URL, function(e) {
+    this.fetchJson(COVIDTRACKING_STATESDAILY_URL, (e) => {
       let json = e.target.response
 
       let groups = _.groupBy(json, 'state')
       let states = Object.entries(groups).slice(0, DEBUG_MAX_STATES).map((statePair) => {
         //first entry is latest, so reverse
-        let entries = t.decorateTimeSeries(statePair[1].reverse()) 
-        let totalConfirmed = _.last(entries).positive
-        let totalTests = _.last(entries).total
+        let entries = this.decorateTimeSeries(statePair[1].reverse()) 
+        let stats = this.statsForSeries(entries)
 
         return new StateModel({
           code: statePair[0],
           entries,
-          totalTests,
-          totalConfirmed,
-          perTotalConfirmed: 100 * (totalConfirmed / totalTests),
-          totalDead: _.last(entries).death || 0
+          stats
         })
       })
 
@@ -44,7 +39,7 @@ class Grid extends React.Component {
         return new RegionModel(pair[0], pair[1])
       })
 
-      t.setState({states: states, regions: regions})
+      this.setState({states: states, regions: regions})
     })
 
     // this.fetchJson(COVIDTRACKING_USDAILY_URL, function(e) {
@@ -75,6 +70,18 @@ class Grid extends React.Component {
     return entries
   }
 
+  statsForSeries(entries) {
+    let totalConfirmed = _.last(entries).positive
+    let totalTests = _.last(entries).total
+
+    return {
+      totalTests,
+      totalConfirmed,
+      perTotalConfirmed: 100 * (totalConfirmed / totalTests),
+      totalDead: _.last(entries).death || 0
+    }
+  }
+
   sortFunction(sort) {
     switch(sort) {
       case "alpha":
@@ -84,9 +91,9 @@ class Grid extends React.Component {
           return (((a.region && a.region.name) || "") > ((b.region && b.region.name) || "")) ? -1 : 1
         }
       case "percent-confirmed":
-        return (a, b) => (a.perTotalConfirmed > b.perTotalConfirmed) ? -1 : 1
+        return (a, b) => (a.stats.perTotalConfirmed > b.stats.perTotalConfirmed) ? -1 : 1
       case "most-tests":
-        return (a, b) => (a.totalTests > b.totalTests) ? -1 : 1
+        return (a, b) => (a.stats.totalTests > b.stats.totalTests) ? -1 : 1
       default:
         return undefined //TODO
     }
@@ -104,21 +111,22 @@ class Grid extends React.Component {
     if(sort === "region") { //TODO: not technically a sort then!
       let regions = RegionModel.all.map(r => <Region region={r} children={
         r.states.map(state => {
-          return <USState key={state.code} state={state}/>
+          return <AreaChart key={state.code} name={state.code} series={state.entries} stats={state.stats}/>
         })
       } />)
 
       let unregionedStates = StateModel.withoutRegion.sort(this.sortFunction('most-tests')).map((state) => {
-        return <USState key={state.code} state={state}/>
+        return <AreaChart key={state.code} name={state.code} series={state.entries} stats={state.stats}/>
       })
 
       comps.push(regions, <span className="region-header">Unregioned</span>, unregionedStates)
     } else {
       comps = this.state.states.sort(this.sortFunction(sort)).map((state) => {
-        return <USState key={state.code} state={state}/>
+        return <AreaChart key={state.code} name={state.code} series={state.entries} stats={state.stats}/>
       })
     }
 
+    //TODO: not showing loading
     return <div className="grid">
       {comps.length ? comps : "loading..."}
     </div>

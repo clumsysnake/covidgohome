@@ -1,21 +1,20 @@
+import PropTypes from 'prop-types';
 import React from "react"
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import _ from 'lodash'
-import "./USState.css"
+import "./AreaChart.css"
 
 const PERCENTAGE_COLOR = 'green'
 const COUNT_COLOR = 'sienna'
 
 const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
 
-class USState extends React.Component {
+class AreaChart extends React.Component {
   render() {
-    let state = this.props.state
-
-    let displayPerTotalConfirmed = percentDisplay(state.perTotalConfirmed, 1)
+    let displayPerTotalConfirmed = percentDisplay(this.props.stats.perTotalConfirmed, 1)
 
     //CRZ: fix up data such that it displays nicely.
-    let data = state.entries.map((e, idx, a) => {
+    let data = this.props.series.map((e, idx, a) => {
       let flooredPosPercToday = Math.max(0, e.posPercToday)
 
       e.displayPosPercToday = percentDisplay(flooredPosPercToday, 1)
@@ -27,13 +26,13 @@ class USState extends React.Component {
     })
 
     return (
-      <div className="us-state">
-        <div className="us-state-header">
-          <span className="state-code">
-            {state.code}
+      <div className="area-chart">
+        <div className="header">
+          <span className="name">
+            {this.props.name}
           </span>
-          <span className="state-totals">
-            {state.totalTests} tested; {state.totalConfirmed}({displayPerTotalConfirmed}%) confirmed; {state.totalDead} dead
+          <span className="totals">
+            {this.props.stats.totalTests} tested; {this.props.stats.totalConfirmed}({displayPerTotalConfirmed}%) confirmed; {this.props.stats.totalDead} dead
           </span>
         </div>
         <LineChart width={600} height={300} data={data}
@@ -80,9 +79,11 @@ class USState extends React.Component {
   }
 }
 
-USState.propTypes = {
-  //entries, array of covidtracking rows
+AreaChart.propTypes = {
+  name: PropTypes.string,
+  series: PropTypes.array,
+  stats: PropTypes.object
 }
-USState.defaultProps = {}
+AreaChart.defaultProps = {}
 
-export default USState
+export default AreaChart
