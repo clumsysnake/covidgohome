@@ -55,13 +55,13 @@ class App extends React.Component {
             {this.state.sort === "percent-confirmed" ? " percent-confirmed " : <button onClick={this.clickedPercentConfirmed}>percent-confirmed</button>}
           </div>
           
-{/*          <div className="aggregate">
+          <div className="aggregate">
             aggregate:
-            {this.state.aggregate === "none" ? " none" : <button onClick={this.clickedAggregateNone}>none</button>}
+            {this.state.aggregate === "none" ? " none " : <button onClick={this.clickedAggregateNone}>none</button>}
             |
-            {this.state.aggregate === "region" ? " region" : <button onClick={this.clickedAggregateRegion}>region</button>}
+            {this.state.aggregate === "region" ? " region " : <button onClick={this.clickedAggregateRegion}>region</button>}
           </div>
-*/}        </div>
+        </div>
         <Grid sort={this.state.sort} aggregate={this.state.aggregate}/>
       </div>
     )

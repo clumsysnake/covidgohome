@@ -1,4 +1,5 @@
 import StateModel from './StateModel'
+import AreaModel from './AreaModel'
 
 const REGION_MAP = {
   "tristate": ["NY", "CT", "NJ"],
@@ -25,10 +26,15 @@ class RegionModel {
     allModels.push(this)
   }
 
+  //TODO: Not memoized because clearing cache when states update is too much complexity
   get states() {
-    return this._states = this._states || StateModel.all.filter(state => {
+    return StateModel.all.filter(state => {
       return this.stateCodes.includes(state.code)
-    }) || null
+    }) || []
+  }
+
+  createAggregate () {
+    return AreaModel.createAggregate(this.name, this.states)
   }
 }
 

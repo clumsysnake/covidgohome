@@ -1,8 +1,15 @@
 import RegionModel from './RegionModel'
+import AreaModel from './AreaModel'
 
 let allModels = []
 
-class StateModel {
+class StateModel extends AreaModel {
+  constructor(props) {
+    super(props)
+
+    allModels.push(this)
+  }
+
   static get all() {
     return allModels
   }
@@ -11,12 +18,8 @@ class StateModel {
     return allModels.filter(m => m.region === null)
   }
 
-  constructor(props) {
-    for(let [k, v] of Object.entries(props)) {
-      this[k] = v
-    }
-
-    allModels.push(this)
+  get code() {
+    return this.name
   }
 
   get region() {
