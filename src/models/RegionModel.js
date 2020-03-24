@@ -2,7 +2,9 @@ import StateModel from './StateModel'
 
 const REGION_MAP = {
   "tristate": ["NY", "CT", "NJ"],
-  "northwest": ["OR", "WA"]
+  "northwest": ["OR", "WA"],
+  "southern band": ["TX", "LA", "MS", "AL", "FL"],
+  "carribbean": ["PR", "VI"]
 }
 
 let allModels = []
