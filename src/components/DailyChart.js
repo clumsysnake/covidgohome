@@ -25,8 +25,6 @@ class DailyChart extends React.Component {
       return e
     })
 
-    console.log(data)
-
     return (
       <div className="area-chart">
         <div className="header">
