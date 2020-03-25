@@ -5,7 +5,7 @@ import StateModel from '../models/StateModel.js'
 import RegionModel from '../models/RegionModel.js'
 // import { REGION_MAP } from '../models/StateModel.js'
 import AreaChart from './AreaChart.js'
-import Region from './Region.js'
+import Group from './Group.js'
 
 const COVIDTRACKING_STATESDAILY_URL = "https://covidtracking.com/api/states/daily"
 // const COVIDTRACKING_USDAILY_URL = "https://covidtracking.com/api/us/daily"
@@ -88,7 +88,7 @@ class Grid extends React.Component {
         return <AreaChart key={r.name} name={r.name} series={agg.entries} stats={agg.stats}/>
       })
     } else if(sort === "region") { //TODO: not technically a sort then! this is a weird conditional
-      let regions = RegionModel.all.map(r => <Region key={r.name} region={r} children={
+      let regions = RegionModel.all.map(r => <Group key={r.name} name={r.name} children={
         r.states.map(s => { return chartForState(s) })
       } />)
 
