@@ -2,8 +2,10 @@
   - fixed header looks wrong
   - default graph width is too wide
   - filter bars have too many spaces
+  - make top header disappear on scroll (decide if thats ONLY on mobile)
+  - investigate a more elegant way of hiding filters while viewing graph.
 - bug: daily charts display pending, which may blow the domainMax, since we calculate it from max of total.
-- bug: ny data has some deltas <0, blowing the domainMin.
+- bug: ny data has some deltas <0, blowing the domainMin. why is that even happening?
 - in tooltips, add time of data collection for each day
 - add attack rate (requiring population data)
 - incorporate latest intraday data, not just the last states/daily, which can be a day old for some
@@ -37,3 +39,4 @@
 - use react router for useful urls
 - for regions, show which states are in the region
 - when switching filters, there is a long delay before the user is given feedback. do something. 
+- can/should we vary the width of the positive %age line depending on how accurate the %age is according to test count?
