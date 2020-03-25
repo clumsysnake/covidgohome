@@ -18,6 +18,7 @@ class App extends React.Component {
   clickedSortPercentConfirmed = (e) => { this.setState({sort: "percent-confirmed"}) }
   clickedAggregateNone = (e) => { this.setState({aggregate: "none"}) }
   clickedAggregateRegion = (e) => { this.setState({aggregate: "region"}) }
+  clickedAggregateCountry = (e) => { this.setState({aggregate: "country"}) }
   clickedGroupNone = (e) => { this.setState({group: "none"}) }
   clickedGroupRegion = (e) => { this.setState({group: "region"}) }
   clickedChartTypeDaily = (e) => { this.setState({chartType: "daily"}) } 
@@ -51,6 +52,8 @@ class App extends React.Component {
             {this.state.aggregate === "none" ? " none " : <button onClick={this.clickedAggregateNone}>none</button>}
             |
             {this.state.aggregate === "region" ? " region " : <button onClick={this.clickedAggregateRegion}>region</button>}
+            |
+            {this.state.group === "country" ? " country " : <button onClick={this.clickedAggregateCountry}>country</button>} 
           </div>
 
           <div className="chart-type">

@@ -20,7 +20,7 @@ class Grid extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {states: [], regions: [], usDaily: null}
+    this.state = {states: [], regions: []}
 
     this.fetchJson(COVIDTRACKING_STATESDAILY_URL, (e) => {
       let json = e.target.response
@@ -42,11 +42,6 @@ class Grid extends React.Component {
 
       this.setState({states: states, regions: regions})
     })
-
-    // this.fetchJson(COVIDTRACKING_USDAILY_URL, function(e) {
-    //   let json = e.target.response
-    //   t.setState({statesDaily: json})
-    // })
   }
 
   fetchJson(url, onload) {
@@ -89,6 +84,8 @@ class Grid extends React.Component {
       areas.sort(this.sortFunction(sort))
 
       comps = areas.map(a => chartForArea(a))
+    } else if(this.props.aggregate === "country") {
+      comps = [chartForArea(AreaModel.createAggregate('USA', StateModel.all))]
     } else if(this.props.group === "region") {
       let regions = RegionModel.all.map(r => <Group key={r.name} name={r.name} children={
         r.states.sort(this.sortFunction(sort)).map(s => { return chartForArea(s) })
