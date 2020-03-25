@@ -76,14 +76,12 @@ class Grid extends React.Component {
     let chartForArea = (s) => <AreaChart key={s.name} name={s.name} series={s.entries} stats={s.stats}/>
 
     if(this.props.aggregate === "region") {
-      comps = RegionModel.all.map((r) => {
-        let agg = r.createAggregate();
-        return <AreaChart key={r.name} name={r.name} series={agg.entries} stats={agg.stats}/>
-      })
+      let areas = RegionModel.all.map((r) => r.createAggregate())
+      areas.push(AreaModel.createAggregate('Other', StateModel.withoutRegion))
+      
+      areas.sort(this.sortFunction(sort))
 
-      let otherStates = StateModel.withoutRegion.sort(this.sortFunction(sort))
-      let agg = AreaModel.createAggregate('Other', otherStates)
-      comps.push(chartForArea(agg))
+      comps = areas.map(a => chartForArea(a))
     } else if(this.props.group === "region") {
       let regions = RegionModel.all.map(r => <Group key={r.name} name={r.name} children={
         r.states.sort(this.sortFunction(sort)).map(s => { return chartForArea(s) })
