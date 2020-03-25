@@ -5,6 +5,7 @@ let allModels = []
 let decorateTimeSeries = (entries) => {
   entries.forEach((e, idx, a) => {
     e.posNeg = e.positive + e.negative //where total is neg + pos + pending
+    e.posPerc = 100 * e.positive / e.posNeg
     e.positiveDelta = (idx > 0) ? e.positive - a[idx-1].positive : null
     e.negativeDelta = (idx > 0) ? e.negative - a[idx-1].negative : null
     e.pendingDelta = (idx > 0) ? e.pending - a[idx-1].pending : null

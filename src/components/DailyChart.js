@@ -7,21 +7,22 @@ import "./DailyChart.css"
 
 const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
 
+//CRZ: decorate series with display fields
+const decorateSeriesForDisplay = (series) => {
+  return series.map((e, idx, a) => {
+    e.displayPosPercToday = percentDisplay(Math.max(0, e.posPercToday), 1)
+    if(!_.isFinite(e.posPercToday)) { e.displayPosPercToday = null }
+
+    e.displayDate = e.date.toString().slice(5, 6) + "-" + e.date.toString().slice(6, 8)
+
+    return e
+  })
+}
+
 class DailyChart extends React.Component {
   render() {
     let displayPerTotalConfirmed = percentDisplay(this.props.stats.perTotalConfirmed, 1)
-
-    //CRZ: fix up data such that it displays nicely.
-    let data = this.props.series.map((e, idx, a) => {
-      let flooredPosPercToday = Math.max(0, e.posPercToday)
-
-      e.displayPosPercToday = percentDisplay(flooredPosPercToday, 1)
-      if(!_.isFinite(e.posPercToday)) { e.displayPosPercToday = null }
-
-      e.displayDate = e.date.toString().slice(5, 6) + "-" + e.date.toString().slice(6, 8)
-
-      return e
-    })
+    let data = decorateSeriesForDisplay(this.props.series)
 
     return (
       <div className="area-chart">

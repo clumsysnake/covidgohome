@@ -3,14 +3,24 @@ import React from "react"
 import { ComposedChart, Area, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import "./CumulativeChart.css"
 import Colors from '../Colors.js'
+import _ from 'lodash'
+
+//TODO; lots of overlap with DailyChart here
+const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
+const decorateSeriesForDisplay = (series) => {
+  return series.map((e, idx, a) => {
+    e.displayPosPerc = percentDisplay(Math.max(0, e.posPerc), 1)
+    if(!_.isFinite(e.posPerc)) { e.displayPosPerc = null }
+
+    e.displayDate = e.date.toString().slice(5, 6) + "-" + e.date.toString().slice(6, 8)
+
+    return e
+  })
+}
 
 class CumulativeChart extends React.Component {
   render() {
-    let data = this.props.series.map((e, idx, a) => {
-      e.displayDate = e.date.toString().slice(5, 6) + "-" + e.date.toString().slice(6, 8)
-
-      return e
-    })
+    let data = decorateSeriesForDisplay(this.props.series)
 
     return (
       <div className="cumulative-chart">
@@ -30,6 +40,14 @@ class CumulativeChart extends React.Component {
             allowDataOverflow={false}
             domain={[0,this.props.domainMax]}
             tick={{stroke: Colors.TEST}}
+          />
+          <YAxis
+            yAxisId="percentage"
+            orientation="right"
+            type="number"
+            allowDataOverflow={false}
+            domain={[0, 100]}
+            tick={{stroke: Colors.POSITIVE_PERCENT}}
           />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
@@ -89,6 +107,16 @@ class CumulativeChart extends React.Component {
             strokeWidth={2}
             isAnimationActive={false}
             name="Hospitalized"
+          />
+          <Line
+            yAxisId="percentage"
+            type="monotone"
+            dataKey="displayPosPerc"
+            stroke={Colors.POSITIVE_PERCENT}
+            dot={false}
+            strokeWidth={1}
+            isAnimationActive={false}
+            name="% (+) Tests"
           />
         </ComposedChart>
       </div>
