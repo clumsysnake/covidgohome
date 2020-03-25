@@ -28,7 +28,7 @@ class CumulativeChart extends React.Component {
           </span>
         </div>
         <LineChart width={600} height={300} data={data}
-                   margin={{ top: 10, right: 0, left: 0, bottom: 10 }}
+                   margin={{ top: 10, right: 5, left: 10, bottom: 10 }}
           >
           <Line 
             yAxisId="left"
