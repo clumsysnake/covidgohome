@@ -110,7 +110,7 @@ class DailyChart extends React.Component {
             orientation="left"
             type="number"
             allowDataOverflow={false}
-            domain={[0,1000]}
+            domain={[0,this.props.domainMax]}
             tick={{stroke: Colors.TEST}}
           />
           <YAxis

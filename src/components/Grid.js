@@ -13,8 +13,9 @@ const COVIDTRACKING_STATESDAILY_URL = "https://covidtracking.com/api/states/dail
 // const COVIDTRACKING_USDAILY_URL = "https://covidtracking.com/api/us/daily"
 //const COVIDTRACKING_STATESCURRENT_URL = "https://covidtracking.com/api/states"
 
-const DEBUG_MAX_STATES = 1000 //CRZ: set lower to limit # of states displayed
-// const DEBUG_MAX_STATES = 10
+const DOMAIN_MAX_STEPS = 5 //CRZ: give a certain OOM, how many possible domain maxes 
+
+const DEBUG_MAX_STATES = 1000 //CRZ: set lower to limit # of states fetched
 
 class Grid extends React.Component {
   constructor(props) {
@@ -65,45 +66,60 @@ class Grid extends React.Component {
     }
   }
 
+  //TODO: this calculation seems overwrought and needs tests
+  domainMax(areas) {
+    let field = (this.props.chartType === "daily") ? 'posNegDelta' : 'total'
+    let max = AreaModel.fieldMax(areas, field)
+
+    const baseOoms = Math.floor(Math.log10(max))
+    const baseDomain = Math.pow(10, baseOoms)
+    const increment = baseDomain * 10/DOMAIN_MAX_STEPS
+    const domainMax =  Math.ceil(max / increment) * increment
+    return domainMax
+  }
+
   render() {
     let sort = this.props.sort
     let comps = []
 
-    let chartForArea = (a) => {
+    let chartForArea = (a, max) => {
       if(this.props.chartType === "daily") {
-        return <DailyChart key={a.name} name={a.name} series={a.entries} stats={a.stats} />
+        return <DailyChart key={a.name} name={a.name} series={a.entries} stats={a.stats} domainMax={max} />
       } else {
-        return <CumulativeChart key={a.name} name={a.name} series={a.entries} />
+        return <CumulativeChart key={a.name} name={a.name} series={a.entries} domainMax={max} />
       }
     }
 
     if(this.props.aggregate === "region") {
       let areas = RegionModel.all.map((r) => r.createAggregate())
       areas.push(AreaModel.createAggregate('Other', StateModel.withoutRegion))
-      
       areas.sort(this.sortFunction(sort))
 
-      comps = areas.map(a => chartForArea(a))
+      let max = this.domainMax(areas)
+      comps = areas.map(a => chartForArea(a, max))
     } else if(this.props.aggregate === "country") {
-      comps = [chartForArea(AreaModel.createAggregate('USA', StateModel.all))]
+      let areas = [AreaModel.createAggregate('USA', StateModel.all)]
+      let max = this.domainMax(areas)
+      comps = areas.map(a => chartForArea(a, max))
     } else if(this.props.group === "region") {
-      let regions = RegionModel.all.map(r => <Group key={r.name} name={r.name} children={
-        r.states.sort(this.sortFunction(sort)).map(s => { return chartForArea(s) })
-      } />)
+      //CRZ: intentionally setting maxes different for different regions
 
-      let unregionedStates = StateModel.withoutRegion.sort(this.sortFunction(sort)).map((s) => {
-        return chartForArea(s)
+      let regionComps = RegionModel.all.map(r => {
+        let max = this.domainMax(r.states)
+        return <Group key={r.name} name={r.name} children={
+          r.states.sort(this.sortFunction(sort)).map(s => { return chartForArea(s, max) })
+        } />
       })
 
-      comps.push(
-        regions, 
-        <Group key="Other" name="Other" children={unregionedStates} />     
-      )
+      let unregionedStates = StateModel.withoutRegion.sort(this.sortFunction(sort))
+      let max = this.domainMax(unregionedStates)
+      let unregionedComps = unregionedStates.map((s) => { return chartForArea(s, max) })
+
+      comps.push(regionComps, <Group key="Other" name="Other" children={unregionedComps} />)
     } else {
-      let allStates = this.state.states.sort(this.sortFunction(sort))
-      comps = allStates.map((s) => {
-        return chartForArea(s)
-      })
+      let areas = this.state.states.sort(this.sortFunction(sort))
+      let max = this.domainMax(areas)
+      comps = areas.map(a => chartForArea(a, max))
     }
 
     return <div className="grid">
@@ -116,7 +132,8 @@ Grid.propTypes = {
   group: PropTypes.string,
   sort: PropTypes.string,
   aggregate: PropTypes.string,
-  chartType: PropTypes.string
+  chartType: PropTypes.string,
+  domainMax: PropTypes.number
 }
 Grid.defaultProps = {
   sort: "most-tests",

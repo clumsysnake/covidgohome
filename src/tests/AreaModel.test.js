@@ -37,3 +37,9 @@ it('creates aggregate with correct values', () => {
   expect(model.entries[1].positive).toEqual(5);
   expect(model.entries[1].negative).toEqual(4);
 })
+
+describe('.domainMax(areas, field)', () => {
+  it('returns max field in areas', () => {
+    expect(AreaModel.fieldMax([areaModel1, areaModel2], 'positive')).toEqual(5)
+  })
+})

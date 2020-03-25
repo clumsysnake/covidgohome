@@ -28,7 +28,7 @@ class CumulativeChart extends React.Component {
             orientation="left"
             type="number"
             allowDataOverflow={false}
-            domain={[0,1000]}
+            domain={[0,this.props.domainMax]}
           />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
@@ -96,7 +96,8 @@ class CumulativeChart extends React.Component {
 
 CumulativeChart.propTypes = {
   name: PropTypes.string,
-  series: PropTypes.array
+  series: PropTypes.array,
+  domainMax: PropTypes.number
 }
 CumulativeChart.defaultProps = {}
 

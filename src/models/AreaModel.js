@@ -25,6 +25,16 @@ class AreaModel {
     return allModels
   }
 
+  static fieldMax(areas, field) {
+    return areas.reduce((agg, a) => {
+      let entriesMax = a.entries.reduce((agg2, e) => {
+        return Math.max(agg2, e[field])
+      }, 0)
+
+      return Math.max(agg, entriesMax)
+    }, 0)
+  }
+
   static createAggregate(name, areas) {
     const emptyEntry = {
       positive: 0,
