@@ -5,8 +5,17 @@
   padding: 5px;
 }
 
-.sort {
+/* need sass to apply clearfix as needed */
+
+.filters::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.filters > div {
   padding: 0 10px;
+  float: left;
 }
 
 .sort, .aggregate {

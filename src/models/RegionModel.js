@@ -2,11 +2,11 @@ import StateModel from './StateModel'
 import AreaModel from './AreaModel'
 
 const REGION_MAP = {
-  "tristate": ["NY", "CT", "NJ"],
-  "northwest": ["OR", "WA"],
-  "wet south": ["SC", "GA", "FL", "AL", "LA", "MS"],
-  "dry south": ["TX", "AZ", "NM"],
-  "carribbean": ["PR", "VI"]
+  "Tristate": ["NY", "CT", "NJ"],
+  "Northwest": ["OR", "WA"],
+  "Wet South": ["SC", "GA", "FL", "AL", "LA", "MS"],
+  "Dry South": ["TX", "AZ", "NM"],
+  "Carribbean": ["PR", "VI"]
 }
 
 let allModels = []
