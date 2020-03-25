@@ -6,6 +6,7 @@
 - make yaxis domains use shortened forms (1.4k) when applicable
 - when displaying multiple graphs, make all y axis domains the same
 - when displaying multiple graphs, make all x axis domains the same, meaning same timeframe
+- in tooltips, add time of data collection for each day
 - add attack rate (requiring population data)
 - incorporate latest intraday data, not just the last states/daily, which can be a day old for some
 - add log/linear toggle
@@ -16,3 +17,17 @@
   - governor announcements
   - testing centers open
   - other?
+- solve the problem of jaggedy graphs. try out windowing functions, maybe just 48 hours.
+- add map
+- add animated playback of cases on map
+- let user drill down from globe -> country -> state -> county on map
+- let user go to specific area page from map
+- incorporate age data where found
+- incorporate illness onset data where found
+- pass along covid tracking data quality grades to user
+- switch to graphql interface
+- thinking about adding some kind of json cache
+- poll for updated data
+- display age of data onscreen (minutes/hours since last poll)
+- display last update time for each area
+- distinguish between positive and presumptive positive
