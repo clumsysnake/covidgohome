@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from "react"
-import { ComposedChart, LinearGradient, Area, CartesianGrid, LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
-// import _ from 'lodash'
+import { ComposedChart, Area, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import "./CumulativeChart.css"
 
 const POSITIVE_COLOR = 'pink'
@@ -9,8 +8,7 @@ const NEGATIVE_COLOR = 'green'
 const DEATH_COLOR = 'red'
 const TEST_COLOR = 'sienna'
 const PENDING_COLOR = 'gray'
-
-// const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
+const HOSPITALIZED_COLOR = 'black'
 
 class CumulativeChart extends React.Component {
   render() {
@@ -69,7 +67,7 @@ class CumulativeChart extends React.Component {
             fill={PENDING_COLOR}
             strokeWidth={2}
             isAnimationActive={false}
-            name="Pending"
+            name="Test Pending"
           />
           <Line
             yAxisId="left"
@@ -88,6 +86,15 @@ class CumulativeChart extends React.Component {
             strokeWidth={2}
             isAnimationActive={false}
             name="Deaths"
+          />
+          <Line
+            yAxisId="left"
+            type="monotone"
+            dataKey="hospitalized"
+            stroke={HOSPITALIZED_COLOR}
+            strokeWidth={2}
+            isAnimationActive={false}
+            name="Hospitalized"
           />
         </ComposedChart>
       </div>
