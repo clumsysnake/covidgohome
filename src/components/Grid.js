@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import StateModel from '../models/StateModel.js'
 import RegionModel from '../models/RegionModel.js'
 import AreaModel from '../models/AreaModel.js'
-// import { REGION_MAP } from '../models/StateModel.js'
 import DailyChart from './DailyChart.js'
 import CumulativeChart from './CumulativeChart.js'
 import Group from './Group.js'
 
 const COVIDTRACKING_STATESDAILY_URL = "https://covidtracking.com/api/states/daily"
 // const COVIDTRACKING_USDAILY_URL = "https://covidtracking.com/api/us/daily"
+//const COVIDTRACKING_STATESCURRENT_URL = "https://covidtracking.com/api/states"
 
 const DEBUG_MAX_STATES = 1000 //CRZ: set lower to limit # of states displayed
 // const DEBUG_MAX_STATES = 10
@@ -106,7 +106,6 @@ class Grid extends React.Component {
       })
     }
 
-    //TODO: not showing loading
     return <div className="grid">
       {StateModel.all.length ? comps : "loading..."}
     </div>
