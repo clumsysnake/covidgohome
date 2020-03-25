@@ -2,8 +2,6 @@
   - fixed header looks wrong
   - default graph width is too wide
   - filter bars have too many spaces
-- make yaxis domains always a whole number
-- make yaxis domains use shortened forms (1.4k) when applicable
 - daily charts display pending, which blows the domainMax, since we calculate it from max of total.
 - when displaying multiple graphs, make all x axis domains the same, meaning same timeframe
 - in tooltips, add time of data collection for each day
@@ -38,3 +36,4 @@
 - atleast add italy as another country using salute.it data
 - use react router for useful urls
 - for percentage lines, tweak the line type to make it more clearly stand out. add '%' suffix to yaxis
+- for regions, show which states are in the region

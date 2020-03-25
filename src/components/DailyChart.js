@@ -2,10 +2,9 @@ import PropTypes from 'prop-types';
 import React from "react"
 import { ComposedChart, CartesianGrid, Area, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import Colors from '../Colors.js'
+import { percentDisplay, percentTickFormatter, countTickFormatter } from '../helpers/chartHelpers'
 import _ from 'lodash'
 import "./DailyChart.css"
-
-const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
 
 //CRZ: decorate series with display fields
 const decorateSeriesForDisplay = (series) => {
@@ -109,6 +108,7 @@ class DailyChart extends React.Component {
           <XAxis dataKey="displayDate" />
           <YAxis
             yAxisId="left"
+            tickFormatter={countTickFormatter}
             orientation="left"
             type="number"
             allowDataOverflow={false}
@@ -117,6 +117,7 @@ class DailyChart extends React.Component {
           />
           <YAxis
             yAxisId="percentage"
+            tickFormatter={percentTickFormatter}
             orientation="right"
             type="number"
             allowDataOverflow={false}

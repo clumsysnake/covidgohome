@@ -3,10 +3,10 @@ import React from "react"
 import { ComposedChart, Area, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import "./CumulativeChart.css"
 import Colors from '../Colors.js'
+import { percentDisplay, percentTickFormatter, countTickFormatter } from '../helpers/chartHelpers'
 import _ from 'lodash'
 
 //TODO; lots of overlap with DailyChart here
-const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
 const decorateSeriesForDisplay = (series) => {
   return series.map((e, idx, a) => {
     e.displayPosPerc = percentDisplay(Math.max(0, e.posPerc), 1)
@@ -36,6 +36,7 @@ class CumulativeChart extends React.Component {
           <YAxis
             yAxisId="left"
             orientation="left"
+            tickFormatter={countTickFormatter}
             type="number"
             allowDataOverflow={false}
             domain={[0,this.props.domainMax]}
@@ -44,6 +45,7 @@ class CumulativeChart extends React.Component {
           <YAxis
             yAxisId="percentage"
             orientation="right"
+            tickFormatter={percentTickFormatter}
             type="number"
             allowDataOverflow={false}
             domain={[0, 100]}
