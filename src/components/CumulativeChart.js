@@ -8,6 +8,7 @@ const POSITIVE_COLOR = 'pink'
 const NEGATIVE_COLOR = 'green'
 const DEATH_COLOR = 'red'
 const TEST_COLOR = 'sienna'
+const PENDING_COLOR = 'gray'
 
 // const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
 
@@ -58,6 +59,17 @@ class CumulativeChart extends React.Component {
             isAnimationActive={false}
             fill={POSITIVE_COLOR}
             name="Tested Positive"
+          />
+          <Area
+            stackId="tested"
+            yAxisId="left"
+            type="monotone"
+            dataKey="pending"
+            stroke={PENDING_COLOR}
+            fill={PENDING_COLOR}
+            strokeWidth={2}
+            isAnimationActive={false}
+            name="Pending"
           />
           <Line
             yAxisId="left"
