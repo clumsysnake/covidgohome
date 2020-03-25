@@ -86,16 +86,6 @@ class DailyChart extends React.Component {
             name="# Tests"
           />
           <Line
-            yAxisId="percentage"
-            type="monotone"
-            dataKey="displayPosPercToday"
-            stroke={Colors.POSITIVE_PERCENT}
-            dot={false}
-            strokeWidth={1}
-            isAnimationActive={false}
-            name="% (+) Tests"
-          />
-          <Line
             yAxisId="left"
             type="linear"
             dataKey="hospitalized"
@@ -103,6 +93,17 @@ class DailyChart extends React.Component {
             strokeWidth={2}
             isAnimationActive={false}
             name="Hospitalized"
+          />
+          <Line
+            yAxisId="percentage"
+            type="monotone"
+            dataKey="displayPosPercToday"
+            stroke={Colors.POSITIVE_PERCENT}
+            strokeDasharray="3 2"
+            dot={false}
+            strokeWidth={1}
+            isAnimationActive={false}
+            name="% (+) Tests"
           />
 
           <XAxis dataKey="displayDate" />

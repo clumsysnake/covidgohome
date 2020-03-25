@@ -3,7 +3,7 @@ import React from "react"
 import { ComposedChart, Area, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import "./CumulativeChart.css"
 import Colors from '../Colors.js'
-import { percentDisplay, percentTickFormatter, countTickFormatter } from '../helpers/chartHelpers'
+import { percentDisplay, percentTickFormatter, countTickFormatter, xAxisDisplayDate } from '../helpers/chartHelpers'
 import _ from 'lodash'
 
 //TODO; lots of overlap with DailyChart here
@@ -12,7 +12,7 @@ const decorateSeriesForDisplay = (series) => {
     e.displayPosPerc = percentDisplay(Math.max(0, e.posPerc), 1)
     if(!_.isFinite(e.posPerc)) { e.displayPosPerc = null }
 
-    e.displayDate = e.date.toString().slice(5, 6) + "-" + e.date.toString().slice(6, 8)
+    e.displayDate = xAxisDisplayDate(e.date)
 
     return e
   })
@@ -32,25 +32,6 @@ class CumulativeChart extends React.Component {
 
         <ComposedChart width={600} height={300} data={data}
                    margin={{ top: 10, right: 5, left: 5, bottom: 10 }}>
-          <XAxis dataKey="displayDate" />
-          <YAxis
-            yAxisId="left"
-            orientation="left"
-            tickFormatter={countTickFormatter}
-            type="number"
-            allowDataOverflow={false}
-            domain={[0,this.props.domainMax]}
-            tick={{stroke: Colors.TEST}}
-          />
-          <YAxis
-            yAxisId="percentage"
-            orientation="right"
-            tickFormatter={percentTickFormatter}
-            type="number"
-            allowDataOverflow={false}
-            domain={[0, 100]}
-            tick={{stroke: Colors.POSITIVE_PERCENT}}
-          />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
           <Area
@@ -113,12 +94,33 @@ class CumulativeChart extends React.Component {
           <Line
             yAxisId="percentage"
             type="monotone"
+            strokeDasharray="3 2"
             dataKey="displayPosPerc"
             stroke={Colors.POSITIVE_PERCENT}
             dot={false}
             strokeWidth={1}
             isAnimationActive={false}
             name="% (+) Tests"
+          />
+
+          <XAxis dataKey="displayDate" />
+          <YAxis
+            yAxisId="left"
+            orientation="left"
+            tickFormatter={countTickFormatter}
+            type="number"
+            allowDataOverflow={false}
+            domain={[0,this.props.domainMax]}
+            tick={{stroke: Colors.TEST}}
+          />
+          <YAxis
+            yAxisId="percentage"
+            orientation="right"
+            tickFormatter={percentTickFormatter}
+            type="number"
+            allowDataOverflow={false}
+            domain={[0, 100]}
+            tick={{stroke: Colors.POSITIVE_PERCENT}}
           />
         </ComposedChart>
       </div>
