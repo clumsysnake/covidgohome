@@ -8,7 +8,7 @@ class App extends React.Component {
 
     this.state = {
       sort: "most-tests",
-      aggregate: "none",
+      aggregate: "state",
       group: "none",
       chartType: "daily"
     }
@@ -16,7 +16,7 @@ class App extends React.Component {
 
   clickedSortMostTests = (e) => { this.setState({sort: "most-tests"}) }
   clickedSortPercentConfirmed = (e) => { this.setState({sort: "percent-confirmed"}) }
-  clickedAggregateNone = (e) => { this.setState({aggregate: "none"}) }
+  clickedAggregateState = (e) => { this.setState({aggregate: "state"}) }
   clickedAggregateRegion = (e) => { this.setState({aggregate: "region"}) }
   clickedAggregateCountry = (e) => { this.setState({aggregate: "country"}) }
   clickedGroupNone = (e) => { this.setState({group: "none"}) }
@@ -38,7 +38,7 @@ class App extends React.Component {
               sort:
               {this.state.sort === "most-tests" ? " most tests " : <button onClick={this.clickedSortMostTests}>most tests</button>}
               |
-              {this.state.sort === "percent-confirmed" ? " percent-confirmed " : <button onClick={this.clickedSortPercentConfirmed}>percent-confirmed</button>}
+              {this.state.sort === "percent-confirmed" ? " percent-confirmed " : <button onClick={this.clickedSortPercentConfirmed}>% confirmed</button>}
             </div>
 
             <div className="filter-group">
@@ -50,7 +50,7 @@ class App extends React.Component {
             
             <div className="filter-aggregate">
               aggregate:
-              {this.state.aggregate === "none" ? " none " : <button onClick={this.clickedAggregateNone}>none</button>}
+              {this.state.aggregate === "state" ? " state " : <button onClick={this.clickedAggregateState}>state</button>}
               |
               {this.state.aggregate === "region" ? " region " : <button onClick={this.clickedAggregateRegion}>region</button>}
               |
