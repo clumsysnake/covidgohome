@@ -29,6 +29,7 @@ class CumulativeChart extends React.Component {
             type="number"
             allowDataOverflow={false}
             domain={[0,this.props.domainMax]}
+            tick={{stroke: Colors.TEST}}
           />
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
@@ -57,6 +58,7 @@ class CumulativeChart extends React.Component {
             yAxisId="left"
             type="linear"
             dataKey="pending"
+            stroke={Colors.PENDING}
             fill={Colors.PENDING}
             isAnimationActive={false}
             name="Test Pending"

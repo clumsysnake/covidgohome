@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from "react"
-import { ComposedChart, Area, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import { ComposedChart, CartesianGrid, Area, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import Colors from '../Colors.js'
 import _ from 'lodash'
 import "./DailyChart.css"
@@ -36,6 +36,7 @@ class DailyChart extends React.Component {
         <ComposedChart width={600} height={300} data={data}
                    margin={{ top: 10, right: 0, left: 0, bottom: 10 }}
           >
+          <CartesianGrid strokeDasharray="4 4" />
           <Area
             yAxisId="left"
             stackId="tested"
@@ -86,11 +87,11 @@ class DailyChart extends React.Component {
           />
           <Line
             yAxisId="percentage"
-            type="linear"
+            type="monotone"
             dataKey="displayPosPercToday"
             stroke={Colors.POSITIVE_PERCENT}
             dot={false}
-            strokeWidth={2}
+            strokeWidth={1}
             isAnimationActive={false}
             name="% (+) Tests"
           />

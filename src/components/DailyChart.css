@@ -1,24 +1,25 @@
+/* TODO: refactor the two charts to share css */
 .area-chart {
-  /* width: 500px; */
-  /* height: 400px; */
-  border: solid grey 1px;
   float: left;
-  margin: 5px;
+  margin: 10px 15px;
 }
 
 .area-chart .header {
   padding-bottom: 5px;
+  border-bottom: solid grey 1px;
+  margin-bottom: 10px;
 }
 
 .area-chart .totals {
   font-size: 1em;
+  vertical-align: bottom;
   float:right;
   display: inline-block;
   padding-right: 5px;
+  padding-top: 5px;
 }
 
 .area-chart .name {
-  padding-left: 15px;
   font-weight: bold;
   font-size: 1.4em;
   margin-bottom: 5px;
