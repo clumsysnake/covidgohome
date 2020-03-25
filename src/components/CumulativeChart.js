@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from "react"
-import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import { ComposedChart, LinearGradient, Area, CartesianGrid, LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 // import _ from 'lodash'
 import "./CumulativeChart.css"
 
@@ -19,7 +19,6 @@ class CumulativeChart extends React.Component {
       return e
     })
 
-
     return (
       <div className="cumulative-chart">
         <div className="header">
@@ -27,35 +26,38 @@ class CumulativeChart extends React.Component {
             {this.props.name}
           </span>
         </div>
-        <LineChart width={600} height={300} data={data}
-                   margin={{ top: 10, right: 5, left: 10, bottom: 10 }}
-          >
-          <Line 
+
+        <ComposedChart width={600} height={300} data={data}
+                   margin={{ top: 10, right: 5, left: 5, bottom: 10 }}>
+          <XAxis dataKey="displayDate" />
+          <YAxis
             yAxisId="left"
-            type="monotone"
-            dataKey="positive"
-            stroke={POSITIVE_COLOR}
-            strokeWidth={2}
-            isAnimationActive={false}
-            name="Positives"
+            orientation="left"
+            type="number"
+            allowDataOverflow={false}
+            domain={[0,1000]}
           />
-          <Line
+          <CartesianGrid strokeDasharray="3 3" />
+          <Tooltip />
+          <Area
             yAxisId="left"
-            type="monotone"
+            stackId="tested"
             dataKey="negative"
             stroke={NEGATIVE_COLOR}
-            strokeWidth={2}
+            fillOpacity={1}
             isAnimationActive={false}
-            name="Negatives"
+            fill={NEGATIVE_COLOR}
+            name="Tested Negative"
           />
-          <Line
+          <Area
             yAxisId="left"
-            type="monotone"
-            dataKey="death"
-            stroke={DEATH_COLOR}
-            strokeWidth={2}
+            stackId="tested"
+            dataKey="positive"
+            stroke={POSITIVE_COLOR}
+            fillOpacity={1}
             isAnimationActive={false}
-            name="Deaths"
+            fill={POSITIVE_COLOR}
+            name="Tested Positive"
           />
           <Line
             yAxisId="left"
@@ -66,16 +68,16 @@ class CumulativeChart extends React.Component {
             isAnimationActive={false}
             name="# Tested"
           />
-          <XAxis dataKey="displayDate" />
-          <YAxis
+          <Line
             yAxisId="left"
-            orientation="left"
-            type="number"
-            allowDataOverflow={false}
-            domain={[0,1000]}
+            type="monotone"
+            dataKey="death"
+            stroke={DEATH_COLOR}
+            strokeWidth={2}
+            isAnimationActive={false}
+            name="Deaths"
           />
-          <Tooltip />
-        </LineChart>
+        </ComposedChart>
       </div>
     )
   }

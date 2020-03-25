@@ -10,7 +10,7 @@ class App extends React.Component {
       sort: "most-tests",
       aggregate: "none",
       group: "none",
-      chartType: "daily"
+      chartType: "cumulative"
     }
   }
 
