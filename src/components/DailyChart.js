@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import React from "react"
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import _ from 'lodash'
-import "./AreaChart.css"
+import "./DailyChart.css"
 
 const PERCENTAGE_COLOR = 'green'
 const COUNT_COLOR = 'sienna'
 
 const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
 
-class AreaChart extends React.Component {
+class DailyChart extends React.Component {
   render() {
     let displayPerTotalConfirmed = percentDisplay(this.props.stats.perTotalConfirmed, 1)
 
@@ -24,6 +24,8 @@ class AreaChart extends React.Component {
 
       return e
     })
+
+    console.log(data)
 
     return (
       <div className="area-chart">
@@ -79,11 +81,11 @@ class AreaChart extends React.Component {
   }
 }
 
-AreaChart.propTypes = {
+DailyChart.propTypes = {
   name: PropTypes.string,
   series: PropTypes.array,
   stats: PropTypes.object
 }
-AreaChart.defaultProps = {}
+DailyChart.defaultProps = {}
 
-export default AreaChart
+export default DailyChart

@@ -6,7 +6,8 @@ import StateModel from '../models/StateModel.js'
 import RegionModel from '../models/RegionModel.js'
 import AreaModel from '../models/AreaModel.js'
 // import { REGION_MAP } from '../models/StateModel.js'
-import AreaChart from './AreaChart.js'
+import DailyChart from './DailyChart.js'
+import CumulativeChart from './CumulativeChart.js'
 import Group from './Group.js'
 
 const COVIDTRACKING_STATESDAILY_URL = "https://covidtracking.com/api/states/daily"
@@ -73,7 +74,13 @@ class Grid extends React.Component {
     let sort = this.props.sort
     let comps = []
 
-    let chartForArea = (s) => <AreaChart key={s.name} name={s.name} series={s.entries} stats={s.stats}/>
+    let chartForArea = (a) => {
+      if(this.props.chartType === "daily") {
+        return <DailyChart key={a.name} name={a.name} series={a.entries} stats={a.stats} />
+      } else {
+        return <CumulativeChart key={a.name} name={a.name} series={a.entries} />
+      }
+    }
 
     if(this.props.aggregate === "region") {
       let areas = RegionModel.all.map((r) => r.createAggregate())
@@ -112,9 +119,13 @@ class Grid extends React.Component {
 Grid.propTypes = {
   group: PropTypes.string,
   sort: PropTypes.string,
-  aggregate: PropTypes.string
+  aggregate: PropTypes.string,
+  chartType: PropTypes.string
 }
 Grid.defaultProps = {
-  sort: "region"
+  sort: "most-tests",
+  group: "none",
+  aggregate: "none",
+  chartType: "daily"
 }
 export default Grid

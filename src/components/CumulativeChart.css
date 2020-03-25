@@ -1,0 +1,18 @@
+.cumulative-chart {
+  /* width: 500px; */
+  /* height: 400px; */
+  border: solid grey 1px;
+  float: left;
+  margin: 5px;
+}
+
+.cumulative-chart .header {
+  padding-bottom: 5px;
+}
+
+.cumulative-chart .name {
+  padding-left: 15px;
+  font-weight: bold;
+  font-size: 1.4em;
+  margin-bottom: 5px;
+}
