@@ -7,6 +7,7 @@ import "./CumulativeChart.css"
 const POSITIVE_COLOR = 'pink'
 const NEGATIVE_COLOR = 'green'
 const DEATH_COLOR = 'red'
+const TEST_COLOR = 'sienna'
 
 // const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
 
@@ -34,6 +35,7 @@ class CumulativeChart extends React.Component {
             type="monotone"
             dataKey="positive"
             stroke={POSITIVE_COLOR}
+            strokeWidth={2}
             isAnimationActive={false}
             name="Positives"
           />
@@ -42,6 +44,7 @@ class CumulativeChart extends React.Component {
             type="monotone"
             dataKey="negative"
             stroke={NEGATIVE_COLOR}
+            strokeWidth={2}
             isAnimationActive={false}
             name="Negatives"
           />
@@ -50,8 +53,18 @@ class CumulativeChart extends React.Component {
             type="monotone"
             dataKey="death"
             stroke={DEATH_COLOR}
+            strokeWidth={2}
             isAnimationActive={false}
             name="Deaths"
+          />
+          <Line
+            yAxisId="left"
+            type="monotone"
+            dataKey="total"
+            stroke={TEST_COLOR}
+            strokeWidth={2}
+            isAnimationActive={false}
+            name="# Tested"
           />
           <XAxis dataKey="displayDate" />
           <YAxis

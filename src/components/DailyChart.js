@@ -4,8 +4,8 @@ import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import _ from 'lodash'
 import "./DailyChart.css"
 
-const PERCENTAGE_COLOR = 'green'
-const COUNT_COLOR = 'sienna'
+const TEST_COLOR = 'sienna'
+const POSITIVE_COLOR = 'pink'
 
 const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
 
@@ -42,8 +42,8 @@ class DailyChart extends React.Component {
             yAxisId="left"
             type="monotone"
             dataKey="posNegChange"
-            stroke={COUNT_COLOR}
-            strokeWidth={3}
+            stroke={TEST_COLOR}
+            strokeWidth={2}
             isAnimationActive={false}
             name="# Tests"
           />
@@ -51,7 +51,8 @@ class DailyChart extends React.Component {
             yAxisId="percentage"
             type="monotone"
             dataKey="displayPosPercToday"
-            stroke={PERCENTAGE_COLOR}
+            stroke={POSITIVE_COLOR}
+            strokeWidth={2}
             isAnimationActive={false}
             name="% (+) Tests"
           />
@@ -62,7 +63,7 @@ class DailyChart extends React.Component {
             type="number"
             allowDataOverflow={false}
             domain={[0,1000]}
-            tick={{stroke: COUNT_COLOR}}
+            tick={{stroke: TEST_COLOR}}
           />
           <YAxis
             yAxisId="percentage"
@@ -70,7 +71,7 @@ class DailyChart extends React.Component {
             type="number"
             allowDataOverflow={false}
             domain={[0, 100]}
-            tick={{stroke: PERCENTAGE_COLOR}}
+            tick={{stroke: POSITIVE_COLOR}}
           />
           <Tooltip />
         </LineChart>
