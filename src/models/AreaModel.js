@@ -8,6 +8,8 @@ let decorateTimeSeries = (entries) => {
     e.positiveDelta = (idx > 0) ? e.positive - a[idx-1].positive : null
     e.negativeDelta = (idx > 0) ? e.negative - a[idx-1].negative : null
     e.pendingDelta = (idx > 0) ? e.pending - a[idx-1].pending : null
+    e.deathDelta = (idx > 0) ? e.death - a[idx-1].death : null
+    e.hospitalizedDelta = (idx > 0) ? e.hospitalized - a[idx-1].hospitalized : null
     e.posNegDelta = (idx > 0) ? e.posNeg - a[idx-1].posNeg : null
     e.posPercToday = (idx > 0) ? (e.positiveDelta / e.posNegDelta) * 100 : null
 
