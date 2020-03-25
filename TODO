@@ -2,7 +2,8 @@
   - fixed header looks wrong
   - default graph width is too wide
   - filter bars have too many spaces
-- daily charts display pending, which blows the domainMax, since we calculate it from max of total.
+- bug: daily charts display pending, which may blow the domainMax, since we calculate it from max of total.
+- bug: ny data has some deltas <0, blowing the domainMin.
 - when displaying multiple graphs, make all x axis domains the same, meaning same timeframe
 - in tooltips, add time of data collection for each day
 - add attack rate (requiring population data)

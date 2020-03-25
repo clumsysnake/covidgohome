@@ -10,7 +10,7 @@ import CumulativeChart from './CumulativeChart.js'
 import Group from './Group.js'
 
 const COVIDTRACKING_STATESDAILY_URL = "https://covidtracking.com/api/states/daily"
-// const COVIDTRACKING_USDAILY_URL = "https://covidtracking.com/api/us/daily"
+//const COVIDTRACKING_USDAILY_URL = "https://covidtracking.com/api/us/daily"
 //const COVIDTRACKING_STATESCURRENT_URL = "https://covidtracking.com/api/states"
 
 const DOMAIN_MAX_STEPS = 5 //CRZ: give a certain OOM, how many possible domain maxes 
