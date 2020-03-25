@@ -37,3 +37,4 @@
 - atleast add italy as another country using salute.it data
 - use react router for useful urls
 - for regions, show which states are in the region
+- when switching filters, there is a long delay before the user is given feedback. do something. 

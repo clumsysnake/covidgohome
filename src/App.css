@@ -42,8 +42,9 @@ button {
   font-size: inherit;
   text-decoration: underline;
   cursor: pointer;
-  
 }
+
+button:focus {outline:0;}
 
 .App-header {
   background-color: pink;
