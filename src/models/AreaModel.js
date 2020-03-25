@@ -5,9 +5,11 @@ let allModels = []
 let decorateTimeSeries = (entries) => {
   entries.forEach((e, idx, a) => {
     e.posNeg = e.positive + e.negative //where total is neg + pos + pending
-    e.posNegChange = (idx > 0) ? e.posNeg - a[idx-1].posNeg : null
-    e.posChange = (idx > 0) ? e.positive - a[idx-1].positive : null
-    e.posPercToday = (idx > 0) ? (e.posChange / e.posNegChange) * 100 : null
+    e.positiveDelta = (idx > 0) ? e.positive - a[idx-1].positive : null
+    e.negativeDelta = (idx > 0) ? e.negative - a[idx-1].negative : null
+    e.pendingDelta = (idx > 0) ? e.pending - a[idx-1].pending : null
+    e.posNegDelta = (idx > 0) ? e.posNeg - a[idx-1].posNeg : null
+    e.posPercToday = (idx > 0) ? (e.positiveDelta / e.posNegDelta) * 100 : null
 
     //regularize broken data
     if(e.negative === null && idx > 0) { e.negative = a[idx-1].negative }

@@ -2,13 +2,7 @@ import PropTypes from 'prop-types';
 import React from "react"
 import { ComposedChart, Area, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import "./CumulativeChart.css"
-
-const POSITIVE_COLOR = 'pink'
-const NEGATIVE_COLOR = 'green'
-const DEATH_COLOR = 'red'
-const TEST_COLOR = 'sienna'
-const PENDING_COLOR = 'gray'
-const HOSPITALIZED_COLOR = 'black'
+import Colors from '../Colors.js'
 
 class CumulativeChart extends React.Component {
   render() {
@@ -42,56 +36,54 @@ class CumulativeChart extends React.Component {
             yAxisId="left"
             stackId="tested"
             dataKey="negative"
-            stroke={NEGATIVE_COLOR}
+            stroke={Colors.NEGATIVE}
             fillOpacity={1}
             isAnimationActive={false}
-            fill={NEGATIVE_COLOR}
+            fill={Colors.NEGATIVE}
             name="Tested Negative"
           />
           <Area
             yAxisId="left"
             stackId="tested"
             dataKey="positive"
-            stroke={POSITIVE_COLOR}
+            stroke={Colors.POSITIVE}
             fillOpacity={1}
             isAnimationActive={false}
-            fill={POSITIVE_COLOR}
+            fill={Colors.POSITIVE}
             name="Tested Positive"
           />
           <Area
             stackId="tested"
             yAxisId="left"
-            type="monotone"
+            type="linear"
             dataKey="pending"
-            stroke={PENDING_COLOR}
-            fill={PENDING_COLOR}
-            strokeWidth={2}
+            fill={Colors.PENDING}
             isAnimationActive={false}
             name="Test Pending"
           />
           <Line
             yAxisId="left"
-            type="monotone"
+            type="linear"
             dataKey="total"
-            stroke={TEST_COLOR}
+            stroke={Colors.TEST}
             strokeWidth={2}
             isAnimationActive={false}
             name="# Tested"
           />
           <Line
             yAxisId="left"
-            type="monotone"
+            type="linear"
             dataKey="death"
-            stroke={DEATH_COLOR}
+            stroke={Colors.DEATH}
             strokeWidth={2}
             isAnimationActive={false}
             name="Deaths"
           />
           <Line
             yAxisId="left"
-            type="monotone"
+            type="linear"
             dataKey="hospitalized"
-            stroke={HOSPITALIZED_COLOR}
+            stroke={Colors.HOSPITALIZED}
             strokeWidth={2}
             isAnimationActive={false}
             name="Hospitalized"

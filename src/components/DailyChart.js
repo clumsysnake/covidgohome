@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import React from "react"
-import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import { ComposedChart, Area, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import Colors from '../Colors.js'
 import _ from 'lodash'
 import "./DailyChart.css"
-
-const TEST_COLOR = 'sienna'
-const POSITIVE_COLOR = 'pink'
 
 const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
 
@@ -35,27 +33,59 @@ class DailyChart extends React.Component {
             {this.props.stats.totalTests} tested; {this.props.stats.totalConfirmed}({displayPerTotalConfirmed}%) confirmed; {this.props.stats.totalDead} dead
           </span>
         </div>
-        <LineChart width={600} height={300} data={data}
+        <ComposedChart width={600} height={300} data={data}
                    margin={{ top: 10, right: 0, left: 0, bottom: 10 }}
           >
+          <Area
+            yAxisId="left"
+            stackId="tested"
+            dataKey="negativeDelta"
+            stroke={Colors.NEGATIVE}
+            fillOpacity={1}
+            isAnimationActive={false}
+            fill={Colors.NEGATIVE}
+            name="Tested Negative"
+          />
+          <Area
+            yAxisId="left"
+            stackId="tested"
+            dataKey="positiveDelta"
+            stroke={Colors.POSITIVE}
+            fillOpacity={1}
+            isAnimationActive={false}
+            fill={Colors.POSITIVE}
+            name="Tested Positive"
+          />
+          <Area
+            stackId="tested"
+            yAxisId="left"
+            type="linear"
+            dataKey="pending"
+            stroke={Colors.PENDING}
+            fill={Colors.PENDING}
+            strokeWidth={0}
+            isAnimationActive={false}
+            name="Test Pending"
+          />
           <Line 
             yAxisId="left"
-            type="monotone"
-            dataKey="posNegChange"
-            stroke={TEST_COLOR}
+            dataKey="posNegDelta"
+            stroke={Colors.TEST}
             strokeWidth={2}
             isAnimationActive={false}
             name="# Tests"
           />
           <Line
             yAxisId="percentage"
-            type="monotone"
+            type="linear"
             dataKey="displayPosPercToday"
-            stroke={POSITIVE_COLOR}
+            stroke={Colors.POSITIVE_PERCENT}
+            dot={false}
             strokeWidth={2}
             isAnimationActive={false}
             name="% (+) Tests"
           />
+
           <XAxis dataKey="displayDate" />
           <YAxis
             yAxisId="left"
@@ -63,7 +93,7 @@ class DailyChart extends React.Component {
             type="number"
             allowDataOverflow={false}
             domain={[0,1000]}
-            tick={{stroke: TEST_COLOR}}
+            tick={{stroke: Colors.TEST}}
           />
           <YAxis
             yAxisId="percentage"
@@ -71,10 +101,10 @@ class DailyChart extends React.Component {
             type="number"
             allowDataOverflow={false}
             domain={[0, 100]}
-            tick={{stroke: POSITIVE_COLOR}}
+            tick={{stroke: Colors.POSITIVE_PERCENT}}
           />
           <Tooltip />
-        </LineChart>
+        </ComposedChart>
       </div>
     )
   }
