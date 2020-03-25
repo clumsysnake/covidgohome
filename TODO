@@ -1,0 +1,18 @@
+- make mobile-friendly
+  - fixed header looks wrong
+  - default graph width is too wide
+  - filter bars have too many spaces
+- make yaxis domains always a whole number
+- make yaxis domains use shortened forms (1.4k) when applicable
+- when displaying multiple graphs, make all y axis domains the same
+- when displaying multiple graphs, make all x axis domains the same, meaning same timeframe
+- add attack rate (requiring population data)
+- incorporate latest intraday data, not just the last states/daily, which can be a day old for some
+- add log/linear toggle
+- add county-level data access for america
+- add other countries
+- add individual page for each area with maximum data
+- add horizontal lines showing major events for areas
+  - governor announcements
+  - testing centers open
+  - other?
