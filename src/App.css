@@ -33,7 +33,7 @@
   float: left;
 }
 
-.sort, .aggregate {
+.filter-sort, .filter-aggregate, .filter-group {
   display: inline-block;
 }
 

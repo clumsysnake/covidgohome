@@ -1,3 +1,13 @@
+.group {
+  padding-bottom: 30px;
+}
+
+.group::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
 .group .group-header {
   width: 100%;
   display: block;
@@ -5,5 +15,5 @@
   text-transform: uppercase;
   font-weight: 900;
   text-decoration: underline;
-  margin-top: 30px;
+  font-size: 1.3em;
 }

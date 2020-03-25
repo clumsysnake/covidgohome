@@ -34,21 +34,21 @@ class App extends React.Component {
             (ryan at ryan dawt org)
           </header>
           <div className="filters">
-            <div className="sort">
+            <div className="filter-sort">
               sort:
               {this.state.sort === "most-tests" ? " most tests " : <button onClick={this.clickedSortMostTests}>most tests</button>}
               |
               {this.state.sort === "percent-confirmed" ? " percent-confirmed " : <button onClick={this.clickedSortPercentConfirmed}>percent-confirmed</button>}
             </div>
 
-            <div className="group">
+            <div className="filter-group">
               group:
               {this.state.group === "none" ? " none " : <button onClick={this.clickedGroupNone}>none</button>} 
               |
               {this.state.group === "region" ? " region " : <button onClick={this.clickedGroupRegion}>region</button>} 
             </div>
             
-            <div className="aggregate">
+            <div className="filter-aggregate">
               aggregate:
               {this.state.aggregate === "none" ? " none " : <button onClick={this.clickedAggregateNone}>none</button>}
               |
@@ -57,7 +57,7 @@ class App extends React.Component {
               {this.state.group === "country" ? " country " : <button onClick={this.clickedAggregateCountry}>country</button>} 
             </div>
 
-            <div className="chart-type">
+            <div className="filter-chart-type">
               type:
               {this.state.chartType === "daily" ? " daily " : <button onClick={this.clickedChartTypeDaily}>daily</button>}
               |
