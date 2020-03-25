@@ -30,7 +30,7 @@ class App extends React.Component {
         <div className="top">
           <header className="App-header">
             <em>...go back in your bat hole! </em> 
-            (pulled from <a href="https://covidtracking.com/">https://covidtracking.com/</a>)
+            (pulled from <a href="https://covidtracking.com/">COVID Tracking Project</a>)
             (ryan at ryan dawt org)
           </header>
           <div className="filters">
