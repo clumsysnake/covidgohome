@@ -27,13 +27,16 @@ class AreaModel {
   }
 
   static fieldMax(areas, field) {
-    return areas.reduce((agg, a) => {
-      let entriesMax = a.entries.reduce((agg2, e) => {
-        return Math.max(agg2, e[field])
-      }, 0)
+    return AreaModel.fieldExtremum(areas, field, 'max')
+  }
 
-      return Math.max(agg, entriesMax)
-    }, 0)
+  static fieldMin(areas, field) {
+    return AreaModel.fieldExtremum(areas, field, 'min')
+  }
+
+  static fieldExtremum(areas, field, funcName) {
+    let entries = areas.flatMap(a => a.entries)
+    return entries.reduce((agg, e) => Math[funcName](agg, e[field]), entries[0] && entries[0][field])
   }
 
   static createAggregate(name, areas) {

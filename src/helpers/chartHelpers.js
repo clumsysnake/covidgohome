@@ -14,8 +14,8 @@ const countTickFormatter = (n) => {
     return n
   }
 }
-const xAxisDisplayDate = (date) => {
+const dateTickFormatter = (date) => {
   return date.toString().slice(5, 6) + "-" + date.toString().slice(6, 8)
 }
 
-export {percentDisplay, percentTickFormatter, countTickFormatter, xAxisDisplayDate}
+export {percentDisplay, percentTickFormatter, countTickFormatter, dateTickFormatter}

@@ -4,8 +4,8 @@ import AreaModel from './AreaModel'
 const REGION_MAP = {
   "Tristate": ["NY", "CT", "NJ"],
   "Northwest": ["OR", "WA"],
-  "Wet South": ["SC", "GA", "FL", "AL", "LA", "MS"],
-  "Dry South": ["TX", "AZ", "NM"],
+  "Wet South": ["TX", "SC", "GA", "FL", "AL", "LA", "MS"],
+  "Southwest": ["AZ", "NM"],
   "Carribbean": ["PR", "VI"]
 }
 

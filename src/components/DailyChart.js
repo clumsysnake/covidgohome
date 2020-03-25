@@ -2,17 +2,14 @@ import PropTypes from 'prop-types';
 import React from "react"
 import { ComposedChart, CartesianGrid, Area, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import Colors from '../Colors.js'
-import { percentDisplay, percentTickFormatter, countTickFormatter } from '../helpers/chartHelpers'
+import { percentDisplay, percentTickFormatter, countTickFormatter, dateTickFormatter } from '../helpers/chartHelpers'
 import _ from 'lodash'
 import "./DailyChart.css"
 
-//CRZ: decorate series with display fields
 const decorateSeriesForDisplay = (series) => {
   return series.map((e, idx, a) => {
     e.displayPosPercToday = percentDisplay(Math.max(0, e.posPercToday), 1)
     if(!_.isFinite(e.posPercToday)) { e.displayPosPercToday = null }
-
-    e.displayDate = e.date.toString().slice(5, 6) + "-" + e.date.toString().slice(6, 8)
 
     return e
   })
@@ -106,14 +103,19 @@ class DailyChart extends React.Component {
             name="% (+) Tests"
           />
 
-          <XAxis dataKey="displayDate" />
+          <XAxis
+            dataKey="date"
+            tickFormatter={dateTickFormatter}
+            type="number"
+            domain={this.props.xDomain}
+          />
           <YAxis
             yAxisId="left"
             tickFormatter={countTickFormatter}
             orientation="left"
             type="number"
             allowDataOverflow={false}
-            domain={[0,this.props.domainMax]}
+            domain={this.props.yDomain}
             tick={{stroke: Colors.TEST}}
           />
           <YAxis
@@ -135,8 +137,13 @@ class DailyChart extends React.Component {
 DailyChart.propTypes = {
   name: PropTypes.string,
   series: PropTypes.array,
-  stats: PropTypes.object
+  stats: PropTypes.object,
+  yDomain: PropTypes.array,
+  xDomain: PropTypes.array
 }
-DailyChart.defaultProps = {}
+DailyChart.defaultProps = {
+  yDomain: ['auto', 'auto'],
+  xDomain: ['auto', 'auto']
+}
 
 export default DailyChart

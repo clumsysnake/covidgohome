@@ -3,7 +3,12 @@ import React from "react"
 import { ComposedChart, Area, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import "./CumulativeChart.css"
 import Colors from '../Colors.js'
-import { percentDisplay, percentTickFormatter, countTickFormatter, xAxisDisplayDate } from '../helpers/chartHelpers'
+import { 
+  percentDisplay, 
+  percentTickFormatter, 
+  countTickFormatter, 
+  dateTickFormatter
+} from '../helpers/chartHelpers'
 import _ from 'lodash'
 
 //TODO; lots of overlap with DailyChart here
@@ -11,8 +16,6 @@ const decorateSeriesForDisplay = (series) => {
   return series.map((e, idx, a) => {
     e.displayPosPerc = percentDisplay(Math.max(0, e.posPerc), 1)
     if(!_.isFinite(e.posPerc)) { e.displayPosPerc = null }
-
-    e.displayDate = xAxisDisplayDate(e.date)
 
     return e
   })
@@ -103,14 +106,19 @@ class CumulativeChart extends React.Component {
             name="% (+) Tests"
           />
 
-          <XAxis dataKey="displayDate" />
+          <XAxis
+            dataKey="date"
+            tickFormatter={dateTickFormatter}
+            type="number"
+            domain={this.props.xDomain}
+          />
           <YAxis
             yAxisId="left"
             orientation="left"
             tickFormatter={countTickFormatter}
             type="number"
             allowDataOverflow={false}
-            domain={[0,this.props.domainMax]}
+            domain={this.props.yDomain}
             tick={{stroke: Colors.TEST}}
           />
           <YAxis
@@ -131,8 +139,12 @@ class CumulativeChart extends React.Component {
 CumulativeChart.propTypes = {
   name: PropTypes.string,
   series: PropTypes.array,
-  domainMax: PropTypes.number
+  yDomain: PropTypes.array,
+  xDomain: PropTypes.array  
 }
-CumulativeChart.defaultProps = {}
+CumulativeChart.defaultProps = {
+  yDomain: ['auto', 'auto'],
+  xDomain: ['auto', 'auto']
+}
 
 export default CumulativeChart

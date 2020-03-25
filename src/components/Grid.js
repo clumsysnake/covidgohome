@@ -66,60 +66,66 @@ class Grid extends React.Component {
     }
   }
 
-  //TODO: this calculation seems overwrought and needs tests
-  domainMax(areas) {
-    let field = (this.props.chartType === "daily") ? 'posNegDelta' : 'total'
-    let max = AreaModel.fieldMax(areas, field)
-
-    const baseOoms = Math.floor(Math.log10(max))
-    const baseDomain = Math.pow(10, baseOoms)
-    const increment = baseDomain * 10/DOMAIN_MAX_STEPS
-    const domainMax =  Math.ceil(max / increment) * increment
-    return domainMax
-  }
-
   render() {
     let sort = this.props.sort
     let comps = []
 
-    let chartForArea = (a, max) => {
-      if(this.props.chartType === "daily") {
-        return <DailyChart key={a.name} name={a.name} series={a.entries} stats={a.stats} domainMax={max} />
-      } else {
-        return <CumulativeChart key={a.name} name={a.name} series={a.entries} domainMax={max} />
-      }
+    let chartForArea = (a, yDomain, xDomain) => {
+      const ProperChart = (this.props.chartType === "daily") ? DailyChart : CumulativeChart
+
+      return <ProperChart key={a.name} name={a.name} series={a.entries} stats={a.stats}
+                          yDomain={yDomain} xDomain={xDomain}/>
     }
 
+    //TODO: this calculation seems overwrought and needs tests
+    let yDomain = (areas) => {
+      let field = (this.props.chartType === "daily") ? 'posNegDelta' : 'total'
+      let max = AreaModel.fieldMax(areas, field)
+
+      const baseOoms = Math.floor(Math.log10(max))
+      const baseDomain = Math.pow(10, baseOoms)
+      const increment = baseDomain * 10/DOMAIN_MAX_STEPS
+      const domainMax =  Math.ceil(max / increment) * increment
+      return [0,domainMax]
+    }
+
+    let xDomain = (areas) => {
+      return [AreaModel.fieldMin(areas, 'date'), AreaModel.fieldMax(areas, 'date')]
+    }
+
+    let compsForAreas = (areas) => {
+      let yD = yDomain(areas)
+      let xD = xDomain(areas)
+      return areas.map(a => chartForArea(a, yD, xD))
+    }
+
+    //TODO: refactor. its the group filter that makes it not clean atm.
     if(this.props.aggregate === "region") {
       let areas = RegionModel.all.map((r) => r.createAggregate())
       areas.push(AreaModel.createAggregate('Other', StateModel.withoutRegion))
       areas.sort(this.sortFunction(sort))
-
-      let max = this.domainMax(areas)
-      comps = areas.map(a => chartForArea(a, max))
+      comps = compsForAreas(areas)
     } else if(this.props.aggregate === "country") {
-      let areas = [AreaModel.createAggregate('USA', StateModel.all)]
-      let max = this.domainMax(areas)
-      comps = areas.map(a => chartForArea(a, max))
+      comps = compsForAreas([AreaModel.createAggregate('USA', StateModel.all)])
     } else if(this.props.group === "region") {
       //CRZ: intentionally setting maxes different for different regions
 
-      let regionComps = RegionModel.all.map(r => {
-        let max = this.domainMax(r.states)
+      let regionGroups = RegionModel.all.map(r => {
+        let areas = r.states
+        let yDomain = this.yDomain(areas)
+        let xDomain = this.xDomain(areas)
+
         return <Group key={r.name} name={r.name} children={
-          r.states.sort(this.sortFunction(sort)).map(s => { return chartForArea(s, max) })
+          areas.sort(this.sortFunction(sort)).map(s => { return chartForArea(s, yDomain, xDomain) })
         } />
       })
 
-      let unregionedStates = StateModel.withoutRegion.sort(this.sortFunction(sort))
-      let max = this.domainMax(unregionedStates)
-      let unregionedComps = unregionedStates.map((s) => { return chartForArea(s, max) })
+      let unregionedComps = compsForAreas(StateModel.withoutRegion.sort(this.sortFunction(sort)))
+      let unregionedGroup = <Group key="Other" name="Other" children={unregionedComps} />
 
-      comps.push(regionComps, <Group key="Other" name="Other" children={unregionedComps} />)
+      comps.push(regionGroups, unregionedGroup)
     } else {
-      let areas = this.state.states.sort(this.sortFunction(sort))
-      let max = this.domainMax(areas)
-      comps = areas.map(a => chartForArea(a, max))
+      comps = compsForAreas(this.state.states.sort(this.sortFunction(sort)))
     }
 
     return <div className="grid">
