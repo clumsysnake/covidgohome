@@ -34,6 +34,7 @@ class RegionModel {
     }) || []
   }
 
+  //TODO: memoize aggregate?
   createAggregate () {
     return AreaModel.createAggregate(this.name, this.states)
   }

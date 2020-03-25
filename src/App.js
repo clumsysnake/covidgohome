@@ -7,8 +7,9 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      sort: "region",
-      aggregate: "none"
+      sort: "most-tests",
+      aggregate: "none",
+      group: "none"
     }
   }
 
@@ -36,6 +37,14 @@ class App extends React.Component {
     this.setState({aggregate: "region"})
   }
 
+  clickedGroupNone = (e) => {
+    this.setState({group: "none"})
+  }
+
+  clickedGroupRegion = (e) => {
+    this.setState({group: "region"})
+  }
+
   render() {
     return (
       <div className="App">
@@ -47,12 +56,16 @@ class App extends React.Component {
         <div className="filters">
           <div className="sort">
             sort:
-            {/*this.state.sort === "alpha" ? " alpha" : <button onClick={this.clickedAlpha}>alpha</button>*/}
-            {this.state.sort === "region" ? " region " : <button onClick={this.clickedRegion}>region</button>} 
-            |
             {this.state.sort === "most-tests" ? " most tests " : <button onClick={this.clickedMostTests}>most tests</button>}
             |
             {this.state.sort === "percent-confirmed" ? " percent-confirmed " : <button onClick={this.clickedPercentConfirmed}>percent-confirmed</button>}
+          </div>
+
+          <div className="group">
+            group:
+            {this.state.group === "none" ? " none " : <button onClick={this.clickedGroupNone}>none</button>} 
+            |
+            {this.state.group === "region" ? " region " : <button onClick={this.clickedGroupRegion}>region</button>} 
           </div>
           
           <div className="aggregate">
@@ -62,7 +75,7 @@ class App extends React.Component {
             {this.state.aggregate === "region" ? " region " : <button onClick={this.clickedAggregateRegion}>region</button>}
           </div>
         </div>
-        <Grid sort={this.state.sort} aggregate={this.state.aggregate}/>
+        <Grid sort={this.state.sort} aggregate={this.state.aggregate} group={this.state.group}/>
       </div>
     )
   }

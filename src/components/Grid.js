@@ -1,8 +1,10 @@
 import React from "react"
 import _ from 'lodash'
+import PropTypes from 'prop-types';
 
 import StateModel from '../models/StateModel.js'
 import RegionModel from '../models/RegionModel.js'
+import AreaModel from '../models/AreaModel.js'
 // import { REGION_MAP } from '../models/StateModel.js'
 import AreaChart from './AreaChart.js'
 import Group from './Group.js'
@@ -58,10 +60,6 @@ class Grid extends React.Component {
     switch(sort) {
       case "alpha":
         return (a, b) => (a.code < b.code) ? -1 : 1
-      case "region":
-        return (a, b) => {
-          return (((a.region && a.region.name) || "") > ((b.region && b.region.name) || "")) ? -1 : 1
-        }
       case "percent-confirmed":
         return (a, b) => (a.stats.perTotalConfirmed > b.stats.perTotalConfirmed) ? -1 : 1
       case "most-tests":
@@ -71,47 +69,52 @@ class Grid extends React.Component {
     }
   }
 
-  sortByMostTests(a, b) {
-    return (a.entries[0].total > b.entries[0].total) ? -1 : 1
-  }
-
   render() {
     let sort = this.props.sort
     let comps = []
 
-    let chartForState = (s) => <AreaChart key={s.name} name={s.name} series={s.entries} stats={s.stats}/>
+    let chartForArea = (s) => <AreaChart key={s.name} name={s.name} series={s.entries} stats={s.stats}/>
 
     if(this.props.aggregate === "region") {
-      //TODO: memoize aggregate
       comps = RegionModel.all.map((r) => {
         let agg = r.createAggregate();
         return <AreaChart key={r.name} name={r.name} series={agg.entries} stats={agg.stats}/>
       })
-    } else if(sort === "region") { //TODO: not technically a sort then! this is a weird conditional
+
+      let otherStates = StateModel.withoutRegion.sort(this.sortFunction(sort))
+      let agg = AreaModel.createAggregate('Other', otherStates)
+      comps.push(chartForArea(agg))
+    } else if(this.props.group === "region") {
       let regions = RegionModel.all.map(r => <Group key={r.name} name={r.name} children={
-        r.states.map(s => { return chartForState(s) })
+        r.states.sort(this.sortFunction(sort)).map(s => { return chartForArea(s) })
       } />)
 
-      let unregionedStates = StateModel.withoutRegion.sort(this.sortFunction('most-tests')).map((s) => {
-        return chartForState(s)
+      let unregionedStates = StateModel.withoutRegion.sort(this.sortFunction(sort)).map((s) => {
+        return chartForArea(s)
       })
 
-      comps.push(regions, <span key="unregioned" className="region-header">Unregioned</span>, unregionedStates)
+      comps.push(
+        regions, 
+        <Group key="Other" name="Other" children={unregionedStates} />     
+      )
     } else {
-      comps = this.state.states.sort(this.sortFunction(sort)).map((s) => {
-        return chartForState(s)
+      let allStates = this.state.states.sort(this.sortFunction(sort))
+      comps = allStates.map((s) => {
+        return chartForArea(s)
       })
     }
 
     //TODO: not showing loading
     return <div className="grid">
-      {comps.length ? comps : "loading..."}
+      {StateModel.all.length ? comps : "loading..."}
     </div>
   }
 }
 
 Grid.propTypes = {
-  // sort
+  group: PropTypes.string,
+  sort: PropTypes.string,
+  aggregate: PropTypes.string
 }
 Grid.defaultProps = {
   sort: "region"
