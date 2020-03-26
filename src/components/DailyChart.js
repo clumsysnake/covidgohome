@@ -7,7 +7,7 @@ import _ from 'lodash'
 import "./DailyChart.css"
 
 const decorateSeriesForDisplay = (series) => {
-  return series.map((e, idx, a) => {
+  return series.map((e) => {
     e.displayPosPercToday = percentDisplay(Math.max(0, e.posPercToday), 1)
     if(!_.isFinite(e.posPercToday)) { e.displayPosPercToday = null }
 

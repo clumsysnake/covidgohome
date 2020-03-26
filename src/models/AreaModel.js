@@ -65,7 +65,6 @@ class AreaModel {
         s[key] += e[key] || 0
       })
     })
-
     entries.sort((a,b) => (a.date > b.date) ? 1 : -1 )
 
     return new AreaModel({name, entries})
