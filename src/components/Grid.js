@@ -57,14 +57,10 @@ class Grid extends React.Component {
       let perMillion = !(this.props.basis === "absolute")
       let max = AreaModel.fieldMax(areas, field, perMillion)
 
-      console.log(`perMillion: ${perMillion}, max: ${max}`)
-
       const baseOoms = Math.floor(Math.log10(max))
       const baseDomain = Math.pow(10, baseOoms)
       const increment = baseDomain * 10/DOMAIN_MAX_STEPS
       const domainMax =  Math.ceil(max / increment) * increment
-
-      console.log(`domainMax: ${domainMax}`)
 
       return [0,domainMax]
     }
