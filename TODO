@@ -18,7 +18,7 @@
   - testing centers open
   - other?
 - solve the problem of jaggedy graphs. try out windowing functions, maybe just 48 hours.
-- add map
+- add choropleth map with filters
 - add animated playback of cases on map
 - let user drill down from globe -> country -> state -> county on map
 - let user go to specific area page from map
