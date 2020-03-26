@@ -93,8 +93,11 @@ class AreaModel {
     allModels.push(this)
   }
 
-  //TODO: if scale === 1, dont calculate just return entries
   scaledSeries(scale) {
+    if(scale === 1) {
+      return this.entries
+    }
+
     let existing = this.__scaledSeries.find(ss => ss.scale === scale)
 
     if(existing) { 
