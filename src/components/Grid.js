@@ -25,9 +25,9 @@ class Grid extends React.Component {
       case "alpha":
         return (a, b) => (a.code < b.code) ? -1 : 1
       case "percent-confirmed":
-        return (a, b) => (a.stats.perTotalConfirmed > b.stats.perTotalConfirmed) ? -1 : 1
+        return (a, b) => (a.totals.perConfirmed > b.totals.perConfirmed) ? -1 : 1
       case "most-tests":
-        return (a, b) => (a.stats.totalTests > b.stats.totalTests) ? -1 : 1
+        return (a, b) => (a.totals.tests > b.totals.tests) ? -1 : 1
       default:
         return undefined //TODO
     }
@@ -45,7 +45,7 @@ class Grid extends React.Component {
         key={a.name}
         name={a.name}
         series={scaledSeries}
-        stats={a.stats}
+        totals={a.totals}
         yDomain={yDomain}
         xDomain={xDomain}
       />

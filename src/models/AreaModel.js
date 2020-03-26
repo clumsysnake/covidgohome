@@ -117,16 +117,16 @@ class AreaModel {
     return this.scaledSeriesPerCapita(1000000.0)
   }
 
-  get stats() {
+  get totals() {
     let last = _.last(this.entries) || null
-    let totalConfirmed = (last && last.positive) || null
-    let totalTests = (last && last.total) || null
+    let confirmed = (last && last.positive) || null
+    let total = (last && last.total) || null
 
     return this._stats = this._stats || {
-      totalTests,
-      totalConfirmed,
-      perTotalConfirmed: 100 * (totalConfirmed / totalTests) || null,
-      totalDead: (last && last.death) || null
+      total,
+      confirmed,
+      perConfirmed: 100 * (confirmed / total) || null,
+      dead: (last && last.death) || null
     }
   }
 }

@@ -17,7 +17,7 @@ const decorateSeriesForDisplay = (series) => {
 
 class DailyChart extends React.Component {
   render() {
-    let displayPerTotalConfirmed = percentDisplay(this.props.stats.perTotalConfirmed, 1)
+    let displayTotalPerConfirmed = percentDisplay(this.props.totals.perConfirmed, 1)
     let data = decorateSeriesForDisplay(this.props.series)
 
     return (
@@ -27,7 +27,7 @@ class DailyChart extends React.Component {
             {this.props.name}
           </span>
           <span className="totals">
-            {this.props.stats.totalTests} tests; {this.props.stats.totalConfirmed}({displayPerTotalConfirmed}%) positive; {this.props.stats.totalDead} dead
+            {this.props.totals.tests} tests; {this.props.totals.confirmed}({displayTotalPerConfirmed}%) positive; {this.props.totals.dead} dead
           </span>
         </div>
         <ComposedChart width={600} height={300} data={data}
