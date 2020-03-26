@@ -10,7 +10,8 @@ class App extends React.Component {
       sort: "most-tests",
       aggregate: "state",
       group: "none",
-      chartType: "daily"
+      chartType: "daily",
+      basis: "absolute"
     }
   }
 
@@ -23,6 +24,8 @@ class App extends React.Component {
   clickedGroupRegion = (e) => { this.setState({group: "region"}) }
   clickedChartTypeDaily = (e) => { this.setState({chartType: "daily"}) } 
   clickedChartTypeCumulative = (e) => { this.setState({chartType: "cumulative"}) } 
+  clickedBasisAbsolute = (e) => { this.setState({basis: "absolute"}) } 
+  clickedBasisPer1m = (e) => { this.setState({basis: "per-1m"}) } 
 
   render() {
     return (
@@ -61,6 +64,12 @@ class App extends React.Component {
               |
               {this.state.chartType === "cumulative" ? " cumulative " : <button onClick={this.clickedChartTypeCumulative}>cumulative</button>}
             </div>
+
+            <div className="filter-basis">
+              {this.state.basis === "absolute" ? " absolute " : <button onClick={this.clickedBasisAbsolute}>absolute</button>}
+              |
+              {this.state.basis === "per-1m" ? " per 1m " : <button onClick={this.clickedBasisPer1m}>per 1m</button>}
+            </div>
           </div>
         </div>
         <div className="bottom">
@@ -69,6 +78,7 @@ class App extends React.Component {
             aggregate={this.state.aggregate}
             group={this.state.group}
             chartType={this.state.chartType}
+            basis={this.state.basis}
           />
         </div>
       </div>

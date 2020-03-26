@@ -17,6 +17,12 @@ class RegionModel {
   }
 
   static get all() {
+    if(allModels.length === 0) { 
+      allModels = Object.entries(RegionModel.RegionMap).map(pair => {
+        return new RegionModel(pair[0], pair[1])
+      })
+    }
+
     return allModels
   }
 

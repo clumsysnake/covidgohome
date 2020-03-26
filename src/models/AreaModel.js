@@ -26,16 +26,16 @@ class AreaModel {
     return allModels
   }
 
-  static fieldMax(areas, field) {
-    return AreaModel.fieldExtremum(areas, field, 'max')
+  static fieldMax(areas, field, perMillion=false) {
+    return AreaModel.fieldExtremum(areas, field, 'max', perMillion)
   }
 
-  static fieldMin(areas, field) {
-    return AreaModel.fieldExtremum(areas, field, 'min')
+  static fieldMin(areas, field, perMillion=false) {
+    return AreaModel.fieldExtremum(areas, field, 'min', perMillion)
   }
 
-  static fieldExtremum(areas, field, funcName) {
-    let entries = areas.flatMap(a => a.entries)
+  static fieldExtremum(areas, field, funcName, perMillion=false) {
+    let entries = areas.flatMap(a => (perMillion) ? a.scaledPerMillion() : a.entries)
     return entries.reduce((agg, e) => Math[funcName](agg, e[field]), entries[0] && entries[0][field])
   }
 
@@ -67,15 +67,54 @@ class AreaModel {
     })
     entries.sort((a,b) => (a.date > b.date) ? 1 : -1 )
 
-    return new AreaModel({name, entries})
+    let population = areas.reduce((sum, a) => sum + a.population, 0)
+
+    return new AreaModel({name, entries, population})
   }
 
   //TODO: rename entries to series
   constructor(props) {
     this.entries = decorateTimeSeries(props.entries)
     this.name = props.name
+    this.population = props.population
+
+    //memoize
+    this.__scaledSeries = []
 
     allModels.push(this)
+  }
+
+  //TODO: if scale === 1, dont calculate just return entries
+  scaledSeries(scale) {
+    let existing = this.__scaledSeries.find(ss => ss.scale === scale)
+
+    if(existing) { 
+      return existing.series
+    }
+
+    let decoratedScaled = decorateTimeSeries(this.entries.map(e => {
+      return {
+        date: e.date,
+        positive: e.positive/scale,
+        negative: e.negative/scale,
+        pending: e.pending/scale,
+        death: e.death/scale,
+        hospitalized: e.hospitalized/scale,
+        total: e.total/scale
+      }
+    }))
+    this.__scaledSeries.push({scale: scale, series: decoratedScaled})
+
+    return decoratedScaled
+  }
+
+  scaledSeriesPerCapita(capitaSize) {
+    //TODO: test/enforce float math
+    return this.scaledSeries(this.population / capitaSize)
+  }
+
+  scaledPerMillion() {
+    return this.scaledSeriesPerCapita(1000000.0)
   }
 
   get stats() {

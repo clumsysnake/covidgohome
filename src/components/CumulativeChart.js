@@ -140,11 +140,13 @@ CumulativeChart.propTypes = {
   name: PropTypes.string,
   series: PropTypes.array,
   yDomain: PropTypes.array,
-  xDomain: PropTypes.array  
+  xDomain: PropTypes.array,
+  scale: PropTypes.number
 }
 CumulativeChart.defaultProps = {
   yDomain: ['auto', 'auto'],
-  xDomain: ['auto', 'auto']
+  xDomain: ['auto', 'auto'],
+  scale: 1
 }
 
 export default CumulativeChart

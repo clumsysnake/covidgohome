@@ -139,11 +139,13 @@ DailyChart.propTypes = {
   series: PropTypes.array,
   stats: PropTypes.object,
   yDomain: PropTypes.array,
-  xDomain: PropTypes.array
+  xDomain: PropTypes.array,
+  scale: PropTypes.number
 }
 DailyChart.defaultProps = {
   yDomain: ['auto', 'auto'],
-  xDomain: ['auto', 'auto']
+  xDomain: ['auto', 'auto'],
+  scale: 1
 }
 
 export default DailyChart

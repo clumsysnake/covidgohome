@@ -10,6 +10,8 @@ const countTickFormatter = (n) => {
     let decimals = (n % 1000 === 0) ? 0 : 1
     let x = Number.parseFloat(n/1000).toFixed(decimals)
     return x + 'k'
+  } else if(n >= 100) {
+    return Number.parseFloat(n).toFixed(0)
   } else {
     return n
   }
