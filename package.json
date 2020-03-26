@@ -15,9 +15,9 @@
     "recharts": "^1.8.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --no-cache",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test -o --no-cache",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "eject": "react-scripts eject"
   },
