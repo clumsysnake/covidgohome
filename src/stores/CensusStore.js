@@ -29,10 +29,4 @@ const censusDataForAbbrev = (abbrev) => {
   return censusDataForState(name)
 }
 
-// NON state problems
-// AS
-// GU
-// MP
-// VI
-
 export { censusDataForState, censusDataForAbbrev, stateNameForAbbrev }

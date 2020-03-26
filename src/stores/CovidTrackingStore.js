@@ -6,6 +6,9 @@ const COVIDTRACKING_STATESDAILY_URL = "https://covidtracking.com/api/states/dail
 //const COVIDTRACKING_USDAILY_URL = "https://covidtracking.com/api/us/daily"
 //const COVIDTRACKING_STATESCURRENT_URL = "https://covidtracking.com/api/states"
 
+const NON_STATE_PROBLEMS = ['AS', 'GU', 'MP', 'VI']
+const NON_STATE_OKAY = ['DC']
+
 const DEBUG_MAX_STATES = 1000 //CRZ: set lower to limit # of states fetched
 
 const statesDailyUrl = function() {
