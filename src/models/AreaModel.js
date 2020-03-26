@@ -26,6 +26,7 @@ class AreaModel {
     return allModels
   }
 
+  //TODO: perMillion flags are weird. either perPopulation flag (capita = 1) or perCapita as integer
   static fieldMax(areas, field, perMillion=false) {
     return AreaModel.fieldExtremum(areas, field, 'max', perMillion)
   }
@@ -36,7 +37,15 @@ class AreaModel {
 
   static fieldExtremum(areas, field, funcName, perMillion=false) {
     let entries = areas.flatMap(a => (perMillion) ? a.scaledPerMillion() : a.entries)
-    return entries.reduce((agg, e) => Math[funcName](agg, e[field]), entries[0] && entries[0][field])
+    return entries.reduce((agg, e) => {
+      if(!_.isFinite(agg)) {
+        return e[field]
+      } else if(!_.isFinite(e[field])) {
+        return agg
+      } else  {
+        return Math[funcName](agg, e[field])
+      }
+    }, null)
   }
 
   static createAggregate(name, areas) {
