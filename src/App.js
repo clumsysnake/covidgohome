@@ -49,7 +49,6 @@ class App extends React.Component {
             </div>
             
             <div className="filter-aggregate">
-              aggregate:
               {this.state.aggregate === "state" ? " state " : <button onClick={this.clickedAggregateState}>state</button>}
               |
               {this.state.aggregate === "region" ? " region " : <button onClick={this.clickedAggregateRegion}>region</button>}
@@ -58,7 +57,6 @@ class App extends React.Component {
             </div>
 
             <div className="filter-chart-type">
-              type:
               {this.state.chartType === "daily" ? " daily " : <button onClick={this.clickedChartTypeDaily}>daily</button>}
               |
               {this.state.chartType === "cumulative" ? " cumulative " : <button onClick={this.clickedChartTypeCumulative}>cumulative</button>}
