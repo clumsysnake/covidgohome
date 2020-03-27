@@ -71,14 +71,6 @@ class DailyChart extends React.Component {
             isAnimationActive={false}
             name="Deaths"
           />
-          <Line 
-            yAxisId="left"
-            dataKey="posNegDelta"
-            stroke={Colors.TEST}
-            strokeWidth={2}
-            isAnimationActive={false}
-            name="# Tests"
-          />
           <Line
             yAxisId="left"
             type="linear"
@@ -87,6 +79,14 @@ class DailyChart extends React.Component {
             strokeWidth={2}
             isAnimationActive={false}
             name="Hospitalized"
+          />
+          <Line 
+            yAxisId="left"
+            dataKey="posNegDelta"
+            stroke={Colors.TEST}
+            strokeWidth={2}
+            isAnimationActive={false}
+            name="# Tests"
           />
           <Line
             yAxisId="percentage"

@@ -59,15 +59,6 @@ class CumulativeChart extends React.Component {
           <Line
             yAxisId="left"
             type="linear"
-            dataKey="total"
-            stroke={Colors.TEST}
-            strokeWidth={2}
-            isAnimationActive={false}
-            name="# Tests"
-          />
-          <Line
-            yAxisId="left"
-            type="linear"
             dataKey="death"
             stroke={Colors.DEATH}
             strokeWidth={2}
@@ -82,6 +73,15 @@ class CumulativeChart extends React.Component {
             strokeWidth={2}
             isAnimationActive={false}
             name="Hospitalized"
+          />
+          <Line
+            yAxisId="left"
+            type="linear"
+            dataKey="total"
+            stroke={Colors.TEST}
+            strokeWidth={2}
+            isAnimationActive={false}
+            name="# Tests"
           />
           <Line
             yAxisId="percentage"
