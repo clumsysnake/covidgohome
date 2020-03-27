@@ -2,23 +2,19 @@ import PropTypes from 'prop-types';
 import React from "react"
 import { ComposedChart, CartesianGrid, Area, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import Colors from '../Colors.js'
-import { percentDisplay, percentTickFormatter, countTickFormatter, dateTickFormatter } from '../helpers/chartHelpers'
-import _ from 'lodash'
+import { 
+  tooltipFormatter,
+  percentDisplay, 
+  percentTickFormatter,
+  countTickFormatter,
+  dateTickFormatter 
+} from '../helpers/chartHelpers'
 import "./DailyChart.css"
-
-const decorateSeriesForDisplay = (series) => {
-  return series.map((e) => {
-    e.displayPosPercToday = percentDisplay(Math.max(0, e.posPercToday), 1)
-    if(!_.isFinite(e.posPercToday)) { e.displayPosPercToday = null }
-
-    return e
-  })
-}
 
 class DailyChart extends React.Component {
   render() {
     let displayTotalPerConfirmed = percentDisplay(this.props.totals.perConfirmed, 1)
-    let data = decorateSeriesForDisplay(this.props.series)
+    let data = this.props.series
 
     return (
       <div className="area-chart">
@@ -33,6 +29,7 @@ class DailyChart extends React.Component {
         <ComposedChart width={600} height={300} data={data}
                    margin={{ top: 10, right: 0, left: 0, bottom: 10 }}
           >
+          <Tooltip formatter={tooltipFormatter}/>
           <CartesianGrid strokeDasharray="4 4" />
           <Area
             yAxisId="left"
@@ -127,7 +124,6 @@ class DailyChart extends React.Component {
             domain={[0, 100]}
             tick={{stroke: Colors.POSITIVE_PERCENT}}
           />
-          <Tooltip />
         </ComposedChart>
       </div>
     )

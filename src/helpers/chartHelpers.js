@@ -1,3 +1,7 @@
+import _ from 'lodash'
+
+//TODO: lots of formatters, can we combine? messy
+
 const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
 const percentTickFormatter = (n) => `${n}%`
 const countTickFormatter = (n) => {
@@ -20,4 +24,19 @@ const dateTickFormatter = (date) => {
   return date.toString().slice(5, 6) + "-" + date.toString().slice(6, 8)
 }
 
-export {percentDisplay, percentTickFormatter, countTickFormatter, dateTickFormatter}
+const safeNumPlaces = (value, digs) => {
+  if(!_.isFinite(value)) { return null }
+
+  return percentDisplay(Math.max(0, value), digs)
+}
+
+const tooltipFormatter = (value, name, props) => {
+  switch(name) {
+    case "posPerc":
+      return `${safeNumPlaces(value, 1)}%`
+    default:
+      return safeNumPlaces(value, 0)
+  }
+}
+
+export {percentDisplay, tooltipFormatter, percentTickFormatter, countTickFormatter, dateTickFormatter}

@@ -4,26 +4,15 @@ import { ComposedChart, Area, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 
 import "./CumulativeChart.css"
 import Colors from '../Colors.js'
 import { 
-  percentDisplay, 
   percentTickFormatter, 
   countTickFormatter, 
-  dateTickFormatter
+  dateTickFormatter,
+  tooltipFormatter
 } from '../helpers/chartHelpers'
-import _ from 'lodash'
-
-//TODO; lots of overlap with DailyChart here
-const decorateSeriesForDisplay = (series) => {
-  return series.map((e, idx, a) => {
-    e.displayPosPerc = percentDisplay(Math.max(0, e.posPerc), 1)
-    if(!_.isFinite(e.posPerc)) { e.displayPosPerc = null }
-
-    return e
-  })
-}
 
 class CumulativeChart extends React.Component {
   render() {
-    let data = decorateSeriesForDisplay(this.props.series)
+    let data = this.props.series
 
     return (
       <div className="cumulative-chart">
@@ -36,7 +25,7 @@ class CumulativeChart extends React.Component {
         <ComposedChart width={600} height={300} data={data}
                    margin={{ top: 10, right: 5, left: 5, bottom: 10 }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
+          <Tooltip formatter={tooltipFormatter}/>
           <Area
             yAxisId="left"
             stackId="tested"
@@ -45,7 +34,7 @@ class CumulativeChart extends React.Component {
             fillOpacity={1}
             isAnimationActive={false}
             fill={Colors.NEGATIVE}
-            name="Tested Negative"
+            name="Negative"
           />
           <Area
             yAxisId="left"
@@ -55,7 +44,7 @@ class CumulativeChart extends React.Component {
             fillOpacity={1}
             isAnimationActive={false}
             fill={Colors.POSITIVE}
-            name="Tested Positive"
+            name="Positive"
           />
           <Area
             stackId="tested"
@@ -65,7 +54,7 @@ class CumulativeChart extends React.Component {
             stroke={Colors.PENDING}
             fill={Colors.PENDING}
             isAnimationActive={false}
-            name="Test Pending"
+            name="Outcome Pending"
           />
           <Line
             yAxisId="left"
@@ -74,7 +63,7 @@ class CumulativeChart extends React.Component {
             stroke={Colors.TEST}
             strokeWidth={2}
             isAnimationActive={false}
-            name="# Tested"
+            name="# Tests"
           />
           <Line
             yAxisId="left"
@@ -98,7 +87,7 @@ class CumulativeChart extends React.Component {
             yAxisId="percentage"
             type="monotone"
             strokeDasharray="3 2"
-            dataKey="displayPosPerc"
+            dataKey="posPerc"
             stroke={Colors.POSITIVE_PERCENT}
             dot={false}
             strokeWidth={1}
