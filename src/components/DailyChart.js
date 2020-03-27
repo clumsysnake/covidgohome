@@ -23,7 +23,7 @@ class DailyChart extends React.Component {
             {this.props.name}
           </span>
           <span className="totals">
-            {this.props.totals.tests} tests; {this.props.totals.confirmed}({displayTotalPerConfirmed}%) positive; {this.props.totals.dead} dead
+            {this.props.totals.total} tests; {this.props.totals.confirmed}({displayTotalPerConfirmed}%) positive; {this.props.totals.dead} dead
           </span>
         </div>
         <ComposedChart width={600} height={300} data={data}
