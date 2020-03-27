@@ -9,7 +9,7 @@ import {
   countTickFormatter,
   dateTickFormatter 
 } from '../helpers/chartHelpers'
-import "./DailyChart.css"
+import "./charts.css"
 
 class DailyChart extends React.Component {
   render() {
@@ -86,7 +86,7 @@ class DailyChart extends React.Component {
             yAxisId="left"
             dataKey="posNegDelta"
             stroke={Colors.TEST}
-            strokeWidth={2}
+            strokeWidth={1}
             dot={false}
             isAnimationActive={false}
             name="Total Tests"

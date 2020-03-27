@@ -1,24 +1,29 @@
 import PropTypes from 'prop-types';
 import React from "react"
 import { ComposedChart, Area, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import "./CumulativeChart.css"
+import "./charts.css"
 import Colors from '../Colors.js'
 import { 
   percentTickFormatter, 
   countTickFormatter, 
   dateTickFormatter,
-  tooltipFormatter
+  tooltipFormatter,
+  percentDisplay
 } from '../helpers/chartHelpers'
 
 class CumulativeChart extends React.Component {
   render() {
+    let displayTotalPerConfirmed = percentDisplay(this.props.totals.perConfirmed, 1)
     let data = this.props.series
 
     return (
-      <div className="cumulative-chart">
+      <div className="area-chart">
         <div className="header">
           <span className="name">
             {this.props.name}
+          </span>
+          <span className="totals">
+            {this.props.totals.total} tests; {this.props.totals.confirmed}({displayTotalPerConfirmed}%) positive; {this.props.totals.dead} dead
           </span>
         </div>
 
@@ -81,7 +86,7 @@ class CumulativeChart extends React.Component {
             type="linear"
             dataKey="total"
             stroke={Colors.TEST}
-            strokeWidth={2}
+            strokeWidth={1}
             dot={false}
             isAnimationActive={false}
             name="Total Tests"
