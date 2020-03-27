@@ -53,6 +53,10 @@ class Grid extends React.Component {
 
     //TODO: this calculation seems overwrought and needs tests
     let yDomain = (areas) => {
+
+      if(!this.props.scaleMatching) {
+        return ['auto', 'auto']
+      }
       let field = (this.props.chartType === "daily") ? 'posNegDelta' : 'total'
       let perMillion = !(this.props.basis === "absolute")
       let max = AreaModel.fieldMax(areas, field, perMillion)
@@ -111,13 +115,15 @@ Grid.propTypes = {
   aggregate: PropTypes.string,
   chartType: PropTypes.string,
   scale: PropTypes.string,
-  domainMax: PropTypes.number
+  domainMax: PropTypes.number,
+  scaleMatching: PropTypes.bool
 }
 Grid.defaultProps = {
   sort: "most-tests",
   group: "none",
   aggregate: "none",
   chartType: "daily",
-  scale: "absolute"
+  scale: "absolute",
+  scaleMatching: true
 }
 export default Grid

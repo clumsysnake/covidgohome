@@ -11,7 +11,8 @@ class App extends React.Component {
       aggregate: "region",
       group: "none",
       chartType: "daily",
-      basis: "per-1m"
+      basis: "per-1m",
+      scaleMatching: true
     }
   }
 
@@ -26,6 +27,8 @@ class App extends React.Component {
   clickedChartTypeCumulative = (e) => { this.setState({chartType: "cumulative"}) } 
   clickedBasisAbsolute = (e) => { this.setState({basis: "absolute"}) } 
   clickedBasisPer1m = (e) => { this.setState({basis: "per-1m"}) } 
+  clickedScaleMatchingOn = (e) => { this.setState({scaleMatching: true}) } 
+  clickedScaleMatchingOff = (e) => { this.setState({scaleMatching: false}) } 
 
   render() {
     return (
@@ -70,6 +73,13 @@ class App extends React.Component {
               |
               {this.state.basis === "absolute" ? " absolute " : <button onClick={this.clickedBasisAbsolute}>absolute</button>}
             </div>
+
+            <div className="filter-scale-matching">
+              scale match: 
+              {this.state.scaleMatching ? " yes " : <button onClick={this.clickedScaleMatchingOn}>yes</button>}
+              |
+              {!this.state.scaleMatching ? " no " : <button onClick={this.clickedScaleMatchingOff}>no</button>}
+            </div>
           </div>
         </div>
         <div className="bottom">
@@ -79,6 +89,7 @@ class App extends React.Component {
             group={this.state.group}
             chartType={this.state.chartType}
             basis={this.state.basis}
+            scaleMatching={this.state.scaleMatching}
           />
         </div>
       </div>
