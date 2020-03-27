@@ -34,7 +34,7 @@ class CumulativeChart extends React.Component {
             fillOpacity={1}
             isAnimationActive={false}
             fill={Colors.NEGATIVE}
-            name="Negative"
+            name="Negatives"
           />
           <Area
             yAxisId="left"
@@ -44,7 +44,7 @@ class CumulativeChart extends React.Component {
             fillOpacity={1}
             isAnimationActive={false}
             fill={Colors.POSITIVE}
-            name="Positive"
+            name="Positives"
           />
           <Area
             stackId="tested"
@@ -74,7 +74,7 @@ class CumulativeChart extends React.Component {
             strokeWidth={2}
             dot={false}
             isAnimationActive={false}
-            name="Hospitalized"
+            name="Hospitalizations"
           />
           <Line
             yAxisId="left"
@@ -84,7 +84,7 @@ class CumulativeChart extends React.Component {
             strokeWidth={2}
             dot={false}
             isAnimationActive={false}
-            name="# Tests"
+            name="Total Tests"
           />
           <Line
             yAxisId="percentage"

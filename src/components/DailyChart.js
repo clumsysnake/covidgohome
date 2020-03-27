@@ -39,7 +39,7 @@ class DailyChart extends React.Component {
             fillOpacity={1}
             isAnimationActive={false}
             fill={Colors.NEGATIVE}
-            name="Tested Negative"
+            name="Negatives"
           />
           <Area
             yAxisId="left"
@@ -49,7 +49,7 @@ class DailyChart extends React.Component {
             fillOpacity={1}
             isAnimationActive={false}
             fill={Colors.POSITIVE}
-            name="Tested Positive"
+            name="Positives"
           />
           <Area
             stackId="tested"
@@ -60,7 +60,7 @@ class DailyChart extends React.Component {
             fill={Colors.PENDING}
             strokeWidth={0}
             isAnimationActive={false}
-            name="Test Pending"
+            name="Outcome Pending"
           />
           <Line
             yAxisId="left"
@@ -80,7 +80,7 @@ class DailyChart extends React.Component {
             strokeWidth={2}
             dot={false}
             isAnimationActive={false}
-            name="Hospitalized"
+            name="Hospitalizations"
           />
           <Line 
             yAxisId="left"
@@ -89,7 +89,7 @@ class DailyChart extends React.Component {
             strokeWidth={2}
             dot={false}
             isAnimationActive={false}
-            name="# Tests"
+            name="Total Tests"
           />
           <Line
             yAxisId="percentage"
