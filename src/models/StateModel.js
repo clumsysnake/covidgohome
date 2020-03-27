@@ -9,7 +9,7 @@ class StateModel extends AreaModel {
     super(props)
 
     this.abbreviation = props.name
-    this.name = stateNameForAbbrev(this.abbreviation)
+    this.fullname = stateNameForAbbrev(this.abbreviation)
 
     //TODO: prevent two states with same name or abbreviation
     allModels.push(this)
