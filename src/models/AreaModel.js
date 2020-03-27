@@ -89,6 +89,7 @@ class AreaModel {
 
     //memoize
     this.__scaledSeries = []
+    this.__scaledToPercentage = null
 
     allModels.push(this)
   }
@@ -127,6 +128,35 @@ class AreaModel {
 
   scaledPerMillion() {
     return this.scaledSeriesPerCapita(1000000.0)
+  }
+
+  //CRZ: Unlike other scaling functions, each entry is scaled differently here.
+  scaledToPercentage() {
+    if(this.__scaledToPercentage) { return this.__scaledToPercentage }
+
+    return this.__scaledToPercentage = decorateTimeSeries(this.entries).map(e => {
+      //TODO: I'm not totally sure this is 100% ? does this equal total?
+
+      const scale = (e.positive + e.negative + e.pending)/100
+
+      const deltaScale = (e.positiveDelta + e.negativeDelta + e.pendingDelta)/100
+
+      return {
+        date: e.date,
+        positive: e.positive/scale,
+        negative: e.negative/scale,
+        pending: e.pending/scale,
+        death: e.death/scale,
+        hospitalized: e.hospitalized/scale,
+        total: e.total/scale,
+        posNeg: e.posNeg/scale,
+        posNegDelta: e.posNegDelta/deltaScale ,
+        positiveDelta: e.positiveDelta/deltaScale,
+        negativeDelta: e.negativeDelta/deltaScale,
+        pendingDelta: e.pendingDelta/deltaScale,
+        deathDelta: e.deathDelta/deltaScale,
+      }
+    })
   }
 
   get totals() {

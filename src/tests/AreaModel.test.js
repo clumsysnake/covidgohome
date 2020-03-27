@@ -7,12 +7,14 @@ const areaModel1 = new AreaModel({
     {
       date: 20200201,
       positive: 4,
-      negative: 5
+      negative: 5,
+      pending: 1
     },
     {
       date: 20200202,
       positive: 5,
-      negative: 4
+      negative: 4,
+      pending: 6
     }
   ],
 })
@@ -23,7 +25,8 @@ const areaModel2 = new AreaModel({
   entries: [{
     date: 20200201,
     positive: 1,
-    negative: 2 
+    negative: 2,
+    pending: 0
   }],
 })
 
@@ -33,7 +36,8 @@ const unknownPopulationModel = new AreaModel({
   entries: [{
     date: 20200201,
     positive: 1,
-    negative: 1
+    negative: 1,
+    pending: 0
   }],
 })
 
@@ -75,5 +79,19 @@ describe('#scaledSeries(scale)', () => {
 
     expect(scaled[0].positive).toEqual(0.01)
     expect(scaled[0].negative).toEqual(0.02)
+  })
+})
+
+describe('#scaledToPercentage', () => {
+  it('scales each entry such that pending+positive+negative = 100 ', () => {
+    let series = areaModel1.scaledToPercentage()
+
+    expect(series[0].positive).toEqual(40)
+    expect(series[0].negative).toEqual(50)
+    expect(series[0].pending).toEqual(10)
+    expect(series[1].positive).toEqual(500/15)
+    expect(series[1].negative).toEqual(400/15)
+    expect(series[1].pending).toEqual(600/15)
+    
   })
 })

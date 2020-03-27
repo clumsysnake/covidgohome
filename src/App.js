@@ -27,6 +27,7 @@ class App extends React.Component {
   clickedChartTypeCumulative = (e) => { this.setState({chartType: "cumulative"}) } 
   clickedBasisAbsolute = (e) => { this.setState({basis: "absolute"}) } 
   clickedBasisPer1m = (e) => { this.setState({basis: "per-1m"}) } 
+  clickedBasisPercentage = (e) => { this.setState({basis: "percentage"}) } 
   clickedScaleMatchingOn = (e) => { this.setState({scaleMatching: true}) } 
   clickedScaleMatchingOff = (e) => { this.setState({scaleMatching: false}) } 
 
@@ -72,6 +73,8 @@ class App extends React.Component {
               {this.state.basis === "per-1m" ? " per 1m " : <button onClick={this.clickedBasisPer1m}>per 1m</button>}
               |
               {this.state.basis === "absolute" ? " absolute " : <button onClick={this.clickedBasisAbsolute}>absolute</button>}
+              |
+              {this.state.basis === "percentage" ? " % " : <button onClick={this.clickedBasisPercentage}>%</button>}
             </div>
 
             <div className="filter-scale-matching">

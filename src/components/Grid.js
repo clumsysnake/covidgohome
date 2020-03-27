@@ -39,7 +39,14 @@ class Grid extends React.Component {
 
     let chartForArea = (a, yDomain, xDomain) => {
       const ProperChart = (this.props.chartType === "daily") ? DailyChart : CumulativeChart
-      const scaledSeries = (this.props.basis === "absolute") ? a.entries : a.scaledPerMillion()
+      let scaledSeries = null;
+
+      switch(this.props.basis) {
+        case 'absolute': scaledSeries = a.entries; break
+        case 'per-1m': scaledSeries = a.scaledPerMillion(); break
+        case 'percentage': scaledSeries = a.scaledToPercentage(); break
+        default: break; //TODO: catch error
+      }
 
       return <ProperChart 
         key={a.name}
@@ -53,10 +60,14 @@ class Grid extends React.Component {
 
     //TODO: this calculation seems overwrought and needs tests
     let yDomain = (areas) => {
+      if(this.props.basis === "percentage") {
+        return [0, 100]
+      }
 
       if(!this.props.scaleMatching) {
         return ['auto', 'auto']
       }
+
       let field = (this.props.chartType === "daily") ? 'posNegDelta' : 'total'
       let perMillion = !(this.props.basis === "absolute")
       let max = AreaModel.fieldMax(areas, field, perMillion)
