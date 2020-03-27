@@ -75,7 +75,7 @@ class DailyChart extends React.Component {
           <Line
             yAxisId="left"
             type="linear"
-            dataKey="hospitalized"
+            dataKey="hospitalizedDelta"
             stroke={Colors.HOSPITALIZED}
             strokeWidth={2}
             dot={false}
