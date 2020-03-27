@@ -9,7 +9,7 @@ import CumulativeChart from './CumulativeChart.js'
 import Group from './Group.js'
 import { fetchStates } from '../stores/CovidTrackingStore.js'
 
-const DOMAIN_MAX_STEPS = 5 //CRZ: give a certain OOM, how many possible domain maxes 
+const DOMAIN_MAX_STEPS = 20 //CRZ: give a certain OOM, how many possible domain maxes 
 
 class Grid extends React.Component {
   constructor(props) {
