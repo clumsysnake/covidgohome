@@ -107,7 +107,7 @@ class Grid extends React.Component {
       })
 
       let unregionedComps = compsForAreas(StateModel.withoutRegion.sort(this.sortFunction(sort)))
-      let unregionedGroup = <Group key="Other" name="Other" children={unregionedComps} />
+      let unregionedGroup = <Group key="Other" name="Other">{unregionedComps}</Group>
 
       comps.push(regionGroups, unregionedGroup)
     } else {
