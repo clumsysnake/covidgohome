@@ -1,22 +1,23 @@
 import _ from 'lodash'
 
-//TODO: lots of formatters, can we combine? messy
+//TODO: lots of formatters, can we combine? messy. percentDisplay is cruft.
 
-const percentDisplay = (num, n) => Number.parseFloat(num).toFixed(1)
+const withPlaces = (num, n) => Number.parseFloat(num).toFixed(n)
+const percentDisplay = (num, n) => withPlaces(num, n)
 const percentTickFormatter = (n) => `${n}%`
 const countTickFormatter = (n) => {
   if(n >= 1000000) {
     let decimals = (n % 1000000 === 0) ? 0 : 1
-    let x = Number.parseFloat(n/1000000).toFixed(decimals)
+    let x = withPlaces(n/1000000, decimals)
     return x + 'm'
   }
   else if(n >= 1000) {
     let decimals = (n % 1000 === 0) ? 0 : 1
-    let x = Number.parseFloat(n/1000).toFixed(decimals)
+    let x = withPlaces(n/1000, decimals)
     return x + 'k'
   } else if(n >= 100) {
-    return Number.parseFloat(n).toFixed(0)
-  } else {
+    return withPlaces(n, 0)
+  } else if(n < 1) {
     return n
   }
 }
@@ -24,18 +25,21 @@ const dateTickFormatter = (date) => {
   return date.toString().slice(5, 6) + "-" + date.toString().slice(6, 8)
 }
 
-const safeNumPlaces = (value, digs) => {
+//CRZ: return exactly null if value is not finite, limit to max dec places, but dont use dec places if zero
+const safeSmartNumPlaces = (value, maxPlaces) => {
   if(!_.isFinite(value)) { return null }
 
-  return percentDisplay(Math.max(0, value), digs)
+  //TODO: this works in only the case where maxPlaces = 1 and value is integer. do all cases
+  let maxPlacesValue = withPlaces(value, maxPlaces)
+  return (maxPlacesValue % 1 === 0) ? withPlaces(maxPlacesValue, 0) : maxPlacesValue
 }
 
 const tooltipFormatter = (value, name, props) => {
   switch(name) {
     case "posPerc":
-      return `${safeNumPlaces(value, 1)}%`
+      return `${safeSmartNumPlaces(value, 1)}%`
     default:
-      return safeNumPlaces(value, 0)
+      return safeSmartNumPlaces(value, 1)
   }
 }
 
