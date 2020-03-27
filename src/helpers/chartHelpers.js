@@ -18,7 +18,7 @@ const countTickFormatter = (n) => {
   } else if(n >= 100) {
     return withPlaces(n, 0)
   } else if(n < 1) {
-    return n
+    return withPlaces(n, 2)
   }
 }
 const dateTickFormatter = (date) => {
