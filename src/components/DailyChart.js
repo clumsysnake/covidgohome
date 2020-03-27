@@ -91,7 +91,7 @@ class DailyChart extends React.Component {
           <Line
             yAxisId="percentage"
             type="monotone"
-            dataKey="displayPosPercToday"
+            dataKey="posPerc"
             stroke={Colors.POSITIVE_PERCENT}
             strokeDasharray="3 2"
             dot={false}
