@@ -27,7 +27,7 @@ class Grid extends React.Component {
       case "percent-confirmed":
         return (a, b) => (a.totals.perConfirmed > b.totals.perConfirmed) ? -1 : 1
       case "most-tests":
-        return (a, b) => (a.totals.tests > b.totals.tests) ? -1 : 1
+        return (a, b) => (a.totals.total > b.totals.total) ? -1 : 1
       default:
         return undefined //TODO
     }
