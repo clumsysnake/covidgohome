@@ -68,6 +68,7 @@ class DailyChart extends React.Component {
             dataKey="deathDelta"
             stroke={Colors.DEATH}
             strokeWidth={2}
+            dot={false}
             isAnimationActive={false}
             name="Deaths"
           />
@@ -77,6 +78,7 @@ class DailyChart extends React.Component {
             dataKey="hospitalized"
             stroke={Colors.HOSPITALIZED}
             strokeWidth={2}
+            dot={false}
             isAnimationActive={false}
             name="Hospitalized"
           />
@@ -85,6 +87,7 @@ class DailyChart extends React.Component {
             dataKey="posNegDelta"
             stroke={Colors.TEST}
             strokeWidth={2}
+            dot={false}
             isAnimationActive={false}
             name="# Tests"
           />

@@ -62,6 +62,7 @@ class CumulativeChart extends React.Component {
             dataKey="death"
             stroke={Colors.DEATH}
             strokeWidth={2}
+            dot={false}
             isAnimationActive={false}
             name="Deaths"
           />
@@ -71,6 +72,7 @@ class CumulativeChart extends React.Component {
             dataKey="hospitalized"
             stroke={Colors.HOSPITALIZED}
             strokeWidth={2}
+            dot={false}
             isAnimationActive={false}
             name="Hospitalized"
           />
@@ -80,6 +82,7 @@ class CumulativeChart extends React.Component {
             dataKey="total"
             stroke={Colors.TEST}
             strokeWidth={2}
+            dot={false}
             isAnimationActive={false}
             name="# Tests"
           />
