@@ -8,10 +8,10 @@ class App extends React.Component {
 
     this.state = {
       sort: "most-tests",
-      aggregate: "state",
+      aggregate: "region",
       group: "none",
       chartType: "daily",
-      basis: "absolute"
+      basis: "per-1m"
     }
   }
 
@@ -66,9 +66,9 @@ class App extends React.Component {
             </div>
 
             <div className="filter-basis">
-              {this.state.basis === "absolute" ? " absolute " : <button onClick={this.clickedBasisAbsolute}>absolute</button>}
-              |
               {this.state.basis === "per-1m" ? " per 1m " : <button onClick={this.clickedBasisPer1m}>per 1m</button>}
+              |
+              {this.state.basis === "absolute" ? " absolute " : <button onClick={this.clickedBasisAbsolute}>absolute</button>}
             </div>
           </div>
         </div>
