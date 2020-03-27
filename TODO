@@ -6,7 +6,7 @@
   - investigate a more elegant way of hiding filters while viewing graph.
 - bug: daily charts display pending, which may blow the domainMax, since we calculate it from max of total.
 - bug: ny data has some deltas <0, blowing the domainMin. why is that even happening?
-- in tooltips, add time of data collection for each day
+- in tooltips, show full date, and time of data collection for each day
 - add attack rate (requiring population data)
 - incorporate latest intraday data, not just the last states/daily, which can be a day old for some
 - add log/linear toggle
@@ -26,9 +26,6 @@
 - incorporate illness onset data where found
 - pass along covid tracking data quality grades to user
 - for covidtracking data, also show links to sites for data
-- switch to graphql interface
-- use real data layer library, and move fetching out of component
-- thinking about adding some kind of json cache
 - poll for updated data
 - display age of data onscreen (minutes/hours since last poll)
 - display last update time for each area
@@ -40,5 +37,11 @@
 - for regions, show which states are in the region
 - when switching filters, there is a long delay before the user is given feedback. do something. 
 - can/should we vary the width of the positive %age line depending on how accurate the %age is according to test count?
-- CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, etc
 - dont have population data for the territories... glossing over that for now since they also dont have much data
+
+REFACTORS
+- CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.
+- break out filters to their own component.
+- use real data layer library instead of rando custom stores. this passing down of data is tedious
+- thinking about adding some kind of json cache
+- switch to graphql interface

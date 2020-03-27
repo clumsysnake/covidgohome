@@ -60,7 +60,7 @@ describe('.fieldMax(areas, field, perMillion)', () => {
   })
 })
 
-describe('.scaledSeries(scale)', () => {
+describe('#scaledSeries(scale)', () => {
   it('returns scaled series', () => {
     let scaled = areaModel2.scaledSeries(10)
 
