@@ -15,7 +15,9 @@ class USAMap extends React.Component {
   }
 
   render() {
-    let max = AreaModel.fieldMax(StateModel.all, this.props.field, true)
+    const perMillion = this.props.basis === "per-1m"
+
+    let max = AreaModel.fieldMax(StateModel.all, this.props.field, perMillion)
     const colorScale = scaleQuantile()
       .domain([0, max])
       .range([
@@ -40,10 +42,11 @@ class USAMap extends React.Component {
               let area = StateModel.findByName(geo.properties.name)
 
               if(area) {
-                const perCapitaEntries = area.scaledPerMillion()
+                const perCapitaEntries = perMillion ? area.scaledPerMillion() : area.entries
                 value = perCapitaEntries[perCapitaEntries.length-1][this.props.field]
                 color = colorScale(value)
-                tooltip = `${area.name} -- ${safeSmartNumPlaces(value, 1)} ${this.props.field}s per million people`
+                tooltip = `${area.name} -- ${safeSmartNumPlaces(value, 1)} ${this.props.field}s`
+                if(perMillion) { tooltip += " per million people" }
               } else {
                 tooltip = "unknown" //TODO: can still show area counts
               }

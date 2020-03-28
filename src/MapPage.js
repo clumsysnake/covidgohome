@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip'
-import Grid from './components/Grid.js'
 import USAMap from './components/USAMap.js'
 
 class MapPage extends React.Component {
@@ -8,7 +7,8 @@ class MapPage extends React.Component {
     super(props)
 
     this.state = {
-      mapField: 'positive'
+      mapField: 'positive',
+      basis: 'per-1m'
     }
   }
 
@@ -36,13 +36,20 @@ class MapPage extends React.Component {
             ['positive', 'positives'],
             ['total', '# tests'], 
             ['posPerc', '% positive'], 
-            ['death', 'deaths']])
-          }
+            ['death', 'deaths']
+          ])}
+          {filter('basis', 'basis', [
+            ['absolute', 'absolute'],
+            ['per-1m', 'per 1m']
+          ])}
         </div>
       </div>
       <div className="bottom usa-map">
         <USAMap
-          field={this.state.mapField} setTooltipContent={(c) => this.setState({'tooltipContent': c})}/>
+          field={this.state.mapField}
+          basis={this.state.basis}
+          setTooltipContent={(c) => this.setState({'tooltipContent': c})}
+        />
         <ReactTooltip>{this.state.tooltipContent}</ReactTooltip>
       </div>
     </>
