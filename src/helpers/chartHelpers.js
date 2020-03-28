@@ -17,7 +17,10 @@ const countTickFormatter = (n) => {
     return x + 'k'
   } else if(n >= 100) {
     return withPlaces(n, 0)
-  } else if(n < 1) {
+  } else if(n === 0) {
+    return withPlaces(0, 0)
+  }
+  else if(n < 1) {
     return withPlaces(n, 2)
   }
 }
