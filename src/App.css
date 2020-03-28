@@ -15,6 +15,10 @@
   height: auto;
 }
 
+.page-about {
+  padding-left: 20px;
+}
+
 .tagline {
   float:right;
   display: inline-block;

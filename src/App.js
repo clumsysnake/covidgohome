@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import './App.css';
 import ChartsPage from './ChartsPage.js'
 import MapPage from './MapPage.js'
+import AboutPage from './AboutPage.js'
 
 class App extends React.Component {
   render() {
@@ -30,12 +31,7 @@ class App extends React.Component {
               <MapPage />
             </Route>
             <Route exact path="/about">
-              <p>
-                pulled from <a href="https://covidtracking.com/">COVID Tracking Project</a>
-              </p>
-              <p>
-                ryan at ryan dawt org
-              </p>
+              <AboutPage />
             </Route>
             <Route exact path="/">
               <ChartsPage />
