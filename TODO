@@ -6,7 +6,7 @@
   - investigate a more elegant way of hiding filters while viewing graph.
 - bug: daily charts display pending, which may blow the domainMax, since we calculate it from max of total.
 - bug: ny data has some deltas <0, blowing the domainMin. why is that even happening?
-- in tooltips, show full date, and time of data collection for each day
+- in chart tooltips, show full date, and time of data collection for each day
 - add attack rate (requiring population data)
 - incorporate latest intraday data, not just the last states/daily, which can be a day old for some
 - add log/linear toggle
@@ -18,7 +18,6 @@
   - testing centers open
   - other?
 - solve the problem of jaggedy graphs. try out windowing functions, maybe just 48 hours.
-- add filters to map
 - add animated playback of cases on map
 - let user drill down from globe -> country -> state -> county on map
 - let user go to specific area page from map
@@ -41,6 +40,7 @@
 - add resolved, attack rate, doubling rate, CFR
 - bug: some yscales have undefined?
 - bug: why are y and x axis not evenly-spaced?
+
 
 REFACTORS
 - CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.
