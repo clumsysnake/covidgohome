@@ -24,7 +24,7 @@ class MapPage extends React.Component {
 
     const filter = (field, label, options) => {
       return <div className="filter-control filter-{field}">
-        {label}:
+        {(label) ? `${label}:` : null}
         {options.map(o => filterOption(field, o[0], o[1]))}
       </div>
     }
