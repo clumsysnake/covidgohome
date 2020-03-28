@@ -43,4 +43,4 @@ const tooltipFormatter = (value, name, props) => {
   }
 }
 
-export {percentDisplay, tooltipFormatter, percentTickFormatter, countTickFormatter, dateTickFormatter}
+export {safeSmartNumPlaces, withPlaces, percentDisplay, tooltipFormatter, percentTickFormatter, countTickFormatter, dateTickFormatter}

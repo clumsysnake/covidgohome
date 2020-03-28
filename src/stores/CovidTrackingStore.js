@@ -41,7 +41,7 @@ const fetchStates = function(then) {
       if(!censusData) { console.log(`couldnt find census data for state abbrev ${abbrev}`); }
 
       //TODO: add census density
-      return new StateModel({name: abbrev, entries, population: censusData && censusData.population})
+      return new StateModel({abbrev: abbrev, entries, population: censusData && censusData.population})
     })
 
     then(states)

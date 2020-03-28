@@ -4,7 +4,8 @@ import UsStateCensus from './us_state_census.json'
 //TODO: make this file a nice json, these numeric indexes are error-prone
 const censusDataForState = (name) => {
   let row = UsStateCensus.find(item => {
-    return item[2] === "7/1/2019 population estimate" && item[5].toUpperCase() === name.toUpperCase()
+    return item[2] === "7/1/2019 population estimate" && 
+           item[5].toUpperCase() === name.toUpperCase()
   })
 
   if(!row) { return null }
@@ -18,15 +19,14 @@ const censusDataForState = (name) => {
 }
 
 const stateNameForAbbrev = (abb) => {
-  return UsStateMapping.find((map) => map.abbreviation === abb)['name']
+  const map = UsStateMapping.find((map) => map.abbreviation === abb) || null
+  return map && map['name']
 }
 
 const censusDataForAbbrev = (abbrev) => {
-  let name = stateNameForAbbrev(abbrev)
+  let name = stateNameForAbbrev(abbrev) || null
 
-  if(!name) { return null }
-
-  return censusDataForState(name)
+  return name && censusDataForState(name)
 }
 
 export { censusDataForState, censusDataForAbbrev, stateNameForAbbrev }

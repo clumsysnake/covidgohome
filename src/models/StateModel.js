@@ -11,12 +11,18 @@ class StateModel extends AreaModel {
     this.abbreviation = props.name
     this.fullname = stateNameForAbbrev(this.abbreviation)
 
-    //TODO: prevent two states with same name or abbreviation
+    //TODO: validate input better.. whats acceptable starting props?
+    if(props.abbrev) {
+      this.abbrev = props.abbrev
+      this.name = stateNameForAbbrev(this.abbrev)
+    }
+
+    //TODO: prevent two states with same name or abbrev
     allModels.push(this)
   }
 
-  static findByAbbreviation(abbrev) {
-    return StateModel.all.find(s => s.abbreviation === abbrev)
+  static findByAbbrev(abbrev) {
+    return StateModel.all.find(s => s.abbrev === abbrev)
   }
 
   static findByName(name) {
@@ -32,12 +38,12 @@ class StateModel extends AreaModel {
   }
 
   get code() {
-    return this.name
+    return this.abbrev
   }
 
   get region() {
     return this._region = this._region || RegionModel.all.find(r => {
-      return r.stateCodes.includes(this.code)
+      return r.stateNames.includes(this.name)
     }) || null
   }
 }

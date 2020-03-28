@@ -2,11 +2,11 @@ import StateModel from './StateModel'
 import AreaModel from './AreaModel'
 
 const REGION_MAP = {
-  "Tristate": ["NY", "CT", "NJ"],
-  "Northwest": ["OR", "WA"],
-  "Wet South": ["TX", "SC", "GA", "FL", "AL", "LA", "MS"],
-  "Southwest": ["AZ", "NM"],
-  "Carribbean": ["PR", "VI"]
+  "Tristate": ["New York", "Connecticut", "New Jersey"],
+  "Northwest": ["Oregon", "Washington"],
+  "Wet South": ["Texas", "South Carolina", "Georgia", "Florida", "Alabama", "Lousiana", "Mississippi"],
+  "Southwest": ["Arizona", "New Mexico"],
+  "Carribbean": ["Puerto Rico", "Virgin Islands"]
 }
 
 let allModels = []
@@ -26,9 +26,9 @@ class RegionModel {
     return allModels
   }
 
-  constructor(name, stateCodes) {
+  constructor(name, stateNames) {
     this.name = name
-    this.stateCodes = stateCodes
+    this.stateNames = stateNames
 
     allModels.push(this)
   }
@@ -36,7 +36,7 @@ class RegionModel {
   //TODO: Not memoized because clearing cache when states update is too much complexity
   get states() {
     return StateModel.all.filter(state => {
-      return this.stateCodes.includes(state.code)
+      return this.stateNames.includes(state.name)
     }) || []
   }
 

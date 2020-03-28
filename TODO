@@ -18,7 +18,7 @@
   - testing centers open
   - other?
 - solve the problem of jaggedy graphs. try out windowing functions, maybe just 48 hours.
-- add choropleth map with filters
+- add filters to map
 - add animated playback of cases on map
 - let user drill down from globe -> country -> state -> county on map
 - let user go to specific area page from map
@@ -38,6 +38,9 @@
 - when switching filters, there is a long delay before the user is given feedback. do something. 
 - can/should we vary the width of the positive %age line depending on how accurate the %age is according to test count?
 - dont have population data for the territories... glossing over that for now since they also dont have much data
+- add resolved, attack rate, doubling rate, CFR
+- bug: some yscales have undefined?
+- bug: why are y and x axis not evenly-spaced?
 
 REFACTORS
 - CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.
@@ -45,3 +48,4 @@ REFACTORS
 - use real data layer library instead of rando custom stores. this passing down of data is tedious
 - thinking about adding some kind of json cache
 - switch to graphql interface
+- investigate other chloropleth packages, including google-map-react
