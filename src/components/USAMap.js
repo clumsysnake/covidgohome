@@ -25,8 +25,6 @@ function USAMap(props) {
       "#ff3333",
     ]);
 
-    debugger
-
   //TODO: where are the route helpers?
   function clickedState(state) {
     history.push("/states/" + state.abbreviation)
