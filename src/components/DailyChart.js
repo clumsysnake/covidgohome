@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from "react"
 import { ComposedChart, CartesianGrid, Area, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import Colors from '../Colors.js'
+import Colors from '../helpers/Colors.js'
 import { 
   tooltipFormatter,
   percentDisplay, 

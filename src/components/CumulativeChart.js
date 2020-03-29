@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from "react"
 import { ComposedChart, Area, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import "./charts.css"
-import Colors from '../Colors.js'
+import Colors from '../helpers/Colors.js'
 import { 
   percentTickFormatter, 
   countTickFormatter, 

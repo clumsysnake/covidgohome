@@ -51,3 +51,4 @@ REFACTORS
 - investigate other chloropleth packages, including google-map-react
 - use redux-toolkit: use configureStore
 - consider redux-orm
+- decide where CensusStore goes now
