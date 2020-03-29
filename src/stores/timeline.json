@@ -1,0 +1,28 @@
+[
+  {
+    "datetime": "2020-Mar-20  EST",
+    "country": "USA",
+    "state_or_province": "NY",
+    "modifiedAt": 1585470939,
+    "categories": [
+      "restriction-change"
+    ],
+    "description": "Cuomo Announces New York State on PAUSE",
+    "sources": [
+      "https://www.governor.ny.gov/news/governor-cuomo-signs-new-york-state-pause-executive-order"
+    ]
+  },
+  {
+    "datetime": "2020-Mar-22 20:00 EST",
+    "country": "USA",
+    "state_or_province": "NY",
+    "modifiedAt": 1585470939,
+    "categories": [
+      "restriction-change"
+    ],
+    "description": "Cuomo Announces New York State on PAUSE",
+    "sources": [
+      "https://www.governor.ny.gov/news/governor-cuomo-signs-new-york-state-pause-executive-order"
+    ]
+  }
+]
