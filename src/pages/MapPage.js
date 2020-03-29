@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip'
-import USAMap from './components/USAMap.js'
+import USAMap from '../components/USAMap.js'
 
 class MapPage extends React.Component {
   constructor(props) {

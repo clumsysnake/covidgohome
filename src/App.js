@@ -5,9 +5,9 @@ import * as types from './redux/types'
 import store from './redux/store'
 
 import './App.css';
-import ChartsPage from './ChartsPage.js'
-import MapPage from './MapPage.js'
-import AboutPage from './AboutPage.js'
+import ChartsPage from './pages/ChartsPage.js'
+import MapPage from './pages/MapPage.js'
+import AboutPage from './pages/AboutPage.js'
 
 class App extends React.Component {
   componentDidMount() {
