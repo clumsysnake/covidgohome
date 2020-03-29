@@ -14,6 +14,9 @@ function StatePage(props) {
   let cfr = 100 * state.totals.dead/state.totals.confirmed
   //TODO: this cfr isn't correct afaik! we need dead/(dead+recovered)
 
+  let scaledSeries = state.scaledToPercentage()
+
+
   return (
     <div className="state-page">
       <div className="stats">
@@ -28,10 +31,9 @@ function StatePage(props) {
       </div>
 
       <div className="charts">
-        <DailyChart key={state.abbreviation} name={state.name} series={state.entries} 
-                    totals={state.totals} />
-        <CumulativeChart key={state.abbreviation} name={state.name} series={state.entries} 
-                    totals={state.totals} />
+        <DailyChart name={state.name} series={state.entries} />
+        <CumulativeChart name="Cumulative Test Breakdown"
+          series={scaledSeries} basis="percentage" yDomain={[0,100]}/>
       </div>
     </div>
   )

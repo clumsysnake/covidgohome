@@ -13,7 +13,6 @@ import "./charts.css"
 
 class DailyChart extends React.Component {
   render() {
-    let displayTotalPerConfirmed = percentDisplay(this.props.totals.perConfirmed, 1)
     let data = this.props.series
 
     return (
@@ -22,9 +21,9 @@ class DailyChart extends React.Component {
           <span className="name">
             {this.props.name}
           </span>
-          <span className="totals">
-            {this.props.totals.total} tests; {this.props.totals.confirmed}({displayTotalPerConfirmed}%) positive; {this.props.totals.dead} dead
-          </span>
+          {this.props.totals ? <span className="totals">
+            {this.props.totals.total} tests; {this.props.totals.confirmed}({percentDisplay(this.props.totals.perConfirmed, 1)}%) positive; {this.props.totals.dead} dead
+          </span> : null}
         </div>
         <ComposedChart width={600} height={300} data={data}
                    margin={{ top: 10, right: 0, left: 0, bottom: 10 }}
