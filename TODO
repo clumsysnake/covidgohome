@@ -32,7 +32,6 @@
 - confirm that my aggregate country #s matches the Covidtracking /us/daily #s
 - is the hospitalized line misleading? is it cumulative or current?
 - atleast add italy as another country using salute.it data
-- use react router for useful urls
 - for regions, show which states are in the region
 - when switching filters, there is a long delay before the user is given feedback. do something. 
 - can/should we vary the width of the positive %age line depending on how accurate the %age is according to test count?
