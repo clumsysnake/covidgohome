@@ -8,7 +8,6 @@ import AreaModel from '../models/AreaModel.js'
 import DailyChart from './DailyChart.js'
 import CumulativeChart from './CumulativeChart.js'
 import Group from './Group.js'
-import { fetchStates } from '../stores/CovidTrackingStore.js'
 
 const DOMAIN_MAX_STEPS = 20 //CRZ: give a certain OOM, how many possible domain maxes 
 
