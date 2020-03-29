@@ -23,9 +23,10 @@ const countTickFormatter = (n) => {
     return withPlaces(n, 0)
   } else if(n === 0) {
     return withPlaces(0, 0)
-  }
-  else if(n < 1) {
+  } else if(n < 1) {
     return withPlaces(n, 2)
+  } else {
+    return safeSmartNumPlaces(n, 1)
   }
 }
 const dateTickFormatter = (date) => {

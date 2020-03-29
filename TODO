@@ -36,7 +36,6 @@
 - can/should we vary the width of the positive %age line depending on how accurate the %age is according to test count?
 - dont have population data for the territories... glossing over that for now since they also dont have much data
 - add resolved, attack rate, doubling rate, CFR
-- bug: some yscales have undefined?
 - bug: why are y and x axis not evenly-spaced?
 - bug: no longer fixed header, and header padding wrong, after adding react-router
 - bug: setting daily w/ % doesn't display correctly
