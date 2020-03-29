@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import DailyChart from '../components/DailyChart.js'
 import CumulativeChart from '../components/CumulativeChart.js'
+import DeathHospitalizationChart from '../components/DeathHospitalizationChart.js'
 import './StatePage.css'
 import { numberWithCommas, withPlaces } from '../helpers/chartHelpers.js'
 import _ from 'lodash'
@@ -33,9 +34,12 @@ function StatePage(props) {
       </div>
 
       <div className="charts">
-        <DailyChart name="Daily Changes" series={state.entries} />
-        <CumulativeChart name="Cumulative Test Breakdown"
+        <DailyChart name="Daily Changes"
+          series={state.entries} />
+        <CumulativeChart name="Test Results as % of Total Tests"
           series={scaledPercentage} basis="percentage" yDomain={[0,100]}/>
+        <DeathHospitalizationChart name="Daily Deaths and Hospitalizations"
+          series={state.entries} />
       </div>
     </div>
   )
