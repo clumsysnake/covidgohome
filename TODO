@@ -12,7 +12,6 @@
 - add log/linear toggle
 - add county-level data access for america
 - add other countries
-- add individual page for each area with maximum data
 - add horizontal lines showing major events for areas
   - governor announcements
   - testing centers open
@@ -42,6 +41,7 @@
 - bug: no longer fixed header, and header padding wrong, after adding react-router
 - bug: setting daily w/ % doesn't display correctly
 - investigate desirable behavior for storing filter settings in localstorage
+- all the withPlaces helpers should make sure to round off
 
 REFACTORS
 - CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.
@@ -52,3 +52,5 @@ REFACTORS
 - use redux-toolkit: use configureStore
 - consider redux-orm
 - decide where CensusStore goes now
+- create or vendor real filter components
+- fix terminology, some places i use "positive" and some "confirmed"

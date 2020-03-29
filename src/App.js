@@ -8,6 +8,7 @@ import './App.css';
 import ChartsPage from './pages/ChartsPage.js'
 import MapPage from './pages/MapPage.js'
 import AboutPage from './pages/AboutPage.js'
+import StatePage from './pages/StatePage.js'
 
 class App extends React.Component {
   componentDidMount() {
@@ -44,6 +45,7 @@ class App extends React.Component {
             <Route exact path="/">
               <ChartsPage />
             </Route>
+            <Route path="/states/:stateAbbrev" component={StatePage} /> 
           </Switch>
         </div>
       </BrowserRouter>

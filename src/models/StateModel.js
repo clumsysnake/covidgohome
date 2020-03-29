@@ -13,8 +13,8 @@ class StateModel extends AreaModel {
 
     //TODO: validate input better.. whats acceptable starting props?
     if(props.abbrev) {
-      this.abbrev = props.abbrev
-      this.name = stateNameForAbbrev(this.abbrev)
+      this.abbreviation = props.abbrev
+      this.name = stateNameForAbbrev(this.abbreviation)
     }
 
     //TODO: prevent two states with same name or abbrev

@@ -1,0 +1,13 @@
+.state-page {
+  margin: 20px;
+}
+
+.state-page .stats ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.state-page .stats li {
+  font-size: 2em;
+  list-style-type: none;
+}
