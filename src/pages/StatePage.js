@@ -19,6 +19,7 @@ function StatePage(props) {
 
   return (
     <div className="state-page">
+      <h1 className="state-name">{state.name}</h1>
       <div className="stats">
         <ul>
           <li>Population {state.population}</li>
@@ -31,7 +32,7 @@ function StatePage(props) {
       </div>
 
       <div className="charts">
-        <DailyChart name={state.name} series={state.entries} />
+        <DailyChart name="Daily Changes" series={state.entries} />
         <CumulativeChart name="Cumulative Test Breakdown"
           series={scaledSeries} basis="percentage" yDomain={[0,100]}/>
       </div>
