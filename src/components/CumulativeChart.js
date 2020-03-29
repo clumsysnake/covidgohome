@@ -136,6 +136,7 @@ class CumulativeChart extends React.Component {
 CumulativeChart.propTypes = {
   name: PropTypes.string,
   series: PropTypes.array,
+  totals: PropTypes.object,
   yDomain: PropTypes.array,
   xDomain: PropTypes.array,
   scale: PropTypes.number

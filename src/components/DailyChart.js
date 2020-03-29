@@ -136,7 +136,7 @@ class DailyChart extends React.Component {
 DailyChart.propTypes = {
   name: PropTypes.string,
   series: PropTypes.array,
-  stats: PropTypes.object,
+  totals: PropTypes.object,
   yDomain: PropTypes.array,
   xDomain: PropTypes.array,
   scale: PropTypes.number
