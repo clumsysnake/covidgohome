@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux"
 import { useHistory } from "react-router-dom";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import { scaleQuantile } from "d3-scale";
+import { scaleLinear } from "d3-scale";
 import StateModel from "../models/StateModel.js"
 import AreaModel from "../models/AreaModel.js"
 import "./USAMap.css"
@@ -18,20 +18,14 @@ function USAMap(props) {
   const perMillion = props.basis === "per-1m"
 
   let max = AreaModel.fieldMax(states, props.field, perMillion)
-  const colorScale = scaleQuantile()
+  const colorScale = scaleLinear()
     .domain([0, max])
     .range([
-      "#ffedea",
-      "#ffcec5",
-      "#ffad9f",
-      "#ff8a75",
-      "#ff5533",
-      "#e2492d",
-      "#be3d26",
-      "#9a311f",
-      "#782618",
-      "#651318",
+      "#ffffff",
+      "#ff3333",
     ]);
+
+    debugger
 
   //TODO: where are the route helpers?
   function clickedState(state) {
