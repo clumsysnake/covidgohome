@@ -5,9 +5,10 @@
 .state-page .stats ul {
   list-style-type: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 0 15px;
 }
 .state-page .stats li {
-  font-size: 2em;
+  font-size: 1.5em;
   list-style-type: none;
+  margin: 3px 0;
 }

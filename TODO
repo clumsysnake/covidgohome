@@ -42,6 +42,7 @@
 - bug: setting daily w/ % doesn't display correctly
 - investigate desirable behavior for storing filter settings in localstorage
 - all the withPlaces helpers should make sure to round off
+- our cfr is not correct, its not based off recoveries
 
 REFACTORS
 - CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.

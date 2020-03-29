@@ -2,6 +2,10 @@ import _ from 'lodash'
 
 //TODO: lots of formatters, can we combine? messy. percentDisplay is cruft.
 
+const numberWithCommas = (n) => {
+  return n.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+
 const withPlaces = (num, n) => Number.parseFloat(num).toFixed(n)
 const percentDisplay = (num, n) => withPlaces(num, n)
 const percentTickFormatter = (n) => `${n}%`
@@ -46,4 +50,4 @@ const tooltipFormatter = (value, name, props) => {
   }
 }
 
-export {safeSmartNumPlaces, withPlaces, percentDisplay, tooltipFormatter, percentTickFormatter, countTickFormatter, dateTickFormatter}
+export {numberWithCommas, safeSmartNumPlaces, withPlaces, percentDisplay, tooltipFormatter, percentTickFormatter, countTickFormatter, dateTickFormatter}
