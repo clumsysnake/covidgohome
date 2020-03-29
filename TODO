@@ -40,12 +40,15 @@
 - add resolved, attack rate, doubling rate, CFR
 - bug: some yscales have undefined?
 - bug: why are y and x axis not evenly-spaced?
-
+- bug: no longer fixed header, and header padding wrong, after adding react-router
+- bug: setting daily w/ % doesn't display correctly
+- investigate desirable behavior for storing filter settings in localstorage
 
 REFACTORS
 - CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.
 - break out filters to their own component.
-- use real data layer library instead of rando custom stores. this passing down of data is tedious
 - thinking about adding some kind of json cache
 - switch to graphql interface
 - investigate other chloropleth packages, including google-map-react
+- use redux-toolkit: use configureStore
+- consider redux-orm

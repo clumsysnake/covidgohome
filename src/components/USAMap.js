@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from "react-redux"
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { scaleQuantile } from "d3-scale";
 import StateModel from "../models/StateModel.js"
@@ -15,9 +16,10 @@ class USAMap extends React.Component {
   }
 
   render() {
+    let states = this.props.states
     const perMillion = this.props.basis === "per-1m"
 
-    let max = AreaModel.fieldMax(StateModel.all, this.props.field, perMillion)
+    let max = AreaModel.fieldMax(states, this.props.field, perMillion)
     const colorScale = scaleQuantile()
       .domain([0, max])
       .range([
@@ -87,4 +89,8 @@ class USAMap extends React.Component {
   }
 };
 
-export default USAMap;
+const mapStateToProps = (state, ownProps) => ({
+  states: state.states
+})
+
+export default connect(mapStateToProps)(USAMap)

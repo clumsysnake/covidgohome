@@ -16,7 +16,9 @@
     "react-scripts": "3.4.0",
     "react-simple-maps": "^2.0.0",
     "react-tooltip": "^4.1.2",
-    "recharts": "^1.8.5"
+    "recharts": "^1.8.5",
+    "redux": "^4.0.5",
+    "redux-toolkit": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start --no-cache",

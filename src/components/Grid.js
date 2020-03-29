@@ -1,4 +1,5 @@
 import React from "react"
+import {connect} from "react-redux"
 import PropTypes from 'prop-types';
 
 import StateModel from '../models/StateModel.js'
@@ -15,9 +16,7 @@ class Grid extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {states: [], regions: RegionModel.all}
-
-    fetchStates((states) => { this.setState({states: states}) })
+    this.state = {regions: RegionModel.all}
   }
 
   sortFunction(sort) {
@@ -35,6 +34,7 @@ class Grid extends React.Component {
 
   render() {
     let sort = this.props.sort
+    let states = this.props.states
     let comps = []
 
     let chartForArea = (a, yDomain, xDomain) => {
@@ -90,14 +90,16 @@ class Grid extends React.Component {
       return areas.map(a => chartForArea(a, yD, xD))
     }
 
+    let withoutRegion = states.filter(m => m.region === null)
+
     //TODO: refactor. its the group filter that makes it not clean atm.
     if(this.props.aggregate === "region") {
       let areas = RegionModel.all.map((r) => r.createAggregate())
-      areas.push(AreaModel.createAggregate('Other', StateModel.withoutRegion))
+      areas.push(AreaModel.createAggregate('Other', withoutRegion))
       areas.sort(this.sortFunction(sort))
       comps = compsForAreas(areas)
     } else if(this.props.aggregate === "country") {
-      comps = compsForAreas([AreaModel.createAggregate('USA', StateModel.all)])
+      comps = compsForAreas([AreaModel.createAggregate('USA', states)])
     } else if(this.props.group === "region") {
       //CRZ: intentionally setting maxes different for different regions
       let regionGroups = RegionModel.all.map(r => {
@@ -106,21 +108,22 @@ class Grid extends React.Component {
         } />
       })
 
-      let unregionedComps = compsForAreas(StateModel.withoutRegion.sort(this.sortFunction(sort)))
+      let unregionedComps = compsForAreas(withoutRegion.sort(this.sortFunction(sort)))
       let unregionedGroup = <Group key="Other" name="Other">{unregionedComps}</Group>
 
       comps.push(regionGroups, unregionedGroup)
     } else {
-      comps = compsForAreas(this.state.states.sort(this.sortFunction(sort)))
+      comps = compsForAreas(states.sort(this.sortFunction(sort)))
     }
 
     return <div className="grid">
-      {StateModel.all.length ? comps : "loading..."}
+      {states.length ? comps : "loading..."}
     </div>
   }
 }
 
 Grid.propTypes = {
+  states: PropTypes.array,
   group: PropTypes.string,
   sort: PropTypes.string,
   aggregate: PropTypes.string,
@@ -130,6 +133,7 @@ Grid.propTypes = {
   scaleMatching: PropTypes.bool
 }
 Grid.defaultProps = {
+  states: [],
   sort: "most-tests",
   group: "none",
   aggregate: "none",
@@ -137,4 +141,9 @@ Grid.defaultProps = {
   scale: "absolute",
   scaleMatching: true
 }
-export default Grid
+
+const mapStateToProps = (state, ownProps) => ({
+  states: state.states
+})
+
+export default connect(mapStateToProps)(Grid)

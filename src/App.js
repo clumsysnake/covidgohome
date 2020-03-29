@@ -1,14 +1,22 @@
 import React from 'react';
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'
+import * as actions from './redux/actions'
+import * as types from './redux/types'
+import store from './redux/store'
+
 import './App.css';
 import ChartsPage from './ChartsPage.js'
 import MapPage from './MapPage.js'
 import AboutPage from './AboutPage.js'
 
 class App extends React.Component {
+  componentDidMount() {
+    store.dispatch(actions.fetchStates())
+  }
+
   render() {
     return (
-      <Router>
+      <BrowserRouter>
         <div className="app">
           <header className="app-header">
             <nav>
@@ -38,7 +46,7 @@ class App extends React.Component {
             </Route>
           </Switch>
         </div>
-      </Router>
+      </BrowserRouter>
     )
   }
 }
