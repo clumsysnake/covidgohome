@@ -141,7 +141,7 @@ CumulativeChart.propTypes = {
 }
 CumulativeChart.defaultProps = {
   yDomain: ['auto', 'auto'],
-  xDomain: ['auto', 'auto'],
+  xDomain: ['dataMin', 'dataMax'],
 }
 
 export default CumulativeChart

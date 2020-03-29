@@ -141,7 +141,7 @@ DailyChart.propTypes = {
 }
 DailyChart.defaultProps = {
   yDomain: ['auto', 'auto'],
-  xDomain: ['auto', 'auto'],
+  xDomain: ['dataMin', 'dataMax'],
 }
 
 export default DailyChart
