@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Switch, Redirect } from 'react-router-dom'
 import * as actions from './redux/actions'
 import store from './redux/store'
 
@@ -18,12 +18,13 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
+
         <div className="app">
           <header className="app-header">
             <nav>
               <ul className="nav">
                 <li>
-                  <Link to={`/`}>Charts</Link>
+                  <Link to={`/charts`}>Charts</Link>
                 </li>
                 <li>
                   <Link to={`/map`}>Map</Link>
@@ -36,13 +37,16 @@ class App extends React.Component {
             <span className="tagline"><em>...go back in your bat hole! </em></span>
           </header>
           <Switch>
+            <Route exact path="/">
+              <Redirect to="/map" />
+            </Route>
             <Route path="/map">
               <MapPage />
             </Route>
             <Route exact path="/about">
               <AboutPage />
             </Route>
-            <Route exact path="/">
+            <Route exact path="/charts">
               <ChartsPage />
             </Route>
             <Route path="/states/:stateAbbrev" component={StatePage} /> 
