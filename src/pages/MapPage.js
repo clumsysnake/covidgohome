@@ -41,15 +41,15 @@ class MapPage extends React.Component {
             ['death', 'deaths']
           ])}
           {filter('basis', 'basis', [
-            ['absolute', 'absolute'],
-            ['per-1m', 'per 1m'],
-            ['squared-per-1m', 'squared per 1m']
+            ['absolute', 'abs'],
+            ['per-1m', 'abs/1m'],
+            ['squared-per-1m', 'abs²/1m']
           ])}
           {filter('granularity', null, [
             ['state', 'state'],
             ['county', 'county']
           ])}
-          {filter('colorScale', 'color scale', [
+          {filter('colorScale', 'scale', [
             ['linear', 'linear'],
             ['sqrt', 'sqrt'],
             ['log2', 'log(2)']
