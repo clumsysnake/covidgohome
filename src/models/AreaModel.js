@@ -172,6 +172,7 @@ class AreaModel {
       confirmed,
       perConfirmed: 100 * (confirmed / total) || null,
       dead,
+      hospitalized: (last && last.hospitalized) || null,
       cfrPercent: 100 * dead/confirmed,
       attackRate: this.population ? 100 * confirmed/this.population : null
     }
