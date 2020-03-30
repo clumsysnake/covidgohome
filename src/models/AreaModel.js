@@ -163,18 +163,18 @@ class AreaModel {
 
   get totals() {
     let last = _.last(this.entries) || null
-    let confirmed = (last && last.positive) || null
+    let positive = (last && last.positive) || null
     let total = (last && last.total) || null
     let dead = (last && last.death) || null
 
     return this._stats = this._stats || {
       total,
-      confirmed,
-      perConfirmed: 100 * (confirmed / total) || null,
+      positive,
+      perPositive: 100 * (positive / total) || null,
       dead,
       hospitalized: (last && last.hospitalized) || null,
-      cfrPercent: 100 * dead/confirmed,
-      attackRate: this.population ? 100 * confirmed/this.population : null
+      cfrPercent: 100 * dead/positive,
+      attackRate: this.population ? 100 * positive/this.population : null
     }
   }
 }

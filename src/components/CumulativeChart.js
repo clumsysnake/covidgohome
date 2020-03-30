@@ -22,7 +22,7 @@ class CumulativeChart extends React.Component {
             {this.props.name}
           </span>
           {this.props.totals ? <span className="totals">
-            {this.props.totals.total} tests; {this.props.totals.confirmed}({percentDisplay(this.props.totals.perConfirmed, 1)}%) positive; {this.props.totals.dead} dead
+            {this.props.totals.total} tests; {this.props.totals.positive}({percentDisplay(this.props.totals.perPositive, 1)}%) positive; {this.props.totals.dead} dead
           </span> : null}
         </div>
 

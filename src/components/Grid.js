@@ -22,8 +22,8 @@ class Grid extends React.Component {
     switch(sort) {
       case "alpha":
         return (a, b) => (a.code < b.code) ? -1 : 1
-      case "percent-confirmed":
-        return (a, b) => (a.totals.perConfirmed > b.totals.perConfirmed) ? -1 : 1
+      case "percent-positive":
+        return (a, b) => (a.totals.perPositive > b.totals.perPositive) ? -1 : 1
       case "most-tests":
         return (a, b) => (a.totals.total > b.totals.total) ? -1 : 1
       default:

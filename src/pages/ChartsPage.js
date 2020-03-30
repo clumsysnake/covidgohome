@@ -17,7 +17,7 @@ class ChartsPage extends React.Component {
   }
 
   clickedSortMostTests = (e) => { this.setState({sort: "most-tests"}) }
-  clickedSortPercentConfirmed = (e) => { this.setState({sort: "percent-confirmed"}) }
+  clickedSortPercentPositive = (e) => { this.setState({sort: "percent-positive"}) }
   clickedAggregateState = (e) => { this.setState({aggregate: "state"}) }
   clickedAggregateRegion = (e) => { this.setState({aggregate: "region"}) }
   clickedAggregateCountry = (e) => { this.setState({aggregate: "country"}) }
@@ -39,7 +39,7 @@ class ChartsPage extends React.Component {
             sort:
             {this.state.sort === "most-tests" ? " most tests " : <button onClick={this.clickedSortMostTests}>most tests</button>}
             |
-            {this.state.sort === "percent-confirmed" ? " % confirmed " : <button onClick={this.clickedSortPercentConfirmed}>% confirmed</button>}
+            {this.state.sort === "percent-positive" ? " % confirmed " : <button onClick={this.clickedSortPercentPositive}>% positive tests</button>}
           </div>
 
           <div className="filter-group">

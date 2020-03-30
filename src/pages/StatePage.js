@@ -22,9 +22,9 @@ function StatePage(props) {
       <div className="stats">
         <ul>
           <li>Population {numberWithCommas(state.population)}</li>
-          <li>Confirmed: {state.totals.confirmed}</li>
+          <li>Confirmed Positive: {state.totals.positive}</li>
           <li>Attack Rate {withPlaces(state.totals.attackRate, 3)}%</li>
-          <li>Case Fatality Ratio: {withPlaces(state.totals.cfrPercent, 2)}% (based on confirmed, not resolved)</li>
+          <li>Case Fatality Ratio: {withPlaces(state.totals.cfrPercent, 2)}% (based on positives, not resolved)</li>
           <li>Dead: {state.totals.dead} people, or {withPlaces(deadPer1M, 2)} per million</li>
           <li>Hospitalized: {state.totals.hospitalized || "Unknown"}</li>
           <li>Currently Infected: Unknown (need recovered data)</li>
