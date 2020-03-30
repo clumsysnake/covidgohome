@@ -37,6 +37,7 @@ class MapPage extends React.Component {
           {filter('mapField', 'showing', [
             ['positive', 'positives'],
             ['total', '# tests'], 
+            ['hospitalized', 'hospitalized'], 
             // ['posPerc', '% positive'], 
             ['death', 'deaths']
           ])}
