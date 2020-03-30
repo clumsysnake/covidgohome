@@ -8,7 +8,9 @@ class MapPage extends React.Component {
 
     this.state = {
       mapField: 'positive',
-      basis: 'per-1m'
+      basis: 'per-1m',
+      granularity: 'state',
+      colorScale: 'linear'
     }
   }
 
@@ -42,12 +44,23 @@ class MapPage extends React.Component {
             ['absolute', 'absolute'],
             ['per-1m', 'per 1m']
           ])}
+          {filter('granularity', null, [
+            ['state', 'state'],
+            ['county', 'county']
+          ])}
+          {filter('colorScale', 'color scale', [
+            ['linear', 'linear'],
+            ['log2', 'log(2)'],
+            ['sqrt', 'sqrt']
+          ])}
         </div>
       </div>
       <div className="bottom usa-map">
         <USAMap
           field={this.state.mapField}
           basis={this.state.basis}
+          granularity={this.state.granularity}
+          colorScale={this.state.colorScale}
           setTooltipContent={(c) => this.setState({'tooltipContent': c})}
         />
         <ReactTooltip>{this.state.tooltipContent}</ReactTooltip>

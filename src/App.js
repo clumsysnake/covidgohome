@@ -11,7 +11,8 @@ import StatePage from './pages/StatePage.js'
 
 class App extends React.Component {
   componentDidMount() {
-    store.dispatch(actions.fetchStates())
+    store.dispatch(actions.covidTrackingfetchStatesDaily())
+    store.dispatch(actions.johnsHopkinsFetchDailyReport())
   }
 
   render() {

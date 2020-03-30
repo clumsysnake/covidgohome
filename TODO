@@ -19,7 +19,6 @@
 - solve the problem of jaggedy graphs. try out windowing functions, maybe just 48 hours.
 - add animated playback of cases on map
 - let user drill down from globe -> country -> state -> county on map
-- let user go to specific area page from map
 - incorporate age data where found
 - incorporate illness onset data where found
 - pass along covid tracking data quality grades to user
@@ -35,22 +34,30 @@
 - when switching filters, there is a long delay before the user is given feedback. do something. 
 - can/should we vary the width of the positive %age line depending on how accurate the %age is according to test count?
 - dont have population data for the territories... glossing over that for now since they also dont have much data
-- add resolved, attack rate, doubling rate, CFR
+- add resolved vs active, doubling rate
 - bug: why are y and x axis not evenly-spaced?
 - bug: no longer fixed header, and header padding wrong, after adding react-router
 - bug: setting daily w/ % doesn't display correctly
 - investigate desirable behavior for storing filter settings in localstorage
 - all the withPlaces helpers should make sure to round off
 - our cfr is not correct, its not based off recoveries
+- show active cases!
+- on statepage, get chart widths to align.
+- is there a meaningful basis type that mixes both high absolute #s and high per-capita numbers?
 
 REFACTORS
 - CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.
 - break out filters to their own component.
 - thinking about adding some kind of json cache
 - switch to graphql interface
-- investigate other chloropleth packages, including google-map-react
+- investigate other chloropleth packages, including google-map-react, http://polymaps.org/
 - use redux-toolkit: use configureStore
 - consider redux-orm
 - decide where CensusStore goes now
 - create or vendor real filter components
-- fix terminology, some places i use "positive" and some "confirmed"
+- fix terminology for variables, some places i use "positive" and some "confirmed".
+- rename remaining "entries" variables to "series"
+- consider csv.js instead, or csv-parser, or react-papaparse
+- combine/trim jsons so less in browser processing for static files.
+- have background task update static jsons when new data becomes available, instead of having in-browser do it
+- is FIPS still the code i should be using? seems deprecated

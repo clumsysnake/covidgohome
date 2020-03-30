@@ -4,7 +4,9 @@ let allModels = []
 
 let decorateTimeSeries = (entries) => {
   entries.forEach((e, idx, a) => {
-    e.posNeg = e.positive + e.negative //where total is neg + pos + pending
+    //TODO: not sure non-finite means 0 here. could just not be reported?
+    ///     is there a difference between null and 0 in source data?
+    e.posNeg = (e.positive || 0) + (e.negative || 0) //where total is neg + pos + pending
     e.posPerc = 100 * e.positive / e.posNeg
     e.positiveDelta = (idx > 0) ? e.positive - a[idx-1].positive : null
     e.negativeDelta = (idx > 0) ? e.negative - a[idx-1].negative : null

@@ -2,12 +2,12 @@ import * as types from '../types.js'
 
 function states(state = [], action) {
   switch(action.type) {
-    case types.COVIDTRACKING_FETCH_STATES:
+    case types.JOHNS_HOPKINS_FETCH_DAILY_REPORT:
       //TODO: set loading state, and handle error
       return state
 
-    case types.COVIDTRACKING_HANDLE_STATES:
-      return action.states
+    case types.JOHNS_HOPKINS_HANDLE_DAILY_REPORT:
+      return action.counties
     default:
       return state
   }

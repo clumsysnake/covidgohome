@@ -1,4 +1,5 @@
 import RegionModel from './RegionModel'
+import CountyModel from './CountyModel'
 import AreaModel from './AreaModel'
 import { stateNameForAbbrev } from '../stores/CensusStore'
 
@@ -39,6 +40,11 @@ class StateModel extends AreaModel {
 
   get code() {
     return this.abbrev
+  }
+
+  //TODO: memoize?
+  get counties() {
+    return CountyModel.all.filter(c => c.stateName === this.name) || []
   }
 
   get region() {

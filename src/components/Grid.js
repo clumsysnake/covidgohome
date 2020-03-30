@@ -2,7 +2,6 @@ import React from "react"
 import {connect} from "react-redux"
 import PropTypes from 'prop-types';
 
-import StateModel from '../models/StateModel.js'
 import RegionModel from '../models/RegionModel.js'
 import AreaModel from '../models/AreaModel.js'
 import DailyChart from './DailyChart.js'
