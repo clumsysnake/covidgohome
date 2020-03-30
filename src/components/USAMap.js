@@ -18,7 +18,7 @@ const statesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
 function USAMap(props) {
   const history = useHistory();
-  const perMillion = props.basis === "per-1m"
+  const perMillion = ["per-1m", "squared-per-1m"].includes(props.basis)
 
   let areas, geoUrl, areaFindF, clickedAreaF;
   switch(props.granularity) {
@@ -39,7 +39,7 @@ function USAMap(props) {
       throw new TypeError("error, unknown granularity")
   }
 
-  let max = AreaModel.fieldMax(areas, props.field, perMillion)
+  let max = AreaModel.fieldMax(areas, props.field, props.basis)
 
   let colorF;
   switch(props.colorScale) {
@@ -85,16 +85,33 @@ function USAMap(props) {
       <Geographies geography={geoUrl}>
         {({ geographies }) =>
           geographies.map(geo => {
-            let color = "#BBBBBB", value = null, tooltip = ""
+            let color = "#BBBBBB", tooltip = ""
 
             let area = areaFindF(geo)
-
             if(area) {
               //TODO: handle if area doesn't have population data.
-              const perCapitaEntries = perMillion ? area.scaledPerMillion() : area.entries
-              value = _.last(perCapitaEntries)[props.field]
+
+              let value, tooltipValue;
+              switch(props.basis) {
+                case 'absolute':
+                  value = _.last(area.entries)[props.field]
+                  tooltipValue = value
+                  break;
+                case 'per-1m':
+                  value = _.last(area.scaledPerMillion())[props.field]
+                  tooltipValue = value
+                  break;
+                case 'squared-per-1m':
+                  //still want to show per 1m tooltip values
+                  value = _.last(area.scaledSquaredPerMillion())[props.field]
+                  tooltipValue = _.last(area.scaledPerMillion())[props.field]
+                  break;
+                default:
+                  throw new TypeError(`error, unknown bases ${props.basis}`)
+              }
+
               if(_.isFinite(value)) { color = colorF(value || 1) }
-              tooltip = `${area.name} -- ${safeSmartNumPlaces(value, 1)} ${props.field}s`
+              tooltip = `${area.name} -- ${safeSmartNumPlaces(tooltipValue, 1)} ${props.field}s`
               if(perMillion) { tooltip += " per million people" }
             } else {
               tooltip = "unknown" //TODO: can still show area counts

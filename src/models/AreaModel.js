@@ -29,17 +29,16 @@ class AreaModel {
   }
 
   //TODO: perMillion flags are weird. either perPopulation flag (capita = 1) or perCapita as integer
-  static fieldMax(areas, field, perMillion=false) {
-    return AreaModel.fieldExtremum(areas, field, 'max', perMillion)
+  static fieldMax(areas, field, basis = "absolute") {
+    return AreaModel.fieldExtremum(areas, field, 'max', basis)
   }
 
-  static fieldMin(areas, field, perMillion=false) {
-    return AreaModel.fieldExtremum(areas, field, 'min', perMillion)
+  static fieldMin(areas, field, basis = "absolute") {
+    return AreaModel.fieldExtremum(areas, field, 'min', basis)
   }
 
-  static fieldExtremum(areas, field, funcName, perMillion=false) {
-    let entries = areas.flatMap(a => (perMillion) ? a.scaledPerMillion() : a.entries)
-    return entries.reduce((agg, e) => {
+  static fieldExtremum(areas, field, funcName, basis = "absolute") {
+    return areas.flatMap(a => a.inBasis(basis)).reduce((agg, e) => {
       if(!_.isFinite(agg)) {
         return e[field]
       } else if(!_.isFinite(e[field])) {
@@ -94,6 +93,7 @@ class AreaModel {
     //memoize
     this.__scaledSeries = []
     this.__scaledToPercentage = null
+    this.__scaledSquaredPerMillion = null
 
     allModels.push(this)
   }
@@ -132,6 +132,36 @@ class AreaModel {
 
   scaledPerMillion() {
     return this.scaledSeriesPerCapita(1000000.0)
+  }
+
+  scaledSquaredPerMillion() {
+    if(this.__scaledSquaredPerMillion) { return this.__scaledToPercentage }
+
+    let scale = this.population / 1000000.0
+
+    let decoratedScaled = decorateTimeSeries(this.entries.map(e => {
+      return {
+        date: e.date,
+        positive: e.positive * e.positive/scale,
+        negative: e.negative * e.negative/scale,
+        pending: e.pending * e.pending/scale,
+        death: e.death * e.death/scale,
+        hospitalized: e.hospitalized * e.hospitalized/scale,
+        total: e.total * e.total/scale
+      }
+    }))
+
+    return decoratedScaled
+  }
+
+  inBasis(basis) {
+    switch(basis) {
+      case 'absolute': return this.entries
+      case 'per-1m': return this.scaledPerMillion()
+      case 'squared-per-1m': return this.scaledSquaredPerMillion()
+      default:
+        throw new TypeError(`inBasis encountered unknown basis ${basis}`)
+    }
   }
 
   //CRZ: Unlike other scaling functions, each entry is scaled differently here.

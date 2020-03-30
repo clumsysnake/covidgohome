@@ -67,8 +67,7 @@ class Grid extends React.Component {
       }
 
       let field = (this.props.chartType === "daily") ? 'posNegDelta' : 'total'
-      let perMillion = !(this.props.basis === "absolute")
-      let max = AreaModel.fieldMax(areas, field, perMillion)
+      let max = AreaModel.fieldMax(areas, field, 'per-1m')
 
       const baseOoms = Math.floor(Math.log10(max))
       const baseDomain = Math.pow(10, baseOoms)

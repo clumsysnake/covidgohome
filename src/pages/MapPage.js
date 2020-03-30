@@ -42,7 +42,8 @@ class MapPage extends React.Component {
           ])}
           {filter('basis', 'basis', [
             ['absolute', 'absolute'],
-            ['per-1m', 'per 1m']
+            ['per-1m', 'per 1m'],
+            ['squared-per-1m', 'squared per 1m']
           ])}
           {filter('granularity', null, [
             ['state', 'state'],
