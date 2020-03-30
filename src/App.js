@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom'
 import * as actions from './redux/actions'
-import * as types from './redux/types'
 import store from './redux/store'
 
 import './App.css';
