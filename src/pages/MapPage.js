@@ -7,10 +7,10 @@ class MapPage extends React.Component {
     super(props)
 
     this.state = {
-      mapField: 'positive',
+      mapField: 'death',
       basis: 'per-1m',
-      granularity: 'state',
-      colorScale: 'linear'
+      granularity: 'county',
+      colorScale: 'log2'
     }
   }
 
@@ -37,7 +37,7 @@ class MapPage extends React.Component {
           {filter('mapField', 'showing', [
             ['positive', 'positives'],
             ['total', '# tests'], 
-            ['posPerc', '% positive'], 
+            // ['posPerc', '% positive'], 
             ['death', 'deaths']
           ])}
           {filter('basis', 'basis', [
