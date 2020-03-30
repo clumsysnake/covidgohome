@@ -50,8 +50,8 @@ class MapPage extends React.Component {
           ])}
           {filter('colorScale', 'color scale', [
             ['linear', 'linear'],
-            ['log2', 'log(2)'],
-            ['sqrt', 'sqrt']
+            ['sqrt', 'sqrt'],
+            ['log2', 'log(2)']
           ])}
         </div>
       </div>
