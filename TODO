@@ -69,3 +69,4 @@ REFACTOR
 - is FIPS still the code i should be using? seems deprecated
 - use route helpers if react-router has them? in map click handlers
 - fix the damned sourcemaps
+- get page to set body (or .app) classname like in ember
