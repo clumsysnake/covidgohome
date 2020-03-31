@@ -22,7 +22,6 @@ function StatePage(props) {
 
   return (
     <div className="state-page">
-      <h1 className="state-name">{state.name}</h1>
       <div className="top">
         <div className="state-map">
           <StateMap
@@ -36,6 +35,7 @@ function StatePage(props) {
           <ReactTooltip place="right">{tooltip}</ReactTooltip>
         </div>
         <div className="stats">
+          <h1 className="state-name">{state.name}</h1>
           <ul>
             <li>
               <span className="label">Population</span>

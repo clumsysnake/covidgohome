@@ -2,9 +2,17 @@
   margin: 20px;
 }
 
-.state-page > .top > div {
+.state-page > .top > div{
   float: left;
-  width: 50%;
+}
+
+.state-page > .top > .state-map {
+  width: 54%;
+  padding: 2%;
+}
+
+.state-page > .top > .stats {
+  width: 42%;
 }
 
 .state-page > .top::after {
@@ -13,10 +21,17 @@
   display: table;
 }
 
+.state-page .stats .state-name {
+  font-size: 3em;
+  padding: 0;
+  margin: 0 0 0 155px;
+  margin: 0;
+}
+
 .state-page .stats ul {
   list-style-type: none;
   padding: 0;
-  margin: 0 0 0 15px;
+  margin: 0;
 }
 .state-page .stats li {
   font-size: 1.3em;
