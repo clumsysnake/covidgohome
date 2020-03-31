@@ -85,7 +85,8 @@ function StateMap(props) {
                   fill: color,
                   stroke: "#607D8B",
                   strokeWidth: area ? 2 : 1,
-                  outline: "none"
+                  outline: "none",
+                  zIndex: area ? 1 : 0
                 },
                 hover: {
                   fill: color,

@@ -47,7 +47,7 @@ IMPROVE
 - confirm all the withPlaces helpers are rounding off? thought some weren't
 - confirm my "weighted per 1m" is statistically legitimate, or replace with whatever is best practice
 - confirm i should be using per-1m not per-100k. i've seen elsewhere that per-100k may be more standard for low events?
-- mouseover on map is triggering an entire render() everytime tooltip changes. dont do that.
+- mouseover on map is triggering an entire render() for StateMap and UsaMap... can i stop this?
 - the state maps can be better rotated/projected, just not sure how. they are too curved as is.
 - for the country also see if we can use a flat USA projection, like google maps
 - #s for NYC are messed up. so i have to group the 5 counties of NYC as one region
