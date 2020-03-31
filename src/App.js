@@ -30,13 +30,16 @@ class App extends React.Component {
             <span className="tagline"><em>...go back in your bat hole! </em></span>
           </header>
           <Switch>
-            <Route exact path="/">
-              <Redirect to="/map" />
-            </Route>
             <Route path="/map" component={MapPage} />
             <Route path="/about" component={AboutPage} />
             <Route path="/charts" component={ChartsPage} />
             <Route path="/states/:stateAbbrev" component={StatePage} /> 
+            <Route exact path="/">
+              <Redirect to="/map" />
+            </Route>
+            <Route>
+              <Redirect to="/map" />
+            </Route>
           </Switch>
         </div>
       </BrowserRouter>
