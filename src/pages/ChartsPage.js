@@ -1,96 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Grid from '../components/Grid.js'
+import Filter from '../components/Filter.js'
 
-class ChartsPage extends React.Component {
-  constructor(props) {
-    super(props)
+export default function ChartsPage(props) {
+  const [sort, setSort] = useState("most-tests")
+  const [aggregate, setAggregate] = useState("region")
+  const [group, setGroup] = useState("none")
+  const [chartType, setChartType] = useState("daily")
+  const [basis, setBasis] = useState("per-1m")
+  const [scaleMatching, setScaleMatching] = useState(true)
 
-    this.state = {
-      sort: "most-tests",
-      aggregate: "region",
-      group: "none",
-      chartType: "daily",
-      basis: "per-1m",
-      scaleMatching: true,
-      tooltipContent: ""
-    }
-  }
-
-  clickedSortMostTests = (e) => { this.setState({sort: "most-tests"}) }
-  clickedSortPercentPositive = (e) => { this.setState({sort: "percent-positive"}) }
-  clickedAggregateState = (e) => { this.setState({aggregate: "state"}) }
-  clickedAggregateRegion = (e) => { this.setState({aggregate: "region"}) }
-  clickedAggregateCountry = (e) => { this.setState({aggregate: "country"}) }
-  clickedGroupNone = (e) => { this.setState({group: "none"}) }
-  clickedGroupRegion = (e) => { this.setState({group: "region"}) }
-  clickedChartTypeDaily = (e) => { this.setState({chartType: "daily"}) } 
-  clickedChartTypeCumulative = (e) => { this.setState({chartType: "cumulative"}) } 
-  clickedBasisAbsolute = (e) => { this.setState({basis: "absolute"}) } 
-  clickedBasisPer1m = (e) => { this.setState({basis: "per-1m"}) }
-  clickedBasisPercentage = (e) => { this.setState({basis: "percentage"}) } 
-  clickedScaleMatchingOn = (e) => { this.setState({scaleMatching: true}) } 
-  clickedScaleMatchingOff = (e) => { this.setState({scaleMatching: false}) }
-
-  render() {
-    return <>
-      <div className="top">
-        <div className="filters">
-          <div className="filter-sort">
-            sort:
-            {this.state.sort === "most-tests" ? " most tests " : <button onClick={this.clickedSortMostTests}>most tests</button>}
-            |
-            {this.state.sort === "percent-positive" ? " % confirmed " : <button onClick={this.clickedSortPercentPositive}>% positive tests</button>}
-          </div>
-
-          <div className="filter-group">
-            group:
-            {this.state.group === "none" ? " none " : <button onClick={this.clickedGroupNone}>none</button>} 
-            |
-            {this.state.group === "region" ? " region " : <button onClick={this.clickedGroupRegion}>region</button>} 
-          </div>
-          
-          <div className="filter-aggregate">
-            {this.state.aggregate === "state" ? " state " : <button onClick={this.clickedAggregateState}>state</button>}
-            |
-            {this.state.aggregate === "region" ? " region " : <button onClick={this.clickedAggregateRegion}>region</button>}
-            |
-            {this.state.group === "country" ? " country " : <button onClick={this.clickedAggregateCountry}>country</button>} 
-          </div>
-
-          <div className="filter-chart-type">
-            {this.state.chartType === "daily" ? " daily " : <button onClick={this.clickedChartTypeDaily}>daily</button>}
-            |
-            {this.state.chartType === "cumulative" ? " cumulative " : <button onClick={this.clickedChartTypeCumulative}>cumulative</button>}
-          </div>
-
-          <div className="filter-basis">
-            {this.state.basis === "per-1m" ? " per 1m " : <button onClick={this.clickedBasisPer1m}>per 1m</button>}
-            |
-            {this.state.basis === "absolute" ? " absolute " : <button onClick={this.clickedBasisAbsolute}>absolute</button>}
-            |
-            {this.state.basis === "percentage" ? " % " : <button onClick={this.clickedBasisPercentage}>%</button>}
-          </div>
-
-          <div className="filter-scale-matching">
-            scale match: 
-            {this.state.scaleMatching ? " yes " : <button onClick={this.clickedScaleMatchingOn}>yes</button>}
-            |
-            {!this.state.scaleMatching ? " no " : <button onClick={this.clickedScaleMatchingOff}>no</button>}
-          </div>
-        </div>
+  return <>
+    <div className="top">
+      <div className="filters">
+        <Filter accessors={[sort, setSort]} label="sort" options={[
+          ['most-tests', 'most tests'],
+          ['percent-positive', '% positive']
+        ]} />
+        <Filter accessors={[group, setGroup]} label="group" options={[
+          ['none', 'none'],
+          ['region', 'region']
+        ]} />
+        <Filter accessors={[aggregate, setAggregate]} options={[
+          ['state', 'state'],
+          ['region', 'region'],
+          ['country', 'country']
+        ]} />
+        <Filter accessors={[chartType, setChartType]} options={[
+          ['daily', 'daily'],
+          ['cumulative', 'cumulative']
+        ]} />
+        <Filter accessors={[basis, setBasis]} options={[
+          ['per-1m', 'per 1m'],
+          ['absolute', 'absolute'],
+          ['percentage', '%']
+        ]} />
+        <Filter accessors={[scaleMatching, setScaleMatching]} label="scale match" options={[
+          [true, 'yes'],
+          [false, 'no']
+        ]} />
       </div>
-      <div className="bottom">
-        <Grid
-          sort={this.state.sort}
-          aggregate={this.state.aggregate}
-          group={this.state.group}
-          chartType={this.state.chartType}
-          basis={this.state.basis}
-          scaleMatching={this.state.scaleMatching}
-        />
-      </div>
-    </>
-  }
+    </div>
+    <div className="bottom">
+      <Grid
+        sort={sort}
+        aggregate={aggregate}
+        group={group}
+        chartType={chartType}
+        basis={basis}
+        scaleMatching={scaleMatching}
+      />
+    </div>
+  </>
 }
-
-export default ChartsPage
