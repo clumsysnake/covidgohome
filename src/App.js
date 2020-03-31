@@ -18,20 +18,13 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-
         <div className="app">
           <header className="app-header">
             <nav>
               <ul className="nav">
-                <li>
-                  <Link to={`/charts`}>Charts</Link>
-                </li>
-                <li>
-                  <Link to={`/map`}>Map</Link>
-                </li>
-                <li>
-                  <Link to={`/about`}>About</Link>
-                </li>
+                <li><Link to={`/charts`}>Charts</Link></li>
+                <li><Link to={`/map`}>Map</Link></li>
+                <li><Link to={`/about`}>About</Link></li>
               </ul>
             </nav>
             <span className="tagline"><em>...go back in your bat hole! </em></span>
@@ -40,15 +33,9 @@ class App extends React.Component {
             <Route exact path="/">
               <Redirect to="/map" />
             </Route>
-            <Route path="/map">
-              <MapPage />
-            </Route>
-            <Route exact path="/about">
-              <AboutPage />
-            </Route>
-            <Route exact path="/charts">
-              <ChartsPage />
-            </Route>
+            <Route path="/map" component={MapPage} />
+            <Route path="/about" component={AboutPage} />
+            <Route path="/charts" component={ChartsPage} />
             <Route path="/states/:stateAbbrev" component={StatePage} /> 
           </Switch>
         </div>
