@@ -31,7 +31,7 @@
 - show doubling rate; not sure how best to calculate that.
 - investigate desirable behavior for storing filter settings in localstorage
 
-BUGS
+IMPROVE
 - on statepage, get chart widths to align.
 - dont have population data for the territories... glossing over that for now since they also dont have much data
 - our cfr is not correct, its not based off recoveries. is there a better term for that?
@@ -45,11 +45,14 @@ BUGS
 - confirm all the withPlaces helpers are rounding off? thought some weren't
 - confirm my "weighted per 1m" is statistically legitimate, or replace with whatever is best practice
 - confirm i should be using per-1m not per-100k. i've seen elsewhere that per-100k may be more standard for low events?
+- mouseover on map is triggering an entire render() everytime tooltip changes. dont do that.
+- recheck that the state maps can't be better rotated
+- see if we can use a flat USA projection, like google maps
 
-REFACTORS
+REFACTOR
 - CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.
 - break out filters to their own component.
-- thinking about adding some kind of json cache
+- think about adding some kind of json cache
 - switch to graphql interface
 - investigate other chloropleth packages, including google-map-react, http://polymaps.org/
 - use redux-toolkit: use configureStore
@@ -62,3 +65,5 @@ REFACTORS
 - combine/trim jsons so less in browser processing for static files.
 - have background task update static jsons when new data becomes available, instead of having in-browser do it
 - is FIPS still the code i should be using? seems deprecated
+- use route helpers if react-router has them? in map click handlers
+- fix the damned sourcemaps

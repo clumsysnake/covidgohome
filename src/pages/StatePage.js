@@ -1,38 +1,81 @@
-import React from 'react';
+import React, {useState} from 'react';
+import ReactTooltip from 'react-tooltip';
 import { connect } from 'react-redux';
 import DailyChart from '../components/DailyChart.js'
 import CumulativeChart from '../components/CumulativeChart.js'
 import DeathHospitalizationChart from '../components/DeathHospitalizationChart.js'
+import StateMap from '../components/StateMap.js'
 import './StatePage.css'
 import { numberWithCommas, withPlaces } from '../helpers/chartHelpers.js'
 import _ from 'lodash'
 
 function StatePage(props) {
   let state = props.state
+  const [tooltip, setTooltip] = useState('')
 
   if(!state) { return <div>...loading</div> }
 
   let scaledPercentage = state.scaledToPercentage()
+
   //TODO: this line has so much wrong with it... fix AreaModel
   let deadPer1M = _.last(state.scaledPerMillion()).death
 
   return (
     <div className="state-page">
       <h1 className="state-name">{state.name}</h1>
-      <div className="stats">
-        <ul>
-          <li>Population {numberWithCommas(state.population)}</li>
-          <li>Confirmed Positive: {state.totals.positive}</li>
-          <li>Attack Rate {withPlaces(state.totals.attackRate, 3)}%</li>
-          <li>Case Fatality Ratio: {withPlaces(state.totals.cfrPercent, 2)}% (based on positives, not resolved)</li>
-          <li>Dead: {state.totals.dead} people, or {withPlaces(deadPer1M, 2)} per million</li>
-          <li>Hospitalized: {state.totals.hospitalized || "Unknown"}</li>
-          <li>Currently Infected: Unknown (need recovered data)</li>
-          <li>Recovered: Unknown</li>
-          <li>Resolved: Unknown</li>
-        </ul>
+      <div className="top">
+        <div className="state-map">
+          <StateMap
+            state={state}
+            field="positive"
+            basis="per-1m"
+            granularity="county"
+            colorScale="linear"
+            setTooltipContent={(c) => setTooltip(c)}
+          />
+          <ReactTooltip place="right">{tooltip}</ReactTooltip>
+        </div>
+        <div className="stats">
+          <ul>
+            <li>
+              <span className="label">Population</span>
+              <span className="value">{numberWithCommas(state.population)}</span>
+            </li>
+            <li>
+              <span className="label">Confirmed</span>
+              <span className="value">{numberWithCommas(state.totals.positive)}</span>
+            </li>
+            <li>
+              <span className="label">Attack Rate</span>
+              <span className="value">{withPlaces(state.totals.attackRate, 3)}%</span>
+            </li>
+            <li>
+              <span className="label">CFR</span>
+              <span className="value">{withPlaces(state.totals.cfrPercent, 2)}% (based on positives)</span>
+            </li>
+            <li>
+              <span className="label">Dead</span>
+              <span className="value">{numberWithCommas(state.totals.dead)} or {withPlaces(deadPer1M, 2)}/million</span>
+            </li>
+            <li>
+              <span className="label">Hospitalized</span>
+              <span className="value">{state.totals.hospitalized || "Unknown"}</span>
+            </li>
+            <li>
+              <span className="label">Active</span>
+              <span className="value">Unknown</span>
+            </li>
+            <li>
+              <span className="label">Recovered</span>
+              <span className="value">Unknown</span>
+            </li>
+            <li>
+              <span className="label">Resolved</span>
+              <span className="value">Unknown</span>
+            </li>
+          </ul>
+        </div>
       </div>
-
       <div className="charts">
         <DailyChart name="Daily Changes"
           series={state.entries} />

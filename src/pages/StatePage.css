@@ -2,13 +2,34 @@
   margin: 20px;
 }
 
+.state-page > .top > div {
+  float: left;
+  width: 50%;
+}
+
+.state-page > .top::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
 .state-page .stats ul {
   list-style-type: none;
   padding: 0;
   margin: 0 0 0 15px;
 }
 .state-page .stats li {
-  font-size: 1.5em;
+  font-size: 1.3em;
   list-style-type: none;
-  margin: 3px 0;
+  margin: 5px 0;
+}
+
+.state-page .stats li .label {
+  width: 150px;
+  text-align: right;
+  display: inline-block;
+  margin-right: 5px;
+}
+.state-page .stats li .value {
+  font-weight: bold;
 }

@@ -1,7 +1,7 @@
 import RegionModel from './RegionModel'
 import CountyModel from './CountyModel'
 import AreaModel from './AreaModel'
-import { stateNameForAbbrev } from '../stores/CensusStore'
+import { stateNameForAbbrev, censusDataForState } from '../stores/CensusStore'
 
 let allModels = []
 
@@ -40,6 +40,10 @@ class StateModel extends AreaModel {
 
   get code() {
     return this.abbrev
+  }
+
+  get censusData() {
+    return censusDataForState(this.name)
   }
 
   //TODO: memoize?
