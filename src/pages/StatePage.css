@@ -8,7 +8,7 @@
 
 .state-page > .top > .state-map {
   width: 54%;
-  padding: 2%;
+  padding: 0 2% 2% 0;
 }
 
 .state-page > .top > .stats {
