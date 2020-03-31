@@ -30,6 +30,7 @@
 - show resolved vs active where possible
 - show doubling rate; not sure how best to calculate that.
 - investigate desirable behavior for storing filter settings in localstorage
+- add city locations on maps
 
 IMPROVE
 - on statepage, get chart widths to align.
@@ -48,6 +49,7 @@ IMPROVE
 - mouseover on map is triggering an entire render() everytime tooltip changes. dont do that.
 - recheck that the state maps can't be better rotated
 - see if we can use a flat USA projection, like google maps
+- #s for NYC are messed up. so i have to group the 5 counties of NYC as one region
 
 REFACTOR
 - CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.

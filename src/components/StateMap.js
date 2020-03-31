@@ -38,7 +38,7 @@ function StateMap(props) {
   let topo = topologyForState(props.state, props.granularity)
   let projection = projectionForState(props.state)
 
-  let colorF;
+  let colorF
   switch(props.colorScale) {
     case 'linear':
       colorF = scaleLinear([0, max], ["white","red"]);
