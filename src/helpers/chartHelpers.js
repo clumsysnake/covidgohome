@@ -1,3 +1,4 @@
+import { scaleLinear, scaleLog, scalePow } from "d3-scale";
 import _ from 'lodash'
 
 //TODO: lots of formatters, can we combine? messy. percentDisplay is cruft.
@@ -42,12 +43,25 @@ const safeSmartNumPlaces = (value, maxPlaces) => {
   return (maxPlacesValue % 1 === 0) ? withPlaces(maxPlacesValue, 0) : maxPlacesValue
 }
 
-const tooltipFormatter = (value, name, props) => {
+const tooltipFormatter = (value, name) => {
   switch(name) {
     case "posPerc":
       return `${safeSmartNumPlaces(value, 1)}%`
     default:
       return safeSmartNumPlaces(value, 1)
+  }
+}
+
+export function colorScale(scaleType, max) {
+  switch(scaleType) {
+    case 'linear':
+      return scaleLinear([0, max], ["white","red"])
+    case 'log2':
+      return scaleLog().base(2).domain([1,max]).range(["white","red"])
+    case 'sqrt':
+      return scalePow().exponent(0.5).domain([0,max]).range(["white","red",])
+    default:
+      throw new TypeError(`error, unknown colorScale ${scaleType}`)
   }
 }
 

@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux"
 import { useHistory } from "react-router-dom";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import { scaleLinear, scaleQuantile, scaleLog, scalePow } from "d3-scale";
+import { colorScale } from '../helpers/chartHelpers'
 import _ from 'lodash'
 
 import StateModel from "../models/StateModel.js"
@@ -40,45 +40,7 @@ function USAMap(props) {
   }
 
   let max = AreaModel.fieldMax(areas, props.field, props.basis)
-
-  let colorF;
-  switch(props.colorScale) {
-    case 'linear':
-      colorF = scaleLinear([0, max], [
-        "white",
-        "red",
-      ]);
-      break;
-    case 'quantile':
-      //TODO: these dont use the same colors as above. also not sure why anyone would want quantile?
-      colorF = scaleQuantile([0,max], [
-        "#ffffff",
-        "#ffcec5",
-        "#ffad9f",
-        "#ff8a75",
-        "#ff5533",
-        "#e2492d",
-        "#be3d26",
-        "#9a311f",
-        "#782618",
-        "#651318",
-      ]);
-      break;
-    case 'log2':
-      colorF = scaleLog().base(2).domain([1,max]).range([
-        "white",
-        "red",
-      ]);
-      break;
-    case 'sqrt':
-      colorF = scalePow().exponent(0.5).domain([0,max]).range([
-        "white",
-        "red",
-      ]);
-      break;
-    default:
-      throw new TypeError(`error, unknown colorScale ${props.colorScale}`)
-  }
+  let colorF = colorScale(props.colorScale, max)
 
   return (
     <ComposableMap data-tip="" projection="geoAlbersUsa">
