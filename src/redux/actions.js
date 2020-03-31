@@ -96,7 +96,7 @@ function johnsHopkinsHandleDailyReport(csv, date) {
     console.log(`error on row ${error.row}: ${error.code} ${error.message}`)
   })
 
-  let counties = results.data.filter(res => res.Country_Region === "US").map(res => {
+  let counties = results.data.filter(res => res.Country_Region === "US" && res.FIPS).map(res => {
     const censusData = censusDataForFips(res.FIPS)
 
     if(!censusData) { console.log(`couldn't census data for county ${res.Admin2}, FIPS ${res.FIPS}`) }
