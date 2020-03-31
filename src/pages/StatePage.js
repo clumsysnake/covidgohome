@@ -57,7 +57,7 @@ function StatePage(props) {
               <span className="value">{numberWithCommas(state.population)}</span>
             </li>
             <li>
-              <span className="label">Confirmed</span>
+              <span className="label">Positive</span>
               <span className="value">{numberWithCommas(state.totals.positive)}</span>
             </li>
             <li>
