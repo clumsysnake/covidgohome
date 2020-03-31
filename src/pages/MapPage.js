@@ -16,8 +16,7 @@ export default function MapPage(props) {
         <Filter accessors={[mapField, setMapfield]} label="showing" options={[
           ['positive', 'positives'],
           ['total', '# tests'], 
-          ['hospitalized', 'hospitalized'], 
-          // ['posPerc', '% positive'], 
+          'hospitalized',
           ['death', 'deaths']
         ]}/>
         <Filter accessors={[basis, setBasis]} label="basis" options={[
@@ -26,12 +25,12 @@ export default function MapPage(props) {
           ['squared-per-1m', 'abs²/1m']
         ]} />
         <Filter accessors={[granularity, setGranularity]} options={[
-          ['state', 'state'],
-          ['county', 'county']
+          'state',
+          'county'
         ]} />
         <Filter accessors={[colorScale, setColorScale]} label="scale" options={[
-          ['linear', 'linear'],
-          ['sqrt', 'sqrt'],
+          'linear',
+          'sqrt',
           ['log2', 'log(2)']
         ]} />
       </div>

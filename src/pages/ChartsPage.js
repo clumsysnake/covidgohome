@@ -18,17 +18,17 @@ export default function ChartsPage(props) {
           ['percent-positive', '% positive']
         ]} />
         <Filter accessors={[group, setGroup]} label="group" options={[
-          ['none', 'none'],
-          ['region', 'region']
+          'none',
+          'region'
         ]} />
         <Filter accessors={[aggregate, setAggregate]} options={[
-          ['state', 'state'],
-          ['region', 'region'],
-          ['country', 'country']
+          'state',
+          'region',
+          'country'
         ]} />
         <Filter accessors={[chartType, setChartType]} options={[
-          ['daily', 'daily'],
-          ['cumulative', 'cumulative']
+          'daily',
+          'cumulative'
         ]} />
         <Filter accessors={[basis, setBasis]} options={[
           ['per-1m', 'per 1m'],

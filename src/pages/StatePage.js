@@ -39,8 +39,8 @@ function StatePage(props) {
           <ReactTooltip place="right">{tooltip}</ReactTooltip>
           <div className="filters">
             <Filter accessors={[mapField, setMapfield]} options={[
-              ['positive', 'positive'],
-              ['death', 'death']
+              ['positive', 'positives'],
+              ['death', 'deaths']
             ]}/>
             <Filter accessors={[basis, setBasis]} options={[
               ['absolute', 'abs'],
