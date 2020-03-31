@@ -55,7 +55,7 @@ function StatePage(props) {
             </li>
             <li>
               <span className="label">Dead</span>
-              <span className="value">{numberWithCommas(state.totals.dead)} or {withPlaces(deadPer1M, 2)}/million</span>
+              <span className="value">{numberWithCommas(state.totals.death)} or {withPlaces(deadPer1M, 2)}/million</span>
             </li>
             <li>
               <span className="label">Hospitalized</span>

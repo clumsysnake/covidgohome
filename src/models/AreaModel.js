@@ -203,7 +203,7 @@ class AreaModel {
       total,
       positive,
       perPositive: 100 * (positive / total) || null,
-      dead,
+      death: (dead || 0),
       hospitalized: (last && last.hospitalized) || null,
       cfrPercent: 100 * dead/positive,
       attackRate: this.population ? 100 * positive/this.population : null
