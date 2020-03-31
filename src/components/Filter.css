@@ -1,0 +1,22 @@
+.filter-control > .filter-option {
+   padding: 0 7px;
+}
+
+.filter-control > .filter-option > button {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background: none;
+  font-size: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.filter-control > .filter-option > button:focus {
+  outline:0;
+}
+
+.filter-control > .filter-option + .filter-option {
+  border-left: 1px solid grey;  
+}
+

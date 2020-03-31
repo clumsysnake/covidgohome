@@ -5,13 +5,17 @@ import DailyChart from '../components/DailyChart.js'
 import CumulativeChart from '../components/CumulativeChart.js'
 import DeathHospitalizationChart from '../components/DeathHospitalizationChart.js'
 import StateMap from '../components/StateMap.js'
+import Filter from '../components/Filter.js'
 import './StatePage.css'
 import { numberWithCommas, withPlaces } from '../helpers/chartHelpers.js'
 import _ from 'lodash'
 
 function StatePage(props) {
-  let state = props.state
   const [tooltip, setTooltip] = useState('')
+  const [mapField, setMapfield] = useState('positive')
+  const [basis, setBasis] = useState('per-1m')
+  
+  let state = props.state
 
   if(!state) { return <div>...loading</div> }
 
@@ -26,13 +30,27 @@ function StatePage(props) {
         <div className="state-map">
           <StateMap
             state={state}
-            field="positive"
-            basis="per-1m"
+            field={mapField}
+            basis={basis}
             granularity="county"
             colorScale="linear"
             setTooltipContent={(c) => setTooltip(c)}
           />
           <ReactTooltip place="right">{tooltip}</ReactTooltip>
+          <div class="filters">
+            <Filter accessors={[mapField, setMapfield]} options={[
+              ['positive', 'positives'],
+              // ['total', '# tests'], 
+              // ['hospitalized', 'hospitalized'], 
+              // ['posPerc', '% positive'], 
+              ['death', 'deaths']
+            ]}/>
+            <Filter accessors={[basis, setBasis]} options={[
+              ['absolute', 'abs'],
+              ['per-1m', 'abs/1m'],
+              ['squared-per-1m', 'abs²/1m']
+            ]}/>
+          </div>
         </div>
         <div className="stats">
           <h1 className="state-name">{state.name}</h1>

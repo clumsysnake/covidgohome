@@ -1,75 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactTooltip from 'react-tooltip'
 import USAMap from '../components/USAMap.js'
+import Filter from '../components/Filter.js'
 
-class MapPage extends React.Component {
-  constructor(props) {
-    super(props)
+export default function MapPage(props) {
+  let [mapField, setMapfield] = useState('death')
+  let [basis, setBasis] = useState('per-1m')
+  let [granularity, setGranularity] = useState('county')
+  let [colorScale, setColorScale] = useState('log2')
+  let [tooltip, setTooltip] = useState('')
 
-    this.state = {
-      mapField: 'death',
-      basis: 'per-1m',
-      granularity: 'county',
-      colorScale: 'log2'
-    }
-  }
-
-  render() {
-    //TODO: break this out into component.
-    const filterOption = (field, value, displayString) => {
-      if(this.state[field] === value) {
-       return <span className="filter-option"> {displayString} </span>
-     } else {
-       return <button onClick={() => this.setState({[field]: value})}>{displayString}</button>
-     }
-    }
-
-    const filter = (field, label, options) => {
-      return <div className="filter-control filter-{field}">
-        {(label) ? `${label}:` : null}
-        {options.map(o => filterOption(field, o[0], o[1]))}
+  return <>
+    <div className="top">
+      <div className="filters">
+        <Filter accessors={[mapField, setMapfield]} label="showing" options={[
+          ['positive', 'positives'],
+          ['total', '# tests'], 
+          ['hospitalized', 'hospitalized'], 
+          // ['posPerc', '% positive'], 
+          ['death', 'deaths']
+        ]}/>
+        <Filter accessors={[basis, setBasis]} label="basis" options={[
+          ['basis', 'basis'],
+          ['absolute', 'abs'],
+          ['per-1m', 'abs/1m'],
+          ['squared-per-1m', 'abs²/1m']
+        ]} />
+        <Filter accessors={[granularity, setGranularity]} options={[
+          ['state', 'state'],
+          ['county', 'county']
+        ]} />
+        <Filter accessors={[colorScale, setColorScale]} label="scale" options={[
+          ['linear', 'linear'],
+          ['sqrt', 'sqrt'],
+          ['log2', 'log(2)']
+        ]} />
       </div>
-    }
-
-    return <>
-      <div className="top">
-        <div className="filters">
-          {filter('mapField', 'showing', [
-            ['positive', 'positives'],
-            ['total', '# tests'], 
-            ['hospitalized', 'hospitalized'], 
-            // ['posPerc', '% positive'], 
-            ['death', 'deaths']
-          ])}
-          {filter('basis', 'basis', [
-            ['absolute', 'abs'],
-            ['per-1m', 'abs/1m'],
-            ['squared-per-1m', 'abs²/1m']
-          ])}
-          {filter('granularity', null, [
-            ['state', 'state'],
-            ['county', 'county']
-          ])}
-          {filter('colorScale', 'scale', [
-            ['linear', 'linear'],
-            ['sqrt', 'sqrt'],
-            ['log2', 'log(2)']
-          ])}
-        </div>
-      </div>
-      <div className="bottom usa-map">
-        <USAMap
-          field={this.state.mapField}
-          basis={this.state.basis}
-          granularity={this.state.granularity}
-          colorScale={this.state.colorScale}
-          setTooltipContent={(c) => this.setState({'tooltipContent': c})}
-        />
-        <ReactTooltip>{this.state.tooltipContent}</ReactTooltip>
-      </div>
-    </>
-  }
+    </div>
+    <div className="bottom usa-map">
+      <USAMap
+        field={mapField}
+        basis={basis}
+        granularity={granularity}
+        colorScale={colorScale}
+        setTooltipContent={(c) => setTooltip(c)}
+      />
+      <ReactTooltip>{tooltip}</ReactTooltip>
+    </div>
+  </>
 }
-
-export default MapPage
 
