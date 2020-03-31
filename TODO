@@ -37,7 +37,6 @@ IMPROVE
 - on statepage, get chart widths to align.
 - dont have population data for the territories... glossing over that for now since they also dont have much data
 - our cfr is not correct, its not based off recoveries. is there a better term for that?
-- sqrt map scale shows 0s as pink. wtf? sqrt(0) = 0! actually this happens in various places, colorscale issue
 - daily charts display pending, which may blow the domainMax, since we calculate it from max of total.
 - ny data has some deltas <0, blowing the domainMin. why is that even happening?
 - why are y and x axis in charts not evenly-spaced?
