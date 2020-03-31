@@ -62,7 +62,6 @@ export function projectionForState(state) {
   let topo = topologyForState(state, 'state')
 
   let center = [(topo.bbox[0] + topo.bbox[2])/2, (topo.bbox[1] + topo.bbox[3])/2]
-  debugger
 
   let geoTopo = Topo.feature(topo, topo.objects.states.geometries[0])
   return d3geo.geoConicEqualArea()
