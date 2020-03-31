@@ -44,7 +44,7 @@ function StateMap(props) {
       <Geographies geography={topo}>
         {({ geographies }) => {
           return geographies.map(geo => {
-            let color = "#CCCCCC", tooltip = ""
+            let color = "#DDDDDD", tooltip = ""
 
             let area = areaFindF(geo)
             if(area) {
