@@ -41,7 +41,7 @@ export default function MapPage(props) {
         basis={basis}
         granularity={granularity}
         colorScale={colorScale}
-        setTooltipContent={(c) => setTooltip(c)}
+        setTooltipContent={setTooltip}
       />
       <ReactTooltip>{tooltip}</ReactTooltip>
     </div>

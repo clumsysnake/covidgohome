@@ -34,7 +34,7 @@ function StatePage(props) {
             basis={basis}
             granularity="county"
             colorScale="linear"
-            setTooltipContent={(c) => setTooltip(c)}
+            setTooltipContent={setTooltip}
           />
           <ReactTooltip place="right">{tooltip}</ReactTooltip>
           <div className="filters">
