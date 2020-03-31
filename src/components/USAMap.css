@@ -8,6 +8,7 @@
 }
 
 /* TODO: refactor */
-.usa-map .filters, .state-map .filters {
-  padding-top: 10px;
+.filters, .filters {
+  padding-top: 5px;
+  padding-left: 5px;
 }
