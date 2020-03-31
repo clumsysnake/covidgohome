@@ -26,7 +26,7 @@ function StateMap(props) {
       clickedAreaF = (county) => history.push("/states/" + county.state.abbreviation)
       break
     case "state": //TODO: is this ever gonna be used?
-      areas = props.states
+      areas = [props.state]
       areaFindF = geo => StateModel.findByName(geo.properties.name)
       clickedAreaF = (state) => history.push("/states/" + state.abbreviation)
       break
@@ -36,16 +36,15 @@ function StateMap(props) {
 
   let max = AreaModel.fieldMax(areas, props.field, props.basis)
   let colorF = colorScale(props.colorScale, max)
-  let topo = topologyForState(props.state, props.granularity)
+  let topo = topologyForState(props.state, props.granularity, true)
   let projection = projectionForState(props.state)
 
   return (
     <ComposableMap data-tip="" projection={projection}>
       <Geographies geography={topo}>
         {({ geographies }) => {
-        // debugger
           return geographies.map(geo => {
-            let color = "#BBBBBB", tooltip = ""
+            let color = "#CCCCCC", tooltip = ""
 
             let area = areaFindF(geo)
             if(area) {
@@ -62,7 +61,7 @@ function StateMap(props) {
                   tooltipValue = value
                   break;
                 case 'squared-per-1m':
-                  //still want to show per 1m tooltip values
+                  //We still want to show per 1m tooltip values
                   value = _.last(area.scaledSquaredPerMillion())[props.field]
                   tooltipValue = _.last(area.scaledPerMillion())[props.field]
                   break;
@@ -73,8 +72,6 @@ function StateMap(props) {
               if(_.isFinite(value)) { color = colorF(value || 1) }
               tooltip = `${area.name} -- ${safeSmartNumPlaces(tooltipValue, 1)} ${props.field}s`
               if(perMillion) { tooltip += " per million people" }
-            } else {
-              tooltip = "unknown" //TODO: can still show area counts
             }
 
             return <Geography
@@ -87,20 +84,20 @@ function StateMap(props) {
                 default: {
                   fill: color,
                   stroke: "#607D8B",
-                  strokeWidth: 0.25,
-                  outline: "none",
+                  strokeWidth: area ? 2 : 1,
+                  outline: "none"
                 },
                 hover: {
                   fill: color,
                   stroke: "#607D8B",
-                  strokeWidth: 2,
-                  outline: "none",
-                  cursor: "pointer"
+                  strokeWidth: area ? 3 : 1,
+                  cursor: area ? "pointer" : "arrow",
+                  outline: "none"
                 },
                 pressed: {
-                  fill: color,
-                  stroke: "black",
-                  strokeWidth: 2,
+                  fill: color-0x666666,
+                  stroke: area ? 'black' : "#607D8B",
+                  strokeWidth: area ? 4 : 1,
                   outline: "none",
                 }
               }}

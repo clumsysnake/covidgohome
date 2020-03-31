@@ -52,6 +52,7 @@ IMPROVE
 - for the country also see if we can use a flat USA projection, like google maps
 - #s for NYC are messed up. so i have to group the 5 counties of NYC as one region
 - decide on if "confirmed" is the correct terminology rather than "positive"?
+- change abs/absolute to 'tot' or 'total', i think thats clearer to the user.
 
 REFACTOR
 - CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.
@@ -68,3 +69,4 @@ REFACTOR
 - use route helpers if react-router has them? in map click handlers
 - fix the damned sourcemaps
 - get page to set body (or .app) classname like in ember
+- submit bugfix to react-simple-maps to render *all* objects, not only the first GeometryCollection
