@@ -52,6 +52,7 @@ IMPROVE
 - #s for NYC are messed up. so i have to group the 5 counties of NYC as one region
 - decide on if "confirmed" is the correct terminology rather than "positive"?
 - change abs/absolute to 'tot' or 'total', i think thats clearer to the user.
+- bug: alaska state display is broken.
 
 REFACTOR
 - CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.
