@@ -56,6 +56,14 @@ nav > ul > li {
   padding: 5px;
 }
 
+.app-header a, .app-header a:visited {
+  color:black;
+}
+
+.app-header a:active {
+  color:white
+}
+
 /* TODO: need sass to apply clearfix as needed */
 .filters::after {
   content: "";
