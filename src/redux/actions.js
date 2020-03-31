@@ -110,7 +110,6 @@ function johnsHopkinsHandleDailyReport(csv, date) {
         date: date,
         positive: parseInt(res.Confirmed),
         death: parseInt(res.Deaths),
-        recovered: parseInt(res.Recovered),
         active: parseInt(res.Active)
       }]
     })
