@@ -69,7 +69,7 @@ function StateMap(props) {
                   throw new TypeError(`error, unknown bases ${props.basis}`)
               }
 
-              if(_.isFinite(value)) { color = colorF(value || 1) }
+              if(_.isFinite(value)) { color = colorF(value) }
               tooltip = `${area.name} -- ${safeSmartNumPlaces(tooltipValue, 1)} ${props.field}s`
               if(perMillion) { tooltip += " per million people" }
             }
