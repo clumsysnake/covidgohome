@@ -32,7 +32,7 @@ export default function ChartsPage(props) {
         ]} />
         <Filter accessors={[basis, setBasis]} options={[
           ['per-1m', 'per 1m'],
-          ['absolute', 'absolute'],
+          'absolute',
           ['percentage', '%']
         ]} />
         <Filter accessors={[scaleMatching, setScaleMatching]} label="scale match" options={[
