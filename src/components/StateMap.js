@@ -95,7 +95,7 @@ function StateMap(props) {
                   outline: "none"
                 },
                 pressed: {
-                  fill: color-0x666666,
+                  fill: color,
                   stroke: area ? 'black' : "#607D8B",
                   strokeWidth: area ? 4 : 1,
                   outline: "none",
