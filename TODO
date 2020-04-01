@@ -49,8 +49,13 @@ IMPROVE
 - decide on if "confirmed" is the correct terminology rather than "positive"?
 - bug: alaska state display is broken
 - what does it mean when fields are null in the covidtracking states daily? atm i'm just making them all into 0s, but is there a meaningful diff?
+- what does it mean when counties are absent from JH data? does it mean they are 0 or unknown?
 - styling: i want the state name to always be always centered over the stats on the state page, but the table to take up all the room to the left and right
 - styling: make state page stats a true table so word wrap takes place only on its side of the stats
+- styling: charts should always take up entire width until a breakpoint, and then multiple charts can exist horizontally
+- bug: scale matching broke for ChartsPage with total basis
+- redirect all domains to canonical
+- add hospital data to areamodel! vents, icu beds, doctors, hospitals, utilization... that would be cool
 
 REFACTOR
 - think about adding some kind of json cache
