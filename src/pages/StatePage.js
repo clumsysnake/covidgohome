@@ -15,6 +15,7 @@ function StatePage(props) {
   const [tooltip, setTooltip] = useState('')
   const [mapField, setMapfield] = useState('positive')
   const [basis, setBasis] = useState('per-1m')
+  const [colorScale, setColorScale] = useState('linear')
   
   let state = props.state
 
@@ -34,7 +35,7 @@ function StatePage(props) {
             field={mapField}
             basis={basis}
             granularity="county"
-            colorScale="linear"
+            colorScale={colorScale}
             setTooltipContent={setTooltip}
           />
           <ReactTooltip place="right">{tooltip}</ReactTooltip>
@@ -47,6 +48,11 @@ function StatePage(props) {
               'total',
               ['per-1m', 'total / capita'],
               ['squared-per-1m', 'total² / capita']
+            ]}/>
+            <Filter accessors={[colorScale, setColorScale]} options={[
+              'linear',
+              'sqrt',
+              ['log2', 'log(2)']
             ]}/>
           </div>
         </div>
