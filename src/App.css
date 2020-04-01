@@ -75,6 +75,7 @@ nav > ul > li {
   float: left
 }
 
-.filters > .filter-control + .filter-control {
-  margin-left: 10px;
+/* .filters > .filter-control + .filter-control { */
+.filters > .filter-control {
+  margin: 3px 0 3px 10px
 }
