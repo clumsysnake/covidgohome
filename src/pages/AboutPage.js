@@ -11,7 +11,10 @@ class AboutPage extends React.Component {
           Source: <a href="https://github.com/CSSEGISandData/COVID-19">Johns Hopkins github repo</a>
         </p>
         <p>
-          ryan at ryan dawt org
+          ...dreaming of a day when covid flies away
+        </p>
+        <p>
+          - ryan at ryan dawt org
         </p>
       </div>
     )
