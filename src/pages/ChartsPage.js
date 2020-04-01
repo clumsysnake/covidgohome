@@ -33,7 +33,6 @@ export default function ChartsPage(props) {
         <Filter accessors={[basis, setBasis]} options={[
           'total',
           ['per-1m', 'total / capita'],
-          ['percentage', '%']
         ]} />
         <Filter accessors={[scaleMatching, setScaleMatching]} label="scale match" options={[
           [true, 'yes'],
