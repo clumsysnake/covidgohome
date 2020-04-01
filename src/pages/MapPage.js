@@ -4,8 +4,8 @@ import USAMap from '../components/USAMap.js'
 import Filter from '../components/Filter.js'
 
 export default function MapPage(props) {
-  let [mapField, setMapfield] = useState('death')
-  let [basis, setBasis] = useState('per-1m')
+  let [mapField, setMapfield] = useState('positive')
+  let [basis, setBasis] = useState('total')
   let [granularity, setGranularity] = useState('county')
   let [colorScale, setColorScale] = useState('log2')
   let [tooltip, setTooltip] = useState('')
