@@ -31,8 +31,8 @@ export default function ChartsPage(props) {
           'cumulative'
         ]} />
         <Filter accessors={[basis, setBasis]} options={[
-          ['per-1m', 'per 1m'],
-          'absolute',
+          'total',
+          ['per-1m', 'total / capita'],
           ['percentage', '%']
         ]} />
         <Filter accessors={[scaleMatching, setScaleMatching]} label="scale match" options={[

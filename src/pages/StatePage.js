@@ -43,9 +43,9 @@ function StatePage(props) {
               ['death', 'deaths']
             ]}/>
             <Filter accessors={[basis, setBasis]} options={[
-              ['absolute', 'abs'],
-              ['per-1m', 'abs/1m'],
-              ['squared-per-1m', 'abs²/1m']
+              'total',
+              ['per-1m', 'total / capita'],
+              ['squared-per-1m', 'total² / capita']
             ]}/>
           </div>
         </div>

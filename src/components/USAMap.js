@@ -55,7 +55,7 @@ function USAMap(props) {
 
               let value, tooltipValue;
               switch(props.basis) {
-                case 'absolute':
+                case 'total':
                   value = _.last(area.entries)[props.field]
                   tooltipValue = value
                   break;

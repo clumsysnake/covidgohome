@@ -40,7 +40,7 @@ class Grid extends React.Component {
       let scaledSeries = null;
 
       switch(this.props.basis) {
-        case 'absolute': scaledSeries = a.entries; break
+        case 'total': scaledSeries = a.entries; break
         case 'per-1m': scaledSeries = a.scaledPerMillion(); break
         case 'percentage': scaledSeries = a.scaledToPercentage(); break
         default: break; //TODO: catch error
@@ -135,7 +135,7 @@ Grid.defaultProps = {
   group: "none",
   aggregate: "none",
   chartType: "daily",
-  scale: "absolute",
+  scale: "total",
   scaleMatching: true
 }
 

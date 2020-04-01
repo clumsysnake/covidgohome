@@ -45,14 +45,13 @@ IMPROVE
 - setting daily w/ % doesn't display correctly
 - isn't the hospitalized line misleading? is it cumulative or current?
 - confirm all the withPlaces helpers are rounding off? thought some weren't
-- confirm my "weighted per 1m" is statistically legitimate, or replace with whatever is best practice
+- confirm my "total squared per 1m" is statistically legitimate, or replace with whatever is best practice
 - confirm i should be using per-1m not per-100k. i've seen elsewhere that per-100k may be more standard for low events?
 - mouseover on map is triggering an entire render() for StateMap and UsaMap... can i stop this?
 - the state maps can be better rotated/projected, just not sure how. they are too curved as is.
 - for the country also see if we can use a flat USA projection, like google maps
 - #s for NYC are messed up. so i have to group the 5 counties of NYC as one region
 - decide on if "confirmed" is the correct terminology rather than "positive"?
-- change abs/absolute to 'tot' or 'total', i think thats clearer to the user.
 - bug: alaska state display is broken
 - when showing some states, like... california. there are neighbor=2 states that would appear on the map if they were drawn. my feeling is we should draw them
 

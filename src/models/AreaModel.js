@@ -29,15 +29,15 @@ class AreaModel {
   }
 
   //TODO: perMillion flags are weird. either perPopulation flag (capita = 1) or perCapita as integer
-  static fieldMax(areas, field, basis = "absolute") {
+  static fieldMax(areas, field, basis = "total") {
     return AreaModel.fieldExtremum(areas, field, 'max', basis)
   }
 
-  static fieldMin(areas, field, basis = "absolute") {
+  static fieldMin(areas, field, basis = "total") {
     return AreaModel.fieldExtremum(areas, field, 'min', basis)
   }
 
-  static fieldExtremum(areas, field, funcName, basis = "absolute") {
+  static fieldExtremum(areas, field, funcName, basis = "total") {
     return areas.flatMap(a => a.inBasis(basis)).reduce((agg, e) => {
       if(!_.isFinite(agg)) {
         return e[field]
@@ -156,7 +156,7 @@ class AreaModel {
 
   inBasis(basis) {
     switch(basis) {
-      case 'absolute': return this.entries
+      case 'total': return this.entries
       case 'per-1m': return this.scaledPerMillion()
       case 'squared-per-1m': return this.scaledSquaredPerMillion()
       default:
