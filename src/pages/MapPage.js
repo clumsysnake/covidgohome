@@ -43,7 +43,7 @@ export default function MapPage(props) {
         colorScale={colorScale}
         setTooltipContent={setTooltip}
       />
-      <ReactTooltip>{tooltip}</ReactTooltip>
+      <ReactTooltip place="right">{tooltip}</ReactTooltip>
     </div>
   </>
 }
