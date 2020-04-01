@@ -22,7 +22,6 @@ const censusDataForState = (name) => {
   }
 }
 
-
 const censusDataForFips = (fips) => {
   const fipsAsString = fips.toString()
 
@@ -41,7 +40,6 @@ const censusDataForFips = (fips) => {
     name: row[5]
   }
 }
-
 
 const stateNameForAbbrev = (abb) => {
   const map = UsStateMapping.find((map) => map.abbreviation === abb) || null
