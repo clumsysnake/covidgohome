@@ -4,17 +4,20 @@ let allModels = []
 
 let decorateTimeSeries = (entries) => {
   entries.forEach((e, idx, a) => {
-    //TODO: not sure non-finite means 0 here. could just not be reported?
-    ///     is there a difference between null and 0 in source data?
-    e.posNeg = (e.positive || 0) + (e.negative || 0) //where total is neg + pos + pending
-    e.posPerc = 100 * e.positive / e.posNeg
-    e.positiveDelta = (idx > 0) ? e.positive - a[idx-1].positive : null
-    e.negativeDelta = (idx > 0) ? e.negative - a[idx-1].negative : null
-    e.pendingDelta = (idx > 0) ? e.pending - a[idx-1].pending : null
-    e.deathDelta = (idx > 0) ? e.death - a[idx-1].death : null
-    e.hospitalizedDelta = (idx > 0) ? e.hospitalized - a[idx-1].hospitalized : null
-    e.posNegDelta = (idx > 0) ? e.posNeg - a[idx-1].posNeg : null
-    e.posPercToday = (idx > 0) ? (e.positiveDelta / e.posNegDelta) * 100 : null
+    e.posNeg = e.totalTestResults || 0
+    e.posPerc = 100 * (e.positive || 0) / e.posNeg
+    e.positiveDelta = e.positiveIncrease || 0
+    e.negativeDelta = e.negativeIncrease || 0
+    e.deathDelta = e.deathIncrease || 0
+    e.hospitalizedDelta = e.hospitalizedIncrease || 0
+    e.posNegDelta = e.totalTestResultsIncrease || 0
+
+    //CRZ: Not sure if these are meaningful. total is total # of tests done, totalTestResults is number 
+    // that have come back. total only doesn't differ from totalTestResults when there are pending tests
+    // however some states dont report pendings.
+    e.pendingDelta = (idx > 0) ? (e.pending || 0) - (a[idx-1].pending || 0) : null 
+    e.totalDelta = (idx > 0) ? (e.total || 0) - (a[idx-1].total || 0) : null 
+    e.posPercDelta = (idx > 0) ? (e.positiveDelta / e.posNegDelta) * 100 : null
 
     //regularize broken data
     if(e.negative === null && idx > 0) { e.negative = a[idx-1].negative }
@@ -22,6 +25,12 @@ let decorateTimeSeries = (entries) => {
 
   return entries
 }
+
+//CRZ: As an aside, from only positive, negative, hospitalized, death, and pending you can calculate the rest.
+const increasingStats = ['positive', 'negative', 'hospitalized', 'death', 'totalTestResults', 'total']
+const deltaStats = ['positiveIncrease', 'negativeIncrease', 'hospitalizedIncrease', 'deathIncrease', 'totalTestResultsIncrease']
+const allFactors = _.concat(increasingStats, deltaStats, ['pending'])
+const emptyEntry = allFactors.reduce((h, key) => { h[key] = 0; return h}, {})
 
 class AreaModel {
   static get all() {
@@ -50,24 +59,13 @@ class AreaModel {
   }
 
   static createAggregate(name, areas) {
-    const emptyEntry = {
-      positive: 0,
-      negative: 0,
-      pending: 0, 
-      hospitalized: 0,
-      death: 0,
-      total: 0
-      //TODO: dateChecked? how to use that. maybe AreaModel should include a range of dateChecked?
-    }
-
     //CRZ: not elegant but js doesnt like func prog.
     let entries = []
     areas.flatMap(a => a.entries).forEach((e) => {
       let s = entries.find(s => s.date === e.date) 
       if(_.isNil(s)) {
-        s = {}
+        s = {date: e.date}
         Object.assign(s, emptyEntry)
-        s['date'] = e.date
         entries.push(s)
       }
 
@@ -110,15 +108,9 @@ class AreaModel {
     }
 
     let decoratedScaled = decorateTimeSeries(this.entries.map(e => {
-      return {
-        date: e.date,
-        positive: e.positive/scale,
-        negative: e.negative/scale,
-        pending: e.pending/scale,
-        death: e.death/scale,
-        hospitalized: e.hospitalized/scale,
-        total: e.total/scale
-      }
+      return allFactors.reduce((h, f) => {
+        h[f] = e[f]/scale; return h
+      }, { date: e.date}  )
     }))
     this.__scaledSeries.push({scale: scale, series: decoratedScaled})
 
@@ -126,7 +118,6 @@ class AreaModel {
   }
 
   scaledSeriesPerCapita(capitaSize) {
-    //TODO: test/enforce float math
     return this.scaledSeries(this.population / capitaSize)
   }
 
@@ -140,15 +131,9 @@ class AreaModel {
     let scale = this.population / 1000000.0
 
     let decoratedScaled = decorateTimeSeries(this.entries.map(e => {
-      return {
-        date: e.date,
-        positive: e.positive * e.positive/scale,
-        negative: e.negative * e.negative/scale,
-        pending: e.pending * e.pending/scale,
-        death: e.death * e.death/scale,
-        hospitalized: e.hospitalized * e.hospitalized/scale,
-        total: e.total * e.total/scale
-      }
+      return allFactors.reduce((h, f) => {
+        h[f] = e[f] * e[f]/scale; return h
+      }, { date: e.date}  )
     }))
 
     return decoratedScaled
@@ -169,11 +154,8 @@ class AreaModel {
     if(this.__scaledToPercentage) { return this.__scaledToPercentage }
 
     return this.__scaledToPercentage = decorateTimeSeries(this.entries).map(e => {
-      //TODO: I'm not totally sure this is 100% ? does this equal total?
-
       const scale = (e.positive + e.negative + e.pending)/100
-
-      const deltaScale = (e.positiveDelta + e.negativeDelta + e.pendingDelta)/100
+      const deltaScale = e.total/100
 
       return {
         date: e.date,
