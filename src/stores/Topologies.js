@@ -1,5 +1,6 @@
 import * as Topo from 'topojson'
 import * as d3geo from 'd3-geo'
+import _ from 'lodash'
 
 //TODO: dynamically load into the store or just include the npm package
 //TODO: are these compatible? does the corresponding state in each file have all the same coords/paths?
@@ -31,16 +32,27 @@ function stateNeighborsMap() {
   }, {})
 }
 
+//CRZ: give array of FIPS state numbers, get array back.
+function neighborsNumbers(nums, depth) {
+  if(depth === 0) { return nums }
+
+  return _.uniq(
+    neighborsNumbers(
+      nums.flatMap(num => stateNeighborsMap()[num]),
+      depth-1)
+  )
+}
+
 //TODO: support granularity == state
 //TODO: should i keep the state topo for county granularity?
 //TODO: use Object.keys instead of hardcoding the keys
 //CRZ: I would use topojson lib to filter, but it doesn't give me access to metadata i need
 //     So do manually, then trigger an arc prune with an empty filter, and manually set bbox
 let stateTopologies = []
-export function topologyForState(state, granularity = "county", includeStateNeighbors = false) {
+export function topologyForState(state, granularity = "county", includeStateNeighborsDepth = 0) {
   let topo = topoJson(granularity)
   let key = (granularity === 'county') ? TOPO_COUNTIES_KEY : TOPO_STATES_KEY
-  let cache = stateTopologies.find(t => t.state === state && t.granularity === granularity && t.includeStateNeighbors === includeStateNeighbors)
+  let cache = stateTopologies.find(t => t.state === state && t.granularity === granularity && t.includeStateNeighborsDepth === includeStateNeighborsDepth)
   if(cache) { return cache.topo }
 
   //filter out objects that arent part of our state.
@@ -66,8 +78,8 @@ export function topologyForState(state, granularity = "county", includeStateNeig
 
   //CRZ: There's a bug with react-simple-maps where it doesn't render multiple GeometryCollections,
   //     only the first one. Thus we add the state geographies to the "counties" objects key.
-  if(includeStateNeighbors) {
-    let neighborNumbers = stateNeighborsMap()[state.censusData.number]
+  if(includeStateNeighborsDepth > 0 ) {
+    let neighborNumbers = neighborsNumbers([state.censusData.number], includeStateNeighborsDepth)
 
     newTopo.objects.counties.geometries = [].concat(
       topo.objects.states.geometries.filter(g => neighborNumbers.includes(g.id)), 
@@ -78,7 +90,7 @@ export function topologyForState(state, granularity = "county", includeStateNeig
   newTopo = Topo.filter(newTopo) //This prunes the arcs
   newTopo.bbox =  Topo.bbox(newTopo)
 
-  stateTopologies.push({state, granularity, topo: newTopo, includeStateNeighbors})
+  stateTopologies.push({state, granularity, topo: newTopo, includeStateNeighborsDepth})
   return newTopo
 }
 

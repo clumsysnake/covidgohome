@@ -36,7 +36,7 @@ function StateMap(props) {
 
   let max = AreaModel.fieldMax(areas, props.field, props.basis)
   let colorF = colorScale(props.colorScale, max)
-  let topo = topologyForState(props.state, props.granularity, true)
+  let topo = topologyForState(props.state, props.granularity, 2) //2 so neighbors of neighbors are displayed
   let projection = projectionForState(props.state)
 
   return (

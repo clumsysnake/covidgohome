@@ -53,7 +53,6 @@ IMPROVE
 - #s for NYC are messed up. so i have to group the 5 counties of NYC as one region
 - decide on if "confirmed" is the correct terminology rather than "positive"?
 - bug: alaska state display is broken
-- when showing some states, like... california. there are neighbor=2 states that would appear on the map if they were drawn. my feeling is we should draw them
 
 REFACTOR
 - CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.
