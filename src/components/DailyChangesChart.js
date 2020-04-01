@@ -62,7 +62,7 @@ function DailyChart(props) {
           strokeWidth={2}
           dot={false}
           isAnimationActive={false}
-          name="Total Test Results"
+          name="Tests Completed w/ Results"
         />
 
         <XAxis
