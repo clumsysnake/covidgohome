@@ -54,4 +54,4 @@ const censusDataForAbbrev = (abbrev) => {
   return name && censusDataForState(name)
 }
 
-export { censusDataForState, censusDataForFips, censusDataForAbbrev, stateNameForAbbrev }
+export { UsCountyCensus, censusDataForState, censusDataForFips, censusDataForAbbrev, stateNameForAbbrev }

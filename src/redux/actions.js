@@ -4,7 +4,7 @@ import Papa from 'papaparse'
 import * as types from '../redux/types.js'
 import store from '../redux/store'
 
-import { censusDataForAbbrev, censusDataForFips } from '../stores/CensusStore.js'
+import { censusDataForAbbrev, censusDataForFips, UsCountyCensus } from '../stores/CensusStore.js'
 import StateModel from '../models/StateModel.js'
 import CountyModel from '../models/CountyModel.js'
 
@@ -118,22 +118,30 @@ function johnsHopkinsHandleDailyReport(csv, date) {
     console.log(`error on row ${error.row}: ${error.code} ${error.message}`)
   })
 
-  let counties = results.data.filter(res => res.Country_Region === "US" && res.FIPS).map(res => {
-    const censusData = (res.FIPS === "36061") ? censusDataNYCHack() : censusDataForFips(res.FIPS)
+  let jhCounties = results.data.filter(res => res.Country_Region === "US" && res.FIPS)
 
-    if(!censusData) { console.log(`couldn't census data for county ${res.Admin2}, FIPS ${res.FIPS}`) }
+  let counties =  UsCountyCensus.map(row => {
+    // const censusData = (res.FIPS === "36061") ? censusDataNYCHack() : censusDataForFips(res.FIPS)
+
+    // if(!censusData) { console.log(`couldn't census data for county ${res.Admin2}, FIPS ${res.FIPS}`) }
+
+    let fips = row[8] + row[9]
+    let [countyName, stateName] = row[5].split(',').map(s => s.trim())
+    let jhCounty = jhCounties.find(c => c.FIPS === fips)
+
+    let entries = [{
+        date: date,
+        positive: jhCounty ? parseInt(jhCounty.Confirmed) : 0,
+        death: jhCounty ? parseInt(jhCounty.Deaths) : 0,
+        active: jhCounty ? parseInt(jhCounty.Active) : 0
+      }]
 
     return new CountyModel({
-      fips: res.FIPS,
-      name: res.Admin2,
-      stateName: res.Province_State,
-      population: censusData && censusData.population,
-      entries: [{
-        date: date,
-        positive: parseInt(res.Confirmed),
-        death: parseInt(res.Deaths),
-        active: parseInt(res.Active)
-      }]
+      fips,
+      name: countyName,
+      stateName: stateName,
+      population: row[4],
+      entries
     })
   })
 
