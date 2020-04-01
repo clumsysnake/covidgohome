@@ -66,7 +66,7 @@ function StatePage(props) {
             </li>
             <li>
               <span className="label">CFR</span>
-              <span className="value">{withPlaces(state.totals.cfrPercent, 2)}% (based on positives)</span>
+              <span className="value">{withPlaces(state.totals.cfrPercent, 2)}% (estimated)</span>
             </li>
             <li>
               <span className="label">Dead</span>

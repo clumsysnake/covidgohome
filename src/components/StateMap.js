@@ -93,6 +93,7 @@ function StateMap(props) {
                   stroke: "#607D8B",
                   strokeWidth: area ? 3 : 1,
                   cursor: area ? "pointer" : "arrow",
+                  zIndex: area ? 1 : 0,
                   outline: "none"
                 },
                 pressed: {

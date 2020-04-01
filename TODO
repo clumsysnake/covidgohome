@@ -32,6 +32,7 @@
 - investigate desirable behavior for storing filter settings in localstorage
 - add city locations on maps
 - incorporate ALL jh daily data, then show graphs for individual counties
+- switching from USA map to state map should keep filters same as much as possible
 
 IMPROVE
 - on statepage, get chart widths to align.
@@ -52,7 +53,8 @@ IMPROVE
 - #s for NYC are messed up. so i have to group the 5 counties of NYC as one region
 - decide on if "confirmed" is the correct terminology rather than "positive"?
 - change abs/absolute to 'tot' or 'total', i think thats clearer to the user.
-- bug: alaska state display is broken.
+- bug: alaska state display is broken
+- when showing some states, like... california. there are neighbor=2 states that would appear on the map if they were drawn. my feeling is we should draw them
 
 REFACTOR
 - CT data changed to add totalTestResults vs totals, deathIncrease, totalTestResults, use those.

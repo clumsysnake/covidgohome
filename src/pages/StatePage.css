@@ -12,7 +12,7 @@
 }
 
 .state-page > .top > .stats {
-  width: 42%;
+  width: 44%;
 }
 
 .state-page > .top::after {
@@ -24,7 +24,7 @@
 .state-page .stats .state-name {
   font-size: 3em;
   padding: 0;
-  margin: 0 0 0 155px;
+  text-align: center;
   margin: 0;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .state-page .stats li .label {
-  width: 150px;
+  width: 40%;
   text-align: right;
   display: inline-block;
   margin-right: 5px;
