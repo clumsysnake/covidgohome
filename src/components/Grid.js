@@ -11,12 +11,6 @@ import Group from './Group.js'
 const DOMAIN_MAX_STEPS = 20 //CRZ: give a certain OOM, how many possible domain maxes 
 
 class Grid extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {regions: RegionModel.all}
-  }
-
   sortFunction(sort) {
     switch(sort) {
       case "alpha":
