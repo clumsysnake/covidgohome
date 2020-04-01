@@ -1,6 +1,8 @@
 sources
 
 http://covidtracking.com
+https://covidtracking.com/api/counties - links to some county pages, not sure if more info than state pages?
+  - for example just LA county announces age group, hospitalization, and cases by community (agoura hills, brentwood, etc)
 cdc website
 all the state websites
 salute.it
@@ -34,3 +36,9 @@ https://www.census.gov/programs-surveys/popest.html
 https://covid19.healthdata.org/projections
 
 https://public.opendatasoft.com/explore/dataset/1000-largest-us-cities-by-population-with-geographic-coordinates/table/?sort=-rank
+
+https://www.businessinsider.com/regions-of-united-states-2018-5 - there are many existing ways to divide up the country into state-grouped regions
+https://www2.census.gov/geo/pdfs/maps-data/maps/reference/us_regdiv.pdf
+
+
+https://en.wikipedia.org/wiki/List_of_U.S._municipalities_in_multiple_counties - for data problems when given stats for cities than span counties. NYC is the big offender, but its actually quite common. i think it is usually not consequential for us.
