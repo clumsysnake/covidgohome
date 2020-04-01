@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import ReactTooltip from 'react-tooltip';
 import { connect } from 'react-redux';
-import DailyChart from '../components/DailyChart.js'
-import CumulativeChart from '../components/CumulativeChart.js'
+import DailyChangesChart from '../components/DailyChangesChart.js'
+import DailyNewPositives from '../components/DailyNewPositives.js'
+import PercentageTestResultsChart from '../components/PercentageTestResultsChart.js'
 import DeathHospitalizationChart from '../components/DeathHospitalizationChart.js'
 import StateMap from '../components/StateMap.js'
 import Filter from '../components/Filter.js'
@@ -92,12 +93,12 @@ function StatePage(props) {
         </div>
       </div>
       <div className="charts">
-        <DailyChart name="Daily Changes"
-          series={state.entries} />
-        <CumulativeChart name="Test Results as % of Total Tests"
-          series={scaledPercentage} basis="percentage" yDomain={[0,100]}/>
+        <DailyNewPositives name="Daily New Positives" series={state.entries} />
         <DeathHospitalizationChart name="Daily Deaths and Hospitalizations"
           series={state.entries} />
+        <DailyChangesChart name="Daily Tests & Results" series={state.entries} />
+        <PercentageTestResultsChart name="Test Results as % of Total Tests"
+          series={scaledPercentage} basis="percentage"/>
       </div>
     </div>
   )
