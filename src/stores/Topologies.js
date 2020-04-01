@@ -33,14 +33,14 @@ function stateNeighborsMap() {
 }
 
 //CRZ: give array of FIPS state numbers, get array back.
+//     Note: will never include duplicates, may include self.
 function neighborsNumbers(nums, depth) {
   if(depth === 0) { return nums }
 
-  return _.uniq(
-    neighborsNumbers(
-      nums.flatMap(num => stateNeighborsMap()[num]),
-      depth-1)
-  )
+  return _.uniq( neighborsNumbers(
+              nums.flatMap(num => stateNeighborsMap()[num]), 
+              depth-1
+            ))
 }
 
 //TODO: support granularity == state
@@ -57,34 +57,31 @@ export function topologyForState(state, granularity = "county", includeStateNeig
 
   //filter out objects that arent part of our state.
   let stateNumber = state.censusData.number
-  let geometries = topo.objects[key].geometries.filter((g) => {
+  let inStateGeometries = topo.objects[key].geometries.filter((g) => {
     //CRZ: this works because for states the id is the state number,
     //     and for counties the id is the FIPS, and the first two numbers of FIPS
     //     is the state number
     return g.id.slice(0,2) === stateNumber
   })
+
+  //CRZ: There's a bug with react-simple-maps where it doesn't render multiple GeometryCollections,
+  //     only the first one. So here we just combine everything into a single "mixed" key
+  //     TODO: perhaps this indicates we should not have GeometryCollection at all in our newTopo
+  let neighborNumbers = neighborsNumbers([state.censusData.number], includeStateNeighborsDepth)
+  let neighborGeometries = neighborNumbers.map(n => topo.objects.states.geometries.find(g => g.id === n))
+  let geometries = _.concat(neighborGeometries, inStateGeometries)
+
   let newTopo = {
     arcs: topo.arcs,
     bbox: topo.bbox,
     objects: {
-      [key]: {
+      mixed: {
         type: 'GeometryCollection',
         geometries: geometries
       }
     },
     type: topo.type,
     transform: topo.transform
-  }
-
-  //CRZ: There's a bug with react-simple-maps where it doesn't render multiple GeometryCollections,
-  //     only the first one. Thus we add the state geographies to the "counties" objects key.
-  if(includeStateNeighborsDepth > 0 ) {
-    let neighborNumbers = neighborsNumbers([state.censusData.number], includeStateNeighborsDepth)
-
-    newTopo.objects.counties.geometries = [].concat(
-      topo.objects.states.geometries.filter(g => neighborNumbers.includes(g.id)), 
-      newTopo.objects.counties.geometries
-    )
   }
 
   newTopo = Topo.filter(newTopo) //This prunes the arcs
@@ -100,7 +97,7 @@ export function projectionForState(state) {
 
   let center = [(topo.bbox[0] + topo.bbox[2])/2, (topo.bbox[1] + topo.bbox[3])/2]
 
-  let geoTopo = Topo.feature(topo, topo.objects.states.geometries[0])
+  let geoTopo = Topo.feature(topo, topo.objects.mixed.geometries[0])
   return d3geo.geoConicEqualArea()
     .parallels([topo.bbox[1], topo.bbox[3]]) // sets standard parallels for projection to bracket state
     .rotate([-center[0], 0]) //possibly faster to use canvas rotate?
