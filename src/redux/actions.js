@@ -121,12 +121,10 @@ function johnsHopkinsHandleDailyReport(csv, date) {
   let jhCounties = results.data.filter(res => res.Country_Region === "US" && res.FIPS)
 
   let counties =  UsCountyCensus.map(row => {
-    // const censusData = (res.FIPS === "36061") ? censusDataNYCHack() : censusDataForFips(res.FIPS)
-
-    // if(!censusData) { console.log(`couldn't census data for county ${res.Admin2}, FIPS ${res.FIPS}`) }
 
     let fips = row[8] + row[9]
     let [countyName, stateName] = row[5].split(',').map(s => s.trim())
+    const population = (fips === "36061") ? censusDataNYCHack().population : row[4]
     let jhCounty = jhCounties.find(c => c.FIPS === fips)
 
     let entries = [{
@@ -140,7 +138,7 @@ function johnsHopkinsHandleDailyReport(csv, date) {
       fips,
       name: countyName,
       stateName: stateName,
-      population: row[4],
+      population,
       entries
     })
   })
