@@ -77,7 +77,7 @@ function StatePage(props) {
               <span className="label">Hospitalized</span>
               <span className="value">{state.totals.hospitalized || "Unknown"}</span>
             </li>
-            <li>
+{/*            <li>
               <span className="label">Active</span>
               <span className="value">Unknown</span>
             </li>
@@ -88,7 +88,7 @@ function StatePage(props) {
             <li>
               <span className="label">Resolved</span>
               <span className="value">Unknown</span>
-            </li>
+            </li>*/}
           </ul>
         </div>
       </div>
