@@ -13,7 +13,7 @@ export default function(props) {
 const filterOption = function(accessors, option) {
   let [value, displayValue] = (typeof option === "string") ? [option, option] : [option[0], option[1]]
 
-  return <span className="filter-option">
+  return <span key={value+displayValue} className="filter-option">
     {(accessors[0] === value) ? displayValue : <button
       onClick={() => accessors[1](value)}>{displayValue}
     </button>}
