@@ -70,7 +70,7 @@ const JHDailyReportUrl = function() {
   if(process.env.NODE_ENV === 'development') {
     return "http://localhost:3000/jh.daily.json"
   } else {
-    return JHGithubDir + "/03-28-2020.csv"
+    return JHGithubDir + "/03-31-2020.csv"
   }
 }
 
