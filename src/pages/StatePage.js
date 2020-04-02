@@ -8,7 +8,7 @@ import DeathHospitalizationChart from '../components/DeathHospitalizationChart.j
 import StateMap from '../components/StateMap.js'
 import Filter from '../components/Filter.js'
 import './StatePage.css'
-import { numberWithCommas, withPlaces } from '../helpers/chartHelpers.js'
+import { numberWithCommas, percentWithPlaces, withPlaces } from '../helpers/chartHelpers.js'
 import _ from 'lodash'
 
 function StatePage(props) {
@@ -17,12 +17,12 @@ function StatePage(props) {
   const [basis, setBasis] = useState('per-1m')
   const [colorScale, setColorScale] = useState('linear')
   
+
+  if(!props.state) { return <div>...loading</div> }
+
   let state = props.state
-
-  if(!state) { return <div>...loading</div> }
-
+  let totals = state.totals
   let scaledPercentage = state.scaledToPercentage()
-
   //TODO: this line has so much wrong with it... fix AreaModel
   let deadPer1M = _.last(state.scaledPerMillion()).death
 
@@ -65,23 +65,27 @@ function StatePage(props) {
             </li>
             <li>
               <span className="label">Positive</span>
-              <span className="value">{numberWithCommas(state.totals.positive)}</span>
+              <span className="value">{numberWithCommas(totals.positive)}</span>
             </li>
             <li>
               <span className="label">Attack Rate</span>
-              <span className="value">{withPlaces(state.totals.attackRate, 3)}%</span>
+              <span className="value">{withPlaces(totals.attackRate, 3)}%</span>
             </li>
             <li>
               <span className="label">CFR</span>
-              <span className="value">{withPlaces(state.totals.cfrPercent, 2)}% (estimated)</span>
+              <span className="value">{withPlaces(totals.cfrPercent, 2)}% (estimated)</span>
             </li>
             <li>
               <span className="label">Dead</span>
-              <span className="value">{numberWithCommas(state.totals.death)} or {withPlaces(deadPer1M, 2)}/million</span>
+              <span className="value">{numberWithCommas(totals.death)} or {withPlaces(deadPer1M, 2)}/million</span>
             </li>
             <li>
               <span className="label">Hospitalized</span>
-              <span className="value">{state.totals.hospitalized || "Unknown"}</span>
+              <span className="value">{numberWithCommas(totals.hospitalized) || "Unknown"}</span>
+            </li>
+            <li>
+              <span className="label">Hospitalization Rate</span>
+              <span className="value">{percentWithPlaces(totals.hospitalizationRate, 2) || "Unknown"}</span>
             </li>
 {/*            <li>
               <span className="label">Active</span>

@@ -56,7 +56,6 @@ IMPROVE
 - bug: scale matching broke for ChartsPage with total basis
 - redirect all domains to canonical
 - add hospital data to areamodel! vents, icu beds, doctors, hospitals, utilization... that would be cool
-- add hospitalization rate to state page
 - add banner ability to top header
 - i need date reported of each number, then i can average the entries values based on when the date
 

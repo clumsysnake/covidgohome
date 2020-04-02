@@ -5,10 +5,22 @@ import moment from 'moment'
 //TODO: lots of formatters, can we combine? messy. percentDisplay is cruft.
 
 const numberWithCommas = (n) => {
+  if(!_.isFinite(n)) { return n } // this makes it easier to use in inline jsx
+
   return n.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
 
-const withPlaces = (num, n) => Number.parseFloat(num).toFixed(n)
+const percentWithPlaces = (num, n) => {
+  if(!_.isFinite(n)) { return n }
+
+  return withPlaces(num, n) + "%"
+}
+
+const withPlaces = (num, n) => { 
+  if(!_.isFinite(n)) { return n }
+
+  return Number.parseFloat(num).toFixed(n)
+}
 const percentDisplay = (num, n) => withPlaces(num, n)
 const percentTickFormatter = (n) => `${n}%`
 const countTickFormatter = (n) => {
@@ -70,4 +82,4 @@ export function colorScale(scaleType, max) {
   return (x) => (x === 0) ? "white" : f(x)
 }
 
-export {numberWithCommas, safeSmartNumPlaces, withPlaces, percentDisplay, tooltipFormatter, percentTickFormatter, countTickFormatter, dateTickFormatter}
+export {numberWithCommas, safeSmartNumPlaces, withPlaces, percentWithPlaces, percentDisplay, tooltipFormatter, percentTickFormatter, countTickFormatter, dateTickFormatter}
