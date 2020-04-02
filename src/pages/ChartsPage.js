@@ -28,7 +28,8 @@ export default function ChartsPage(props) {
         ]} />
         <Filter accessors={[chartType, setChartType]} options={[
           'daily',
-          'cumulative'
+          'cumulative',
+          ['daily-new-cases', 'new cases']
         ]} />
         <Filter accessors={[basis, setBasis]} options={[
           'total',
