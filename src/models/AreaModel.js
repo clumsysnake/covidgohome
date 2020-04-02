@@ -18,7 +18,7 @@ let decorateTimeSeries = (entries) => {
     // however some states dont report pendings.
     e.pendingDelta = (idx > 0) ? (e.pending || 0) - (a[idx-1].pending || 0) : null 
     e.totalDelta = (idx > 0) ? (e.total || 0) - (a[idx-1].total || 0) : null 
-    e.posPercDelta = (idx > 0) ? (e.positiveDelta / e.posNegDelta) * 100 : null
+    e.positivePercentDelta = (idx > 0) ? (e.positiveDelta / e.posNegDelta) * 100 : null
 
     //regularize broken data
     if(e.negative === null && idx > 0) { e.negative = a[idx-1].negative }
@@ -181,15 +181,19 @@ class AreaModel {
     let last = _.last(this.entries) || null
     let positive = (last && last.positive) || null
     let total = (last && last.total) || null
-    let dead = (last && last.death) || null
+    let totalTestResults = (last && last.totalTestResults) || null
+    let death = (last && last.death) || null
+    let hospitalized = (last && last.hospitalized) || null
 
     return this._stats = this._stats || {
       total,
+      totalTestResults,
       positive,
-      perPositive: 100 * (positive / total) || null,
-      death: (dead || 0),
-      hospitalized: (last && last.hospitalized) || null,
-      cfrPercent: 100 * dead/positive,
+      death,
+      hospitalized,
+      positivePercent: 100 * (positive / totalTestResults) || null,
+      cfrPercent: 100 * death/positive,
+      hospitalizationRate: 100 * hospitalized/positive,
       attackRate: this.population ? 100 * positive/this.population : null
     }
   }
