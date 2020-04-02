@@ -94,7 +94,6 @@ class DailyChart extends React.Component {
           <XAxis
             dataKey="date"
             tickFormatter={dateTickFormatter}
-            type="number"
             domain={this.props.xDomain}
           />
           <YAxis

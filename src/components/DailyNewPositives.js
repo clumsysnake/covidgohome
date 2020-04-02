@@ -34,7 +34,6 @@ function DailyNewPositivesChart(props) {
         <XAxis
           dataKey="date"
           tickFormatter={dateTickFormatter}
-          type="number"
           domain={props.xDomain}
         />
         <YAxis
