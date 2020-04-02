@@ -27,7 +27,7 @@ class App extends React.Component {
                 <li><Link to={`/about`}>About</Link></li>
               </ul>
             </nav>
-            <span className="tagline"><em>...go back in your bat hole! </em></span>
+            <span className="tagline"><em>...go back in your bat hole!</em></span>
           </header>
           <Switch>
             <Route path="/map" component={MapPage} />

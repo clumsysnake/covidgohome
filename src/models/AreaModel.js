@@ -207,7 +207,7 @@ class AreaModel {
   //     TODO: this is really very tied to the bizarre needs of ctActions.js, very spaghetti.
   addEntryFromPrimaries(hash) {
     let last = _.last(this.entries)
-    let date = moment.unix(last.date).add('days', 1).unix()
+    let date = moment.unix(last.date).add(1, 'days').unix()
     let abbreviation = this.abbreviation
 
     let entry = AreaModel.primaryStats.reduce((h, k) => Object.assign(h, {[k]: hash[k]}), {date})

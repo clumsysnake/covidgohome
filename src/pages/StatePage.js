@@ -17,7 +17,6 @@ function StatePage(props) {
   const [basis, setBasis] = useState('per-1m')
   const [colorScale, setColorScale] = useState('linear')
   
-
   if(!props.state) { return <div>...loading</div> }
 
   let state = props.state
