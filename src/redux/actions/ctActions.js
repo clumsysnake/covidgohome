@@ -41,7 +41,8 @@ function fetchStatesDaily() {
 
 function handleStatesDaily(json) {
   let groups = _.groupBy(json, 'state')
-  let states = Object.entries(groups).slice(0, DEBUG_MAX_STATES).map((statePair) => {
+  
+  Object.entries(groups).slice(0, DEBUG_MAX_STATES).map((statePair) => {
     //first entry is latest, so reverse
     let entries = statePair[1].reverse()
     let abbrev = statePair[0]
@@ -59,9 +60,7 @@ function handleStatesDaily(json) {
 
   return {
     type: types.COVIDTRACKING_HANDLE_STATES_DAILY,
-    states: []
-    //CRZ: let handleStatesCurrent do it
-    // states: states
+    states: [] //CRZ: let handleStatesCurrent update states so it does it only once
   };
 }
 
