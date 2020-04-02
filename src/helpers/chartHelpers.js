@@ -51,12 +51,7 @@ const safeSmartNumPlaces = (value, maxPlaces) => {
 }
 
 const tooltipFormatter = (value, name) => {
-  switch(name) {
-    case "posPerc":
-      return `${safeSmartNumPlaces(value, 1)}%`
-    default:
-      return safeSmartNumPlaces(value, 1)
-  }
+  return safeSmartNumPlaces(value, 1)
 }
 
 export function colorScale(scaleType, max) {
