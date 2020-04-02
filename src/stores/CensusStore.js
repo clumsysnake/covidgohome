@@ -6,7 +6,7 @@ import UsCountyCensus from './us_county_census.json'
 //https://api.census.gov/data/2019/pep/population?get=COUNTY,DATE_CODE,DATE_DESC,DENSITY,POP,NAME,STATE&for=state:*&DATE_CODE=12
 //https://api.census.gov/data/2019/pep/population?get=COUNTY,DATE_CODE,DATE_DESC,DENSITY,POP,NAME,STATE&for=county:*&DATE_CODE=12
 
-const censusDataForState = (name) => {
+export function censusDataForState(name) {
   let row = UsStateCensus.find(item => {
     return item[2] === "7/1/2019 population estimate" && 
            item[5].toUpperCase() === name.toUpperCase()
@@ -22,7 +22,7 @@ const censusDataForState = (name) => {
   }
 }
 
-const censusDataForFips = (fips) => {
+export function censusDataForFips(fips) {
   const fipsAsString = fips.toString()
 
   const stateNumber = fipsAsString.slice(0, 2)
@@ -41,15 +41,15 @@ const censusDataForFips = (fips) => {
   }
 }
 
-const stateNameForAbbrev = (abb) => {
+export function stateNameForAbbrev(abb) {
   const map = UsStateMapping.find((map) => map.abbreviation === abb) || null
   return map && map['name']
 }
 
-const censusDataForAbbrev = (abbrev) => {
+export function censusDataForAbbrev(abbrev) {
   let name = stateNameForAbbrev(abbrev) || null
 
   return name && censusDataForState(name)
 }
 
-export { UsCountyCensus, censusDataForState, censusDataForFips, censusDataForAbbrev, stateNameForAbbrev }
+export { UsStateMapping, UsCountyCensus, UsStateCensus }

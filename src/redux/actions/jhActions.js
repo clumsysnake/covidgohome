@@ -5,7 +5,7 @@ import * as types from '../types'
 import store from '../store'
 import { censusDataForFips, UsCountyCensus } from '../../stores/CensusStore'
 import CountyModel from '../../models/CountyModel'
-import { fetchJson } from './helpers'
+import { fetchXhr } from './helpers'
 
 const hardCodedDate = '04-01-2020'
 const githubDir = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/"
@@ -18,7 +18,7 @@ const dailyReportUrl = function() {
 }
 
 function fetchDailyReport() {
-  fetchJson(dailyReportUrl(), (e) => {
+  fetchXhr(dailyReportUrl(), (e) => {
     let csv = e.target.response
     store.dispatch(handleDailyReport(csv, dateParse(hardCodedDate)))
   }, 'text')

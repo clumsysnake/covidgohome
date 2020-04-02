@@ -6,7 +6,7 @@ import store from '../store'
 import { censusDataForAbbrev } from '../../stores/CensusStore'
 import StateModel from '../../models/StateModel'
 import AreaModel from '../../models/AreaModel'
-import { fetchJson } from './helpers'
+import { fetchXhr } from './helpers'
 
 const STATESDAILY_URL = "https://covidtracking.com/api/states/daily"
 const STATESCURRENT_URL = "https://covidtracking.com/api/states"
@@ -24,12 +24,12 @@ const statesCurrentUrl = function() {
   return (process.env.NODE_ENV === 'development') ? "http://localhost:3000/ct.statescurrent.cache.json" : STATESCURRENT_URL
 }
 
-const ctDateParse = function(string) {
+const dateParse = function(string) {
   return moment(string, 'YYYYMMDD').unix()
 }
 
 function fetchStatesDaily() {
-  fetchJson(statesDailyUrl(), (e) => {
+  fetchXhr(statesDailyUrl(), (e) => {
     let json = e.target.response
     store.dispatch(handleStatesDaily(json))
   })
@@ -50,7 +50,7 @@ function handleStatesDaily(json) {
 
     if(!censusData) { console.log(`couldnt find census data for state abbrev ${abbrev}`); }
 
-    entries.forEach(e => e.date = ctDateParse(e.date))
+    entries.forEach(e => e.date = dateParse(e.date))
 
     //TODO: add census density (so i can calculate total area from that?)
     return new StateModel({abbrev: abbrev, entries, population: censusData && censusData.population})
@@ -60,12 +60,13 @@ function handleStatesDaily(json) {
 
   return {
     type: types.COVIDTRACKING_HANDLE_STATES_DAILY,
+    json: json,
     states: [] //CRZ: let handleStatesCurrent update states so it does it only once
   };
 }
 
 function fetchStatesCurrent() {
-  fetchJson(statesCurrentUrl(), (e) => {
+  fetchXhr(statesCurrentUrl(), (e) => {
     let json = e.target.response
     store.dispatch(handleStatesCurrent(json))
   })
@@ -75,31 +76,32 @@ function fetchStatesCurrent() {
   };
 }
 
+//Really dont know how to reconcile the data based on timestamps... the feeds dont seem coordinated.
+//So for now, if all the fields are the same, then dont add a new entry. If anything has changed since last, add a new one.
+//Also unsure what date to really be using here...basically just incrementing one from the last entry.
 function handleStatesCurrent(json) {
-  //Really dont know how to reconcile the data based on timestamps... the feeds dont seem coordinated.
-  //So for now, if all the fields are the same, then dont add a new entry. If anything has changed since last, add a new one.
-  //Also unsure what date to really be using here...basically just incrementing one from the last entry.
-  let updatedStates = _.compact(json.reduce((states, x) => {
+  json.map((x) => {
     const state = StateModel.findByAbbrev(x.state)
     if(!state) {
       console.log(`Somehow couldnt find state for ${x.state}`)
-      return states
+      return null
     }
 
     //if there is a matching entry, statecurrent has no new entries
-    if(state.findMatchingEntry(x)) { return states }
+    if(state.findMatchingEntry(x)) { return null }
 
     //otherwise there is a new entry to be added. areamodel will calculate date and increase fields
     // debugger
     state.addEntryFromPrimaries(AreaModel.primaryStats.reduce((h, k) => Object.assign(h, {[k]: x[k]}), {}))
 
-    return states.concat(state)
-  }, []))
+    return state
+  }, [])
 
 
   //TODO: i should return ONLY updateStates, but not sure how to reduce that properly. just refresh all for now.
   return {
     type: types.COVIDTRACKING_HANDLE_STATES_CURRENT,
+    json: json,
     updatedStates: StateModel.all
   };
 }

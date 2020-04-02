@@ -8,11 +8,13 @@ import ChartsPage from './pages/ChartsPage.js'
 import MapPage from './pages/MapPage.js'
 import AboutPage from './pages/AboutPage.js'
 import StatePage from './pages/StatePage.js'
+import SourcesPage from './pages/SourcesPage.js'
 
 class App extends React.Component {
   componentDidMount() {
     store.dispatch(actions.covidTracking.fetchStatesDaily())
     store.dispatch(actions.johnsHopkins.fetchDailyReport())
+    store.dispatch(actions.nyt.fetchStates())
   }
 
   render() {
@@ -34,6 +36,7 @@ class App extends React.Component {
             <Route path="/about" component={AboutPage} />
             <Route path="/charts" component={ChartsPage} />
             <Route path="/states/:stateAbbrev" component={StatePage} /> 
+            <Route path="/sources/" component={SourcesPage} />
             <Route exact path="/">
               <Redirect to="/map" />
             </Route>

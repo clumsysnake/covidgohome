@@ -225,5 +225,6 @@ class AreaModel {
 }
 
 AreaModel.primaryStats = primaryStats
+AreaModel.deltaStats = deltaStats
 
 export default AreaModel
