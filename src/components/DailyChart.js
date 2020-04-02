@@ -90,6 +90,17 @@ class DailyChart extends React.Component {
             isAnimationActive={false}
             name="Total Tests"
           />
+          <Line
+            yAxisId="percentage"
+            type="monotone"
+            strokeDasharray="3 2"
+            dataKey="posPercDelta"
+            stroke={Colors.POSITIVE_PERCENT}
+            dot={false}
+            strokeWidth={1}
+            isAnimationActive={false}
+            name="% (+) Tests"
+          />
 
           <XAxis
             dataKey="date"
