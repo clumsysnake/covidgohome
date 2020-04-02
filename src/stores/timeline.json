@@ -20,9 +20,37 @@
     "categories": [
       "restriction-change"
     ],
-    "description": "Cuomo Announces New York State on PAUSE",
+    "description": "New York State on PAUSE goes into effect",
     "sources": [
       "https://www.governor.ny.gov/news/governor-cuomo-signs-new-york-state-pause-executive-order"
+    ]
+  },
+  {
+    "datetime": "2020-Mar-23 20:00 EST",
+    "country": "USA",
+    "state_or_province": "WA",
+    "modifiedAt": 1585470939,
+    "categories": [
+      "restriction-change"
+    ],
+    "description": "Inslee Announces Stay Home, Stay Healthy order",
+    "sources": [
+      "https://www.governor.wa.gov/sites/default/files/proclamations/20-25%20Coronovirus%20Stay%20Safe-Stay%20Healthy%20%28tmp%29%20%28002%29.pdf",
+      "https://medium.com/wagovernor/inslee-announces-stay-home-stay-healthy-order-4891a7511f5e"
+    ]
+  },
+  {
+    "datetime": "2020-Mar-25 20:00 EST",
+    "country": "USA",
+    "state_or_province": "WA",
+    "modifiedAt": 1585470939,
+    "categories": [
+      "restriction-change"
+    ],
+    "description": "Stay Home, Stay Healthy goes into effect",
+    "sources": [
+      "https://www.governor.wa.gov/sites/default/files/proclamations/20-25%20Coronovirus%20Stay%20Safe-Stay%20Healthy%20%28tmp%29%20%28002%29.pdf",
+      "https://medium.com/wagovernor/inslee-announces-stay-home-stay-healthy-order-4891a7511f5e"
     ]
   }
 ]
