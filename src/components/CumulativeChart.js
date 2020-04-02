@@ -29,7 +29,7 @@ class CumulativeChart extends React.Component {
         <ComposedChart width={600} height={300} data={data}
                    margin={{ top: 10, right: 5, left: 5, bottom: 10 }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip formatter={tooltipFormatter}/>
+          <Tooltip formatter={tooltipFormatter} labelFormatter={dateTickFormatter}/>
           <Area
             yAxisId="left"
             stackId="tested"

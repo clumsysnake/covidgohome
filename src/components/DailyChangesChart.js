@@ -22,7 +22,7 @@ function DailyChart(props) {
       <ComposedChart width={600} height={300} data={data}
                  margin={{ top: 10, right: 0, left: 0, bottom: 10 }}
         >
-        <Tooltip formatter={tooltipFormatter}/>
+        <Tooltip formatter={tooltipFormatter} labelFormatter={dateTickFormatter}/>
         <CartesianGrid strokeDasharray="4 4" />
         <Area
           yAxisId="left"

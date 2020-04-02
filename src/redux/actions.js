@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import Papa from 'papaparse'
+import moment from 'moment'
 
 import * as types from '../redux/types.js'
 import store from '../redux/store'
@@ -23,6 +24,10 @@ const statesDailyUrl = function() {
   } else {
     return COVIDTRACKING_STATESDAILY_URL
   }
+}
+
+const ctDateParse = function(string) {
+  return moment(string, 'YYYYMMDD').unix()
 }
 
 const fetchJson = function(url, onload, responseType = "json") {
@@ -53,6 +58,8 @@ function covidTrackingHandleStatesDaily(json) {
     let censusData = censusDataForAbbrev(abbrev)
 
     if(!censusData) { console.log(`couldnt find census data for state abbrev ${abbrev}`); }
+
+    entries.forEach(e => e.date = ctDateParse(e.date))
 
     //TODO: add census density (so i can calculate total area from that?)
     return new StateModel({abbrev: abbrev, entries, population: censusData && censusData.population})

@@ -1,5 +1,6 @@
 import { scaleLinear, scaleLog, scaleSqrt } from "d3-scale";
 import _ from 'lodash'
+import moment from 'moment'
 
 //TODO: lots of formatters, can we combine? messy. percentDisplay is cruft.
 
@@ -30,8 +31,14 @@ const countTickFormatter = (n) => {
     return safeSmartNumPlaces(n, 1)
   }
 }
+
+//expects second since epoch
 const dateTickFormatter = (date) => {
-  return date.toString().slice(5, 6) + "-" + date.toString().slice(6, 8)
+  if(!_.isInteger(date)) {
+    throw new TypeError(`cannot format date because given non-integer: ${date}`)
+  }
+
+  return moment.unix(date).format('M-DD')
 }
 
 //CRZ: return exactly null if value is not finite, limit to max dec places, but dont use dec places if zero
