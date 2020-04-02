@@ -24,4 +24,5 @@ yarn-error.log*
 
 public/ct.statesdaily.cache.json
 public/ct.statescurrent.cache.json
-public/jh.daily.json
+public/jh.daily.csv
+public/nyt.states.csv

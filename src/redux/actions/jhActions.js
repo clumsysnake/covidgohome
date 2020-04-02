@@ -11,7 +11,7 @@ const hardCodedDate = '04-01-2020'
 const githubDir = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/"
 const dailyReportUrl = function() {
   if(process.env.NODE_ENV === 'development') {
-    return "http://localhost:3000/jh.daily.json"
+    return "http://localhost:3000/jh.daily.csv"
   } else {
     return githubDir + `${hardCodedDate}.csv`
   }
