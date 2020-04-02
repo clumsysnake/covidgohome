@@ -71,25 +71,29 @@ function covidTrackingHandleStatesDaily(json) {
   };
 }
 
-//TODO: fetch the latest day.. may take 2 fetches. 
+const JHHardCodedDate = '03-31-2020'
 const JHGithubDir = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/"
 const JHDailyReportUrl = function() {
   if(process.env.NODE_ENV === 'development') {
     return "http://localhost:3000/jh.daily.json"
   } else {
-    return JHGithubDir + "/03-31-2020.csv"
+    return JHGithubDir + `${JHHardCodedDate}.csv`
   }
 }
 
 export function johnsHopkinsFetchDailyReport() {
   fetchJson(JHDailyReportUrl(), (e) => {
     let csv = e.target.response
-    store.dispatch(johnsHopkinsHandleDailyReport(csv, '20200328'))
+    store.dispatch(johnsHopkinsHandleDailyReport(csv, jhDateParse(JHHardCodedDate)))
   }, 'text')
 
   return {
     type: types.JOHNS_HOPKINS_FETCH_DAILY_REPORT
   };
+}
+
+const jhDateParse = function(string) {
+  return moment(string, 'MM-DD-YYYY').unix()
 }
 
 //New York City extends over its 5 boroughs. I assume its borders are coterminous with the combined area of its 5 counties:

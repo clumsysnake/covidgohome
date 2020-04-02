@@ -56,6 +56,8 @@ IMPROVE
 - bug: scale matching broke for ChartsPage with total basis
 - redirect all domains to canonical
 - add hospital data to areamodel! vents, icu beds, doctors, hospitals, utilization... that would be cool
+- add hospitalization rate to state page
+- add banner ability to top header
 
 REFACTOR
 - think about adding some kind of json cache
@@ -75,3 +77,4 @@ REFACTOR
 - AreaModel#totals should just be the last entries, slightly decorated.
 - remove all the renaming in decorateTimeSeries! or just properly map fields in actions.js
 - ideally neighborNumbers shouldn't return numbers it was given.
+- split actions into each data source
