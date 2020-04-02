@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import moment from 'moment'
 
 let allModels = []
 
@@ -27,10 +28,11 @@ let decorateTimeSeries = (entries) => {
 }
 
 //CRZ: As an aside, from only positive, negative, hospitalized, death, and pending you can calculate the rest.
+const primaryStats = ['positive', 'negative', 'hospitalized', 'death', 'totalTestResults', 'pending']
 const increasingStats = ['positive', 'negative', 'hospitalized', 'death', 'totalTestResults', 'total']
 const deltaStats = ['positiveIncrease', 'negativeIncrease', 'hospitalizedIncrease', 'deathIncrease', 'totalTestResultsIncrease']
-const allFactors = _.concat(increasingStats, deltaStats, ['pending'])
-const emptyEntry = allFactors.reduce((h, key) => { h[key] = 0; return h}, {})
+const allStats = _.concat(increasingStats, deltaStats, ['pending'])
+const emptyEntry = allStats.reduce((h, key) => { h[key] = 0; return h}, {})
 
 class AreaModel {
   static get all() {
@@ -108,7 +110,7 @@ class AreaModel {
     }
 
     let decoratedScaled = decorateTimeSeries(this.entries.map(e => {
-      return allFactors.reduce((h, f) => {
+      return allStats.reduce((h, f) => {
         h[f] = e[f]/scale; return h
       }, { date: e.date}  )
     }))
@@ -131,7 +133,7 @@ class AreaModel {
     let scale = this.population / 1000000.0
 
     let decoratedScaled = decorateTimeSeries(this.entries.map(e => {
-      return allFactors.reduce((h, f) => {
+      return allStats.reduce((h, f) => {
         h[f] = e[f] * e[f]/scale; return h
       }, { date: e.date}  )
     }))
@@ -191,6 +193,33 @@ class AreaModel {
       attackRate: this.population ? 100 * positive/this.population : null
     }
   }
+
+  //CRZ: only bother matching the primary fields
+  findMatchingEntry(hash) {
+    return this.entries.find((e) => AreaModel.primaryStats.every(field => e[field] === hash[field]))
+  }
+
+  //CRZ: just tacks fields onto the end, incrementing date.
+  //     TODO: this is really very tied to the bizarre needs of ctActions.js, very spaghetti.
+  addEntryFromPrimaries(hash) {
+    let last = _.last(this.entries)
+    let date = moment.unix(last.date).add('days', 1).unix()
+    let abbreviation = this.abbreviation
+
+    let entry = AreaModel.primaryStats.reduce((h, k) => Object.assign(h, {[k]: hash[k]}), {date})
+
+    // debugger
+    entry.state = abbreviation
+    entry.positiveIncrease = entry.positive - last.positive
+    entry.negativeIncrease = entry.negative - last.negative
+    entry.deathIncrease  = entry.death - last.death
+    entry.hospitalizedIncrease = entry.hospitalized - last.hospitalized
+    entry.totalTestResultsIncrease = entry.totalTestResults - last.totalTestResults
+
+    this.entries.push(entry)
+  }
 }
+
+AreaModel.primaryStats = primaryStats
 
 export default AreaModel

@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 public/ct.statesdaily.cache.json
-public/ct.states.cache.json
+public/ct.statescurrent.cache.json
 public/jh.daily.json

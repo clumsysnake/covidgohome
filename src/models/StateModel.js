@@ -23,7 +23,7 @@ class StateModel extends AreaModel {
   }
 
   static findByAbbrev(abbrev) {
-    return StateModel.all.find(s => s.abbrev === abbrev)
+    return StateModel.all.find(s => s.abbreviation === abbrev)
   }
 
   static findByName(name) {
