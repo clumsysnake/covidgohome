@@ -5,8 +5,10 @@ let allModels = []
 
 let decorateTimeSeries = (entries) => {
   entries.forEach((e, idx, a) => {
-    e.posNeg = e.totalTestResults || 0
-    e.posPerc = 100 * (e.positive || 0) / e.posNeg
+    //regularize broken data
+    if(e.negative === null && idx > 0) { e.negative = a[idx-1].negative }
+
+
     e.positiveDelta = e.positiveIncrease || 0
     e.negativeDelta = e.negativeIncrease || 0
     e.deathDelta = e.deathIncrease || 0
@@ -18,10 +20,8 @@ let decorateTimeSeries = (entries) => {
     // however some states dont report pendings.
     e.pendingDelta = (idx > 0) ? (e.pending || 0) - (a[idx-1].pending || 0) : null 
     e.totalDelta = (idx > 0) ? (e.total || 0) - (a[idx-1].total || 0) : null 
+    e.positivePercent = 100 * (e.positive || 0) / e.totalTestResults
     e.positivePercentDelta = (idx > 0) ? (e.positiveDelta / e.posNegDelta) * 100 : null
-
-    //regularize broken data
-    if(e.negative === null && idx > 0) { e.negative = a[idx-1].negative }
   })
 
   return entries

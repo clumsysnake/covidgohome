@@ -94,7 +94,7 @@ class CumulativeChart extends React.Component {
             yAxisId="percentage"
             type="monotone"
             strokeDasharray="3 2"
-            dataKey="posPerc"
+            dataKey="positivePercent"
             stroke={Colors.POSITIVE_PERCENT}
             dot={false}
             strokeWidth={1}
