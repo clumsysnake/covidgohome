@@ -58,6 +58,7 @@ IMPROVE
 - add hospital data to areamodel! vents, icu beds, doctors, hospitals, utilization... that would be cool
 - add hospitalization rate to state page
 - add banner ability to top header
+- i need date reported of each number, then i can average the entries values based on when the date
 
 REFACTOR
 - think about adding some kind of json cache
@@ -67,6 +68,8 @@ REFACTOR
 - consider redux-orm
 - decide where CensusStore goes now
 - rename remaining "entries" variables to "series"
+- remove all the renaming in decorateTimeSeries! or just properly map fields in actions.js
+- use a proper time series library... pondjs? 
 - combine/trim jsons so less in browser processing for static files.
 - have background task update static jsons when new data becomes available, instead of having in-browser do it
 - is FIPS still the code i should be using? seems deprecated
@@ -75,6 +78,5 @@ REFACTOR
 - get page to set body (or .app) classname like in ember
 - submit bugfix to react-simple-maps to render *all* objects, not only the first GeometryCollection
 - AreaModel#totals should just be the last entries, slightly decorated.
-- remove all the renaming in decorateTimeSeries! or just properly map fields in actions.js
 - ideally neighborNumbers shouldn't return numbers it was given.
 - split actions into each data source
