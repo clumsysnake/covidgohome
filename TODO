@@ -80,3 +80,4 @@ REFACTOR
 - AreaModel#totals should just be the last entries, slightly decorated.
 - ideally neighborNumbers shouldn't return numbers it was given.
 - split actions into each data source
+- CT's 'total' field is deprecated and will be removed. calc myself if needed

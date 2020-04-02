@@ -43,7 +43,7 @@
     "datetime": "2020-Mar-25 20:00 EST",
     "country": "USA",
     "state_or_province": "WA",
-    "modifiedAt": 1585470939,
+    "modifiedAt": 1585828066001,
     "categories": [
       "restriction-change"
     ],
@@ -52,5 +52,57 @@
       "https://www.governor.wa.gov/sites/default/files/proclamations/20-25%20Coronovirus%20Stay%20Safe-Stay%20Healthy%20%28tmp%29%20%28002%29.pdf",
       "https://medium.com/wagovernor/inslee-announces-stay-home-stay-healthy-order-4891a7511f5e"
     ]
-  }
+  },
+  {
+    "datetime": "2020-Mar-19",
+    "country": "USA",
+    "state_or_province": "CA",
+    "modifiedAt": 1585828066834,
+    "categories": [
+      "restriction-change"
+    ],
+    "description": "Newsom Orders Shelter-in-Place",
+    "sources": [
+      "https://www.kqed.org/science/1959566/california-gov-gavin-newsom-orders-state-to-shelter-in-place"
+    ]
+  },
+  {
+    "datetime": "2020-Mar-16",
+    "country": "USA",
+    "state_or_province": "CA",
+    "modifiedAt": 1585828066834,
+    "categories": [
+      "restriction-change"
+    ],
+    "description": "Bay Area goes Shelter-in-Place",
+    "sources": [
+      "https://www.sfchronicle.com/local-politics/article/Bay-Area-must-shelter-in-place-Only-15135014.php"
+    ]
+  },
+  {
+    "datetime": "2020-Mar-22",
+    "country": "USA",
+    "state_or_province": "LA",
+    "modifiedAt": 1585828066834,
+    "categories": [
+      "restriction-change"
+    ],
+    "description": "Governor Edwards Issues Statewide Stay At Home Order",
+    "sources": [
+      "https://gov.louisiana.gov/index.cfm/newsroom/detail/2429"
+    ]
+  },
+  {
+    "datetime": "2020-Mar-23",
+    "country": "USA",
+    "state_or_province": "LA",
+    "modifiedAt": 1585828066834,
+    "categories": [
+      "restriction-change"
+    ],
+    "description": "Stay At Home Order goes into effect",
+    "sources": [
+      "https://gov.louisiana.gov/index.cfm/newsroom/detail/2429"
+    ]
+  },
 ]
