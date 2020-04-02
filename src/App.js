@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Link, Route, Switch, Redirect } from 'react-router-dom'
-import * as actions from './redux/actions'
+import actions from './redux/actions'
 import store from './redux/store'
 
 import './App.css';
@@ -11,8 +11,8 @@ import StatePage from './pages/StatePage.js'
 
 class App extends React.Component {
   componentDidMount() {
-    store.dispatch(actions.covidTrackingfetchStatesDaily())
-    store.dispatch(actions.johnsHopkinsFetchDailyReport())
+    store.dispatch(actions.covidTracking.fetchStatesDaily())
+    store.dispatch(actions.johnsHopkins.fetchDailyReport())
   }
 
   render() {

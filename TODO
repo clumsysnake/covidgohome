@@ -69,7 +69,7 @@ REFACTOR
 - decide where CensusStore goes now
 - rename remaining "entries" variables to "series"
 - remove all the renaming in decorateTimeSeries! or just properly map fields in actions.js
-- use a proper time series library... pondjs? 
+- use a proper time series library... pondjs? ts.js, zodiac-ts
 - combine/trim jsons so less in browser processing for static files.
 - have background task update static jsons when new data becomes available, instead of having in-browser do it
 - is FIPS still the code i should be using? seems deprecated
