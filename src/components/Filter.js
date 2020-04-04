@@ -16,7 +16,7 @@ const filterOption = function(accessors, option) {
   let isActive = accessors[0] === value
 
   return <span key={value+displayValue} className={`filter-option ${isActive ? 'chosen': ''}`}>
-    {(isActive) ? <div className="inner-filter-option">displayValue</div> : <button
+    {(isActive) ? <div className="inner-filter-option">{displayValue}</div> : <button
       className="inner-filter-option" onClick={() => accessors[1](value)}>{displayValue}
     </button>}
   </span>
