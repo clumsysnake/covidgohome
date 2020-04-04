@@ -35,7 +35,8 @@ function handleError() {
 
 //CRZ: our own data is perfectly suited for our model, so there is little to handle.
 function handleStates(statesJson) {
-  let states = statesJson.slice(0, DEBUG_MAX_STATES).map((state) => new StateModel(state))
+  //TODO: confirm that states key exists and that its an array
+  let states = statesJson.states.slice(0, DEBUG_MAX_STATES).map((state) => new StateModel(state))
 
   return {
     type: types.COVIDGOHOME_HANDLE_STATES,

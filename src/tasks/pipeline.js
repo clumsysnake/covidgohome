@@ -162,7 +162,14 @@ function outputResults(json, filename = null) {
   }
 }
 
+function packageStatesJson(json) {
+  return {
+    states: json,
+    timestamp: Date.now()
+  }
+}
+
 let filename = process.argv[2]
 groupSources((groups) => {
-  outputResults(createStatesJson(groups), filename)
+  outputResults(packageStatesJson(createStatesJson(groups)), filename)
 })
