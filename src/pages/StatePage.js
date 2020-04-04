@@ -103,7 +103,7 @@ function StatePage(props) {
             <li>
               <span className="label">Currently in ICU</span>
               <span className="value">{numberWithCommas(curr.inIcuCurrently) || "unknown"}</span>
-            </li>*
+            </li>
             {/* active, resolved */}
           </ul>
         </div>
