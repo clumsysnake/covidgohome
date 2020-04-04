@@ -36,7 +36,7 @@
 - dont have population data for the territories... minor issue atm.
 - our cfr is not correct, its not based off recoveries. is there a better term for that?
 - daily charts on charts page display pending, which may blow the domainMax, since we calculate it from max of total.
-- why are y and x axis in charts not evenly-spaced?
+- bug: recharts has uneven ticks on both axes
 - no longer fixed header, and header padding wrong, after adding react-router
 - confirm all the withPlaces helpers are rounding off? thought some weren't
 - confirm my "total squared per 1m" is statistically legitimate, or replace with whatever is best practice
@@ -47,13 +47,12 @@
 - truly address the NYC problem
 - decide on if "confirmed" is the correct terminology rather than "positive"?
 - bug: alaska state display is broken
-- what does it mean when fields are null in the covidtracking states daily? atm i'm just making them all into 0s, but is there a meaningful diff?
+- for SOME fields in ct data i am making turning null's into 0s. stop doing that (make sure it breaks nothing)
 - what does it mean when counties are absent from JH data? does it mean they are 0 or unknown?
 - styling: i want the state name to always be always centered over the stats on the state page, but the table to take up all the room to the left and right
 - styling: make state page stats a true table so word wrap takes place only on its side of the stats
 - styling: charts should always take up entire width until a breakpoint, and then multiple charts can exist horizontally
 - bug: scale matching broke for ChartsPage with total basis
-- redirect all domains to canonical
 - add hospital data to areamodel! vents, icu beds, doctors, hospitals, utilization... that would be cool
 - add banner ability to top header
 - i need date reported of each number, then i can average the entries values based on when the date
@@ -71,23 +70,18 @@
 - bug: some regions not displaying correctly after pipeline
 - states.json
   - how do i make really really sure chrome does it cache it at all ever?
-  - write scripts to update s3
-  - run script every x minutes on heroku
   - add reporting so if script is breaking i know, and for warnings
   - for each run save the output files (and possible the source files?) to s3
+  - heroku uses 12.16.1 node! so i should prolly use that locally unless i can upgrae?
 
 REFACTOR
-- think about adding some kind of json cache
 - switch to graphql interface
 - investigate other chloropleth packages, including google-map-react, http://polymaps.org/
-- use redux-toolkit: use configureStore
 - consider redux-orm
 - decide where CensusStore goes now
 - rename remaining "entries" variables to "series"
 - remove all the renaming in decorateTimeSeries! or just properly map fields in actions.js
 - use a proper time series library... pondjs? ts.js, zodiac-ts
-- combine/trim jsons so less in browser processing for static files.
-- have background task update static jsons when new data becomes available, instead of having in-browser do it
 - is FIPS still the code i should be using? seems deprecated
 - use route helpers if react-router has them? in map click handlers
 - fix the damned sourcemaps
@@ -95,5 +89,4 @@ REFACTOR
 - submit bugfix to react-simple-maps to render *all* objects, not only the first GeometryCollection
 - AreaModel#totals should just be the last entries, slightly decorated.
 - ideally neighborNumbers shouldn't return numbers it was given.
-- split actions into each data source
 - CT's 'total' field is deprecated and will be removed. calc myself if needed

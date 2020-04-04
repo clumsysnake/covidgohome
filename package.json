@@ -35,7 +35,7 @@
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "eject": "react-scripts eject",
     "tasks:pipeline": "node src/tasks/pipeline.js",
-    "tasks:pipeline:upload": "node src/tasks/pipeline.js --upload"
+    "tasks:pipeline:upload": "node --experimental-modules src/tasks/pipeline.js --upload"
   },
   "eslintConfig": {
     "extends": "react-app"
