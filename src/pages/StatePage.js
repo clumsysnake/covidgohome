@@ -25,6 +25,8 @@ function StatePage(props) {
   //TODO: this line has so much wrong with it... fix AreaModel
   let deadPer1M = _.last(state.scaledPerMillion()).death
 
+  let curr = state.currentFrame
+
   return (
     <div className="state-page">
       <div className="top">
@@ -71,33 +73,34 @@ function StatePage(props) {
               <span className="value">{withPlaces(totals.attackRate, 3)}%</span>
             </li>
             <li>
-              <span className="label">CFR</span>
-              <span className="value">{withPlaces(totals.cfrPercent, 2)}% (estimated)</span>
+              <span className="label">CFR (estimated)</span>
+              <span className="value">{withPlaces(totals.cfrPercent, 2)}%</span>
             </li>
             <li>
               <span className="label">Dead</span>
               <span className="value">{numberWithCommas(totals.death)} or {withPlaces(deadPer1M, 2)}/million</span>
             </li>
             <li>
-              <span className="label">Hospitalized</span>
-              <span className="value">{numberWithCommas(totals.hospitalized) || "Unknown"}</span>
+              <span className="label">Currently Hospitalized</span>
+              <span className="value">{numberWithCommas(curr.hospitalizedCurrently) || "Unknown"}</span>
             </li>
             <li>
-              <span className="label">Hospitalization Rate</span>
+              <span className="label">Total Hospitalizations</span>
+              <span className="value">{numberWithCommas(curr.hospitalizedCumulative) || "Unknown"}</span>
+            </li>
+            <li>  
+              <span className="label">Total Hospitalization Rate (estimated)</span>
               <span className="value">{percentWithPlaces(totals.hospitalizationRate, 2) || "Unknown"}</span>
             </li>
-{/*            <li>
-              <span className="label">Active</span>
-              <span className="value">Unknown</span>
+            <li>
+              <span className="label">Hospitalizations Recovered</span>
+              <span className="value">{numberWithCommas(curr.recovered) || "Unknown"}</span>
             </li>
             <li>
-              <span className="label">Recovered</span>
-              <span className="value">Unknown</span>
-            </li>
-            <li>
-              <span className="label">Resolved</span>
-              <span className="value">Unknown</span>
-            </li>*/}
+              <span className="label">Currently in ICU</span>
+              <span className="value">{numberWithCommas(curr.inIcuCurrently) || "Unknown"}</span>
+            </li>*
+            {/* active, resolved */}
           </ul>
         </div>
       </div>

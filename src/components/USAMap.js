@@ -14,7 +14,7 @@ import {safeSmartNumPlaces} from "../helpers/chartHelpers.js"
 //TODO: dont use url, just hardcode! but how to load into Geographies..
 const countiesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
 const statesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
-// const allowableFields = ['positive', 'total', 'negative', 'posPerc', 'death', 'hospitalized']
+// const allowableFields = ['positive', 'total', 'negative', 'posPerc', 'death', 'hospitalizedCumulative']
 
 function USAMap(props) {
   const history = useHistory();

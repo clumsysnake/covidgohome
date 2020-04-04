@@ -10,18 +10,18 @@ const numberWithCommas = (n) => {
   return n.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
 }
 
-const percentWithPlaces = (num, n) => {
+const percentWithPlaces = (n, places) => {
   if(!_.isFinite(n)) { return n }
 
-  return withPlaces(num, n) + "%"
+  return withPlaces(n, places) + "%"
 }
 
-const withPlaces = (num, n) => { 
+const withPlaces = (n, places) => { 
   if(!_.isFinite(n)) { return n }
 
-  return Number.parseFloat(num).toFixed(n)
+  return Number.parseFloat(n).toFixed(places)
 }
-const percentDisplay = (num, n) => withPlaces(num, n)
+const percentDisplay = (n, places) => withPlaces(n, places)
 const percentTickFormatter = (n) => `${n}%`
 const countTickFormatter = (n) => {
   if(n >= 1000000) {

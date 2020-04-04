@@ -12,7 +12,7 @@ import AreaModel from "../models/AreaModel.js"
 // import "./StateMap.css"
 import {safeSmartNumPlaces} from "../helpers/chartHelpers.js"
 
-// const allowableFields = ['positive', 'total', 'negative', 'posPerc', 'death', 'hospitalized']
+// const allowableFields = ['positive', 'total', 'negative', 'posPerc', 'death', 'hospitalizedCumulative']
 
 function StateMap(props) {
   const history = useHistory();

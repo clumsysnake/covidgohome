@@ -27,10 +27,11 @@ let decorateTimeSeries = (entries) => {
   return entries
 }
 
-//CRZ: As an aside, from only positive, negative, hospitalized, death, and pending you can calculate the rest.
-const primaryStats = ['positive', 'negative', 'hospitalized', 'death', 'totalTestResults', 'pending']
-const increasingStats = ['positive', 'negative', 'hospitalized', 'death', 'totalTestResults', 'total']
+//CRZ: As an aside, from only positive, negative, hospitalizedCumulative, death, and pending you can calculate the rest.
+const primaryStats = ['positive', 'negative', 'hospitalizedCumulative', 'hospitalizedCurrently', 'death', 'totalTestResults', 'pending']
+const increasingStats = ['positive', 'negative', 'hospitalizedCumulative', 'death', 'totalTestResults', 'total']
 const deltaStats = ['positiveIncrease', 'negativeIncrease', 'hospitalizedIncrease', 'deathIncrease', 'totalTestResultsIncrease']
+const nonincreasingStats = [].concat(deltaStats, ['hospitalizedCurrently'])
 const allStats = _.concat(increasingStats, deltaStats, ['pending'])
 const emptyEntry = allStats.reduce((h, key) => { h[key] = 0; return h}, {})
 
@@ -165,7 +166,7 @@ class AreaModel {
         negative: e.negative/scale,
         pending: e.pending/scale,
         death: e.death/scale,
-        hospitalized: e.hospitalized/scale,
+        hospitalizedCumulative: e.hospitalizedCumulative/scale,
         total: e.total/scale,
         posNeg: e.posNeg/scale,
         posNegDelta: e.posNegDelta/deltaScale ,
@@ -177,30 +178,36 @@ class AreaModel {
     })
   }
 
+  get currentFrame() {
+    return _.last(this.entries)
+  }
+
   get totals() {
     let last = _.last(this.entries) || null
     let positive = (last && last.positive) || null
     let total = (last && last.total) || null
     let totalTestResults = (last && last.totalTestResults) || null
     let death = (last && last.death) || null
-    let hospitalized = (last && last.hospitalized) || null
+    let hospitalizedCumulative = (last && last.hospitalizedCumulative) || null
+
+    if(this.abbreviation === "NJ") { debugger}
 
     return this._stats = this._stats || {
       total,
       totalTestResults,
       positive,
       death,
-      hospitalized,
+      hospitalizedCumulative,
       positivePercent: 100 * (positive / totalTestResults) || null,
       cfrPercent: 100 * death/positive,
-      hospitalizationRate: 100 * hospitalized/positive,
+      hospitalizationRate: _.isFinite(hospitalizedCumulative) ? 100 * hospitalizedCumulative/positive : null,
       attackRate: this.population ? 100 * positive/this.population : null
     }
   }
 
   //CRZ: only bother matching the primary fields
   findMatchingEntry(hash) {
-    return this.entries.find((e) => AreaModel.primaryStats.every(field => e[field] === hash[field]))
+    return this.entries.find((e) => AreaModel.areEqualFrames(hash, e))
   }
 
   //CRZ: just tacks fields onto the end, incrementing date.
@@ -221,6 +228,10 @@ class AreaModel {
     entry.totalTestResultsIncrease = entry.totalTestResults - last.totalTestResults
 
     this.entries.push(entry)
+  }
+
+  static areEqualFrames(a, b) {
+    return a.positive === b.positive && a.negative === b.negative && a.death === b.death
   }
 }
 
