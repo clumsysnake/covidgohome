@@ -1,4 +1,5 @@
 {
+  "canonical_host": "www.covidtogo.com",
   "headers": {
     "/data/**": {
       "Access-Control-Allow-Origin": "*",
