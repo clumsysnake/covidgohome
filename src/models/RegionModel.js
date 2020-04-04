@@ -6,7 +6,7 @@ const REGION_MAP = {
   "Northwest": ["Oregon", "Washington"],
   "Wet South": ["Texas", "South Carolina", "Georgia", "Florida", "Alabama", "Lousiana", "Mississippi"],
   "Southwest": ["Arizona", "New Mexico"],
-  "Carribbean": ["Puerto Rico", "Virgin Islands"]
+  // "Carribbean": ["Puerto Rico", "Virgin Islands"]
 }
 
 let allModels = []
