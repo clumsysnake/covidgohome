@@ -4,8 +4,8 @@ import Filter from '../components/Filter.js'
 import './ChartsPage.css'
 
 export default function ChartsPage(props) {
-  const [sort, setSort] = useState("most-tests")
-  const [aggregate, setAggregate] = useState("region")
+  const [sort, setSort] = useState("most-cases")
+  const [aggregate, setAggregate] = useState("state")
   const [group, setGroup] = useState("none")
   const [chartType, setChartType] = useState("daily")
   const [basis, setBasis] = useState("per-1m")
@@ -28,10 +28,11 @@ export default function ChartsPage(props) {
           'total',
           ['per-1m', 'total / capita'],
         ]} />
-        <Filter accessors={[sort, setSort]} label="sort" options={[
+{/*        <Filter accessors={[sort, setSort]} label="sort" options={[
           ['most-tests', 'most tests'],
-          ['percent-positive', '% positive']
+          ['most-cases', 'most cases']
         ]} />
+*/} 
         <Filter accessors={[group, setGroup]} label="group" options={[
           'none',
           'region'
