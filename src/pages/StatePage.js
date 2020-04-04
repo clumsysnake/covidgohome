@@ -65,8 +65,12 @@ function StatePage(props) {
               <span className="value">{numberWithCommas(state.population)}</span>
             </li>
             <li>
-              <span className="label">Positive</span>
-              <span className="value">{numberWithCommas(totals.positive)}</span>
+              <span className="label">Tests Performed</span>
+              <span className="value">{numberWithCommas(totals.totalTestResults)}</span>
+            </li>
+            <li>
+              <span className="label">Tests Positive</span>
+              <span className="value">{numberWithCommas(totals.positive)} or {percentWithPlaces(totals.positivePercent, 2)}</span>
             </li>
             <li>
               <span className="label">Attack Rate</span>
@@ -81,16 +85,16 @@ function StatePage(props) {
               <span className="value">{numberWithCommas(totals.death)} or {withPlaces(deadPer1M, 2)}/million</span>
             </li>
             <li>
-              <span className="label">Currently Hospitalized</span>
-              <span className="value">{numberWithCommas(curr.hospitalizedCurrently) || "Unknown"}</span>
-            </li>
-            <li>
               <span className="label">Total Hospitalizations</span>
               <span className="value">{numberWithCommas(curr.hospitalizedCumulative) || "Unknown"}</span>
             </li>
             <li>  
               <span className="label">Total Hospitalization Rate (estimated)</span>
               <span className="value">{percentWithPlaces(totals.hospitalizationRate, 2) || "Unknown"}</span>
+            </li>
+            <li>
+              <span className="label">Currently Hospitalized</span>
+              <span className="value">{numberWithCommas(curr.hospitalizedCurrently) || "Unknown"}</span>
             </li>
             <li>
               <span className="label">Hospitalizations Recovered</span>
