@@ -15,8 +15,8 @@ export default function MapPage(props) {
       <div className="filters">
         <Filter accessors={[mapField, setMapfield]} label="showing" options={[
           ['positive', 'positives'],
-          ['total', '# tests'], 
-          'hospitalizedCumulative',
+          ['totalTestResults', '# tests'], 
+          ['hospitalizedCumulative', 'total hospitalized'],
           ['death', 'deaths']
         ]}/>
         <Filter accessors={[basis, setBasis]} label="basis" options={[
