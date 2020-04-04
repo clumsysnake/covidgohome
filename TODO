@@ -71,7 +71,10 @@
 - bug: some regions not displaying correctly after pipeline
 - states.json
   - how do i make really really sure chrome does it cache it at all ever?
-  - convert population and density to number in states.json
+  - write scripts to update s3
+  - run script every x minutes on heroku
+  - add reporting so if script is breaking i know, and for warnings
+  - for each run save the output files (and possible the source files?) to s3
 
 REFACTOR
 - think about adding some kind of json cache

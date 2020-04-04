@@ -15,6 +15,7 @@ import Papa from 'papaparse'
 import moment from 'moment'
 import fetch from 'node-fetch'
 import fs from 'fs'
+import AWS from 'aws-sdk'
 import AreaModel from '../models/AreaModel.js'
 
 const CT_STATESDAILY_URL = "https://covidtracking.com/api/states/daily"
@@ -22,6 +23,7 @@ const CT_STATESCURRENT_URL = "https://covidtracking.com/api/states"
 const NYT_STATES_URL = "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv"
 const MAPPING_JSON = "src/stores/us_state_mapping.json"
 const CENSUS_JSON  = "src/stores/census-2019-07-01-pop-estimate.json"
+const S3_KEY = "data/states.json"
 
 // function suspectedMissingDay(e) {
 //   return AreaModel.deltaStats.every(s => e[s] === 0) && e.positive > 100
@@ -153,7 +155,7 @@ function createStatesJson(groups) {
 }
 
 function outputResults(json, filename = null) {
-  let jsonString = JSON.stringify(json)
+  let jsonString = stringify(json)
 
   if(_.isNil(filename)) {
     process.stdout.write(jsonString)
@@ -169,7 +171,38 @@ function packageStatesJson(json) {
   }
 }
 
-let filename = process.argv[2]
+function stringify(json) {
+  return JSON.stringify(json)
+}
+
+let __awsClient
+function s3Client() {
+  return __awsClient || (__awsClient = new AWS.S3({
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  }))
+}
+
+function uploadResults(json) {
+  const params = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: S3_KEY,
+    Body: stringify(json)
+  };
+  s3Client().upload(params, function(err, data) {
+   console.log(err, data);
+  });  
+}
+
+const uploadToS3 = (process.argv[2] === "--upload")
+
 groupSources((groups) => {
-  outputResults(packageStatesJson(createStatesJson(groups)), filename)
+  const finalJson = packageStatesJson(createStatesJson(groups))
+
+  if(uploadToS3) {
+    uploadResults(finalJson)
+  } else {
+    let filename = process.argv[2]
+    outputResults(finalJson, filename)
+  }
 })
