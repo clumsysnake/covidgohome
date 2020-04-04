@@ -1,9 +1,9 @@
 /* TODO: refactor the two charts to share css */
 .area-chart {
   float: left;
-  width:  90%;
+  width:  95%;
   height: 300px;
-  margin: 30px 15px;
+  margin: 30px 15px 30px 0;
 }
 
 .area-chart .header {

@@ -68,6 +68,7 @@
 - is "recovered" all recovered, even mild cases, or only discharged hospitalizations?
 - bug: on USAMap, if you're looking at the county view, you can choose # test and total hospitalized, neither of which have data at the county level
 - bug: dumb filter {cursor: pointer} doesn't trigger while in the padding of an unchosen option
+- bug: some regions not displaying correctly after pipeline
 - states.json
   - how do i make really really sure chrome does it cache it at all ever?
   - convert population and density to number in states.json

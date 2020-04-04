@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Grid from '../components/Grid.js'
 import Filter from '../components/Filter.js'
+import './ChartsPage.css'
 
 export default function ChartsPage(props) {
   const [sort, setSort] = useState("most-tests")
@@ -10,17 +11,9 @@ export default function ChartsPage(props) {
   const [basis, setBasis] = useState("per-1m")
   const [scaleMatching, setScaleMatching] = useState(true)
 
-  return <>
+  return <div className="charts-page">
     <div className="top">
       <div className="filters">
-        <Filter accessors={[sort, setSort]} label="sort" options={[
-          ['most-tests', 'most tests'],
-          ['percent-positive', '% positive']
-        ]} />
-        <Filter accessors={[group, setGroup]} label="group" options={[
-          'none',
-          'region'
-        ]} />
         <Filter accessors={[aggregate, setAggregate]} options={[
           'state',
           'region',
@@ -34,6 +27,14 @@ export default function ChartsPage(props) {
         <Filter accessors={[basis, setBasis]} options={[
           'total',
           ['per-1m', 'total / capita'],
+        ]} />
+        <Filter accessors={[sort, setSort]} label="sort" options={[
+          ['most-tests', 'most tests'],
+          ['percent-positive', '% positive']
+        ]} />
+        <Filter accessors={[group, setGroup]} label="group" options={[
+          'none',
+          'region'
         ]} />
         <Filter accessors={[scaleMatching, setScaleMatching]} label="scale match" options={[
           [true, 'yes'],
@@ -51,5 +52,5 @@ export default function ChartsPage(props) {
         scaleMatching={scaleMatching}
       />
     </div>
-  </>
+  </div>
 }
