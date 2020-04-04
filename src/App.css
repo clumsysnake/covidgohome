@@ -57,10 +57,11 @@ nav > ul > li {
 }
 
 a, a:visited {
-  color:black;
+  color: red;
+  font-weight: bold;
 }
 
-a a:active {
+a:active {
   color:white
 }
 
