@@ -3,7 +3,8 @@ import store from '../store'
 import StateModel from '../../models/StateModel'
 import { fetchXhr } from './helpers'
 
-const STATESDAILY_URL = "http://covidgohome.com/data/states.json"
+const S3_BUCKET = "http://covidgohome.s3-us-west-2.amazonaws.com"
+const STATESDAILY_URL = S3_BUCKET + "/data/states.json"
 const DEBUG_MAX_STATES = 1000 //CRZ: set lower to limit # of states fetched
 
 const statesUrl = function() {

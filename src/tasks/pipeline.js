@@ -138,8 +138,8 @@ function createStatesJson(groups) {
       name: g.name,
       abbrev: g.abbreviation,
       fips: g.census && g.census[3], //as string.
-      population: g.census && g.census[1],
-      density: g.census && g.census[0],
+      population: g.census && parseInt(g.census[1]),
+      density: g.census && parseFloat(g.census[0]),
     }
 
     //Add normal series
