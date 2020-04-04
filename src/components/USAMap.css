@@ -6,9 +6,3 @@
 .state-map {
   width: 50%
 }
-
-/* TODO: refactor */
-.filters {
-  padding-top: 5px;
-  padding-left: 5px;
-}

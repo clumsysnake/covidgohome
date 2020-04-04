@@ -22,7 +22,7 @@
 .tagline {
   float:right;
   display: inline-block;
-  padding-right: 5px;
+  padding-right: 10px;
 }
 
 nav {
@@ -62,21 +62,24 @@ a, a:visited {
 }
 
 a:active {
-  color:white
+  color:black;
 }
 
+.filters > .filter-control {
+  float: left;
+  margin: 3px 10px 3px 0px
+}
 /* TODO: need sass to apply clearfix as needed */
-.filters::after {
+.filters > .filter-control::after {
   content: "";
   clear: both;
   display: table;
 }
 
-.filters > .filter-control {
-  float: left
+.filters {
+  padding: 5px 0 0 10px;
 }
 
-/* .filters > .filter-control + .filter-control { */
-.filters > .filter-control {
-  margin: 3px 0 3px 10px
+.filter-control .filter-label {
+  font-weight: bold;
 }
