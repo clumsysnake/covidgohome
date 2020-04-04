@@ -32,19 +32,21 @@ class App extends React.Component {
             </nav>
             <span className="tagline"><em>...go back in your bat hole!</em></span>
           </header>
-          <Switch>
-            <Route path="/map" component={MapPage} />
-            <Route path="/about" component={AboutPage} />
-            <Route path="/charts" component={ChartsPage} />
-            <Route path="/states/:stateAbbrev" component={StatePage} /> 
-            <Route path="/sources/" component={SourcesPage} />
-            <Route exact path="/">
-              <Redirect to="/map" />
-            </Route>
-            <Route>
-              <Redirect to="/map" />
-            </Route>
-          </Switch>
+          <div class="page">
+            <Switch>
+              <Route path="/map" component={MapPage} />
+              <Route path="/about" component={AboutPage} />
+              <Route path="/charts" component={ChartsPage} />
+              <Route path="/states/:stateAbbrev" component={StatePage} /> 
+              <Route path="/sources/" component={SourcesPage} />
+              <Route exact path="/">
+                <Redirect to="/map" />
+              </Route>
+              <Route>
+                <Redirect to="/map" />
+              </Route>
+            </Switch>
+          </div>
         </div>
       </BrowserRouter>
     )

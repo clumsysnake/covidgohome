@@ -1,6 +1,3 @@
-.state-page {
-  margin: 20px;
-}
 
 .state-page > .top > div{
   float: left;
@@ -34,7 +31,7 @@
   margin: 0;
 }
 .state-page .stats li {
-  font-size: 1.3em;
+  font-size: 1.2em;
   list-style-type: none;
   margin: 5px 0;
 }
@@ -44,6 +41,8 @@
   text-align: right;
   display: inline-block;
   margin-right: 5px;
+  font-size: 0.9em;
+  text-decoration: underline
 }
 .state-page .stats li .value {
   vertical-align: top;
