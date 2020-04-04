@@ -51,7 +51,9 @@ const ctDailyPickFields =[
 ]
 //removed: dateChecked, hash, fips, state
 function translateCtDailyFrame(ct) {
-  return _.pick(ct, ctDailyPickFields)
+  let h = _.pick(ct, ctDailyPickFields)
+  h.date = dateParse(h.date)
+  return h
 }
 
 //CRZ: Note: not all days have all these fields. old days havent changed.
@@ -65,6 +67,10 @@ const ctCurrentPickFields = [
 //         posNeg, fips, dateModified, dateChecked, notes, hash, lastUpdateEt, checkTimeEt, total
 function translateCtCurrentFrame(ct) {
   return _.pick(ct, ctCurrentPickFields)
+}
+
+const dateParse = function(string) {
+  return moment(string, 'YYYYMMDD').unix()
 }
 
 
