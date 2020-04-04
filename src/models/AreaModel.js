@@ -190,8 +190,6 @@ class AreaModel {
     let death = (last && last.death) || null
     let hospitalizedCumulative = (last && last.hospitalizedCumulative) || null
 
-    if(this.abbreviation === "NJ") { debugger}
-
     return this._stats = this._stats || {
       total,
       totalTestResults,
