@@ -1,0 +1,8 @@
+{
+  "headers": {
+    "/data/**": {
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "no-store, no-cache"
+    }
+  }
+}
