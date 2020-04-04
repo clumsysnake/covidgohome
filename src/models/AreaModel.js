@@ -85,9 +85,11 @@ class AreaModel {
 
   //TODO: rename entries to series
   constructor(props) {
-    if(!_.isArray(props.entries)) { throw new TypeError("entries must be an array") }
+    let entries = props.entries || props.series
 
-    this.entries = decorateTimeSeries(props.entries)
+    if(!_.isArray(entries)) { throw new TypeError("entries/series must be an array") }
+
+    this.entries = decorateTimeSeries(entries)
     this.name = props.name
     this.population = props.population
 

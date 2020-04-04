@@ -19,7 +19,7 @@ function fetchStates() {
   fetchXhr(statesUrl(), (e) => {
     let json = e.target.response
     store.dispatch(handleStates(json))
-  }, 'text')
+  }, null, 'text')
 
   return {
     type: types.NYT_FETCH_STATES

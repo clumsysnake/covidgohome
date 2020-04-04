@@ -32,8 +32,7 @@
 - add city locations on maps
 - incorporate ALL jh daily data, then show graphs for individual counties
 - switching from USA map to state map should keep filters same as much as possible
-
-IMPROVE
+- add IFR estimate, if possible
 - dont have population data for the territories... minor issue atm.
 - our cfr is not correct, its not based off recoveries. is there a better term for that?
 - daily charts on charts page display pending, which may blow the domainMax, since we calculate it from max of total.
@@ -58,6 +57,16 @@ IMPROVE
 - add hospital data to areamodel! vents, icu beds, doctors, hospitals, utilization... that would be cool
 - add banner ability to top header
 - i need date reported of each number, then i can average the entries values based on when the date
+- new CT change: adapt:
+  "hospitalizedCurrently": null,
+  "hospitalizedCumulative": 254,
+  "inIcuCurrently": null,
+  "inIcuCumulative": null,
+  "onVentilatorCurrently": null,
+  "onVentilatorCumulative": null,
+  "recovered": null,
+- is "recovered" all recovered, even mild cases, or only discharged hospitalizations?
+- is states.json being gzipped?
 
 REFACTOR
 - think about adding some kind of json cache

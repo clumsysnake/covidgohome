@@ -21,7 +21,7 @@ function fetchDailyReport() {
   fetchXhr(dailyReportUrl(), (e) => {
     let csv = e.target.response
     store.dispatch(handleDailyReport(csv, dateParse(hardCodedDate)))
-  }, 'text')
+  }, null, 'text')
 
   return {
     type: types.JOHNS_HOPKINS_FETCH_DAILY_REPORT
