@@ -18,9 +18,7 @@ class DailyChart extends React.Component {
     return (
       <div className="area-chart">
         <div className="header">
-          <span className="name">
-            {this.props.name}
-          </span>
+          {this.props.name}
           {this.props.totals ? <span className="totals">
             {this.props.totals.total} tests; {this.props.totals.positive}({percentDisplay(this.props.totals.positivePercent, 1)}%) positive; {this.props.totals.death} dead
           </span> : null}

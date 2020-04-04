@@ -1,5 +1,6 @@
 import React from "react"
 import {connect} from "react-redux"
+import { Link} from 'react-router-dom'
 import PropTypes from 'prop-types';
 
 import RegionModel from '../models/RegionModel.js'
@@ -47,9 +48,14 @@ class Grid extends React.Component {
         default: break; //TODO: catch error
       }
 
+      // TODO: using abbreviation to check if its a state
+      let nameComp = <span className="name">
+          {(a.abbreviation) ? <Link to={`/states/${a.abbreviation}`}>{a.name}</Link> : a.name}
+        </span>
+
       return <ProperChart
         key={a.name}
-        name={a.name}
+        name={nameComp}
         series={scaledSeries}
         totals={a.totals}
         yDomain={yDomain}
