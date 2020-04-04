@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import RegionModel from '../models/RegionModel.js'
 import AreaModel from '../models/AreaModel.js'
 import DailyChart from './DailyChart.js'
-import DailyNewPositives from './DailyNewPositives.js'
+import DailyNewPositivesChart from './DailyNewPositivesChart.js'
 import CumulativeChart from './CumulativeChart.js'
 import Group from './Group.js'
 
@@ -36,7 +36,7 @@ class Grid extends React.Component {
       switch(this.props.chartType) {
         case "daily": ProperChart = DailyChart; break
         case "cumulative": ProperChart = CumulativeChart; break
-        case "daily-new-cases": ProperChart = DailyNewPositives; break
+        case "daily-new-cases": ProperChart = DailyNewPositivesChart; break
         default: break //TODO: throw error
       }
       let scaledSeries = null;

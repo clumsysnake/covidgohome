@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from "react"
-import { ComposedChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
+import { ResponsiveContainer, ComposedChart, Area, XAxis, YAxis, Tooltip } from 'recharts';
 import "./charts.css"
 import Colors from '../helpers/Colors.js'
 import { 
@@ -19,52 +19,52 @@ function PercentageTestResultsChart(props) {
           {props.name}
         </span>
       </div>
+      <ResponsiveContainer>
+        <ComposedChart data={data} margin={{ top: 10, right: 5, left: 5, bottom: 10 }}>
+          <Tooltip formatter={tooltipFormatter} labelFormatter={dateTickFormatter}/>
+          <Area
+            stackId="tested"
+            dataKey="negative"
+            stroke={Colors.NEGATIVE}
+            fillOpacity={1}
+            isAnimationActive={false}
+            fill={Colors.NEGATIVE}
+            name="Negatives"
+          />
+          <Area
+            stackId="tested"
+            dataKey="positive"
+            stroke={Colors.POSITIVE}
+            fillOpacity={1}
+            isAnimationActive={false}
+            fill={Colors.POSITIVE}
+            name="Positives"
+          />
+          <Area
+            stackId="tested"
+            type="linear"
+            dataKey="pending"
+            stroke={Colors.PENDING}
+            fill={Colors.PENDING}
+            isAnimationActive={false}
+            name="Outcome Pending"
+          />
 
-      <ComposedChart width={600} height={300} data={data}
-                 margin={{ top: 10, right: 5, left: 5, bottom: 10 }}>
-        <Tooltip formatter={tooltipFormatter} labelFormatter={dateTickFormatter}/>
-        <Area
-          stackId="tested"
-          dataKey="negative"
-          stroke={Colors.NEGATIVE}
-          fillOpacity={1}
-          isAnimationActive={false}
-          fill={Colors.NEGATIVE}
-          name="Negatives"
-        />
-        <Area
-          stackId="tested"
-          dataKey="positive"
-          stroke={Colors.POSITIVE}
-          fillOpacity={1}
-          isAnimationActive={false}
-          fill={Colors.POSITIVE}
-          name="Positives"
-        />
-        <Area
-          stackId="tested"
-          type="linear"
-          dataKey="pending"
-          stroke={Colors.PENDING}
-          fill={Colors.PENDING}
-          isAnimationActive={false}
-          name="Outcome Pending"
-        />
-
-        <XAxis
-          dataKey="date"
-          tickFormatter={dateTickFormatter}
-          domain={props.xDomain}
-        />
-        <YAxis
-          orientation="left"
-          tickFormatter={percentTickFormatter}
-          type="number"
-          allowDataOverflow={true}
-          domain={[0, 100]}
-          tick={{stroke: Colors.POSITIVE_PERCENT}}
-        />
-      </ComposedChart>
+          <XAxis
+            dataKey="date"
+            tickFormatter={dateTickFormatter}
+            domain={props.xDomain}
+          />
+          <YAxis
+            orientation="left"
+            tickFormatter={percentTickFormatter}
+            type="number"
+            allowDataOverflow={true}
+            domain={[0, 100]}
+            tick={{stroke: Colors.POSITIVE_PERCENT}}
+          />
+        </ComposedChart>
+      </ResponsiveContainer>
     </div>
   )
 }
