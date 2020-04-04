@@ -5,17 +5,20 @@ class AboutPage extends React.Component {
     return (
       <div className="page-about">
         <p>
-          Mission: Find the real trends in covid progression, focusing on the USA. 
+          <strong>Mission</strong>: Find the real trends in covid progression, focusing on the USA. 
           Express no more certainty than the data warrants.
         </p>
         <p>
+          <strong>Source</strong>: <a href="https://covidtracking.com/">COVID Tracking Project</a>
+        </p>
+        <p>
+          <strong>Source</strong>: <a href="https://github.com/CSSEGISandData/COVID-19">Johns Hopkins data</a>
+        </p>
+        <p>
+          <strong>Source</strong>: <a href="https://github.com/nytimes/covid-19-data">NYT covid-19 data</a>
+        </p>
+        <p>
           dreaming of a day when covid flies away - ryan at ryan dawt org
-        </p>
-        <p>
-          Source: <a href="https://covidtracking.com/">COVID Tracking Project</a>
-        </p>
-        <p>
-          Source: <a href="https://github.com/CSSEGISandData/COVID-19">Johns Hopkins github repo</a>
         </p>
       </div>
     )
