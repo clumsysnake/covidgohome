@@ -4,5 +4,9 @@
       "Access-Control-Allow-Origin": "*",
       "Cache-Control": "no-store, no-cache"
     }
+  },
+  "root": "build/",
+  "routes": {
+    "/**": "index.html"
   }
 }
