@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import ReactTooltip from 'react-tooltip';
 import { connect } from 'react-redux';
 import DailyChangesChart from '../components/DailyChangesChart.js'
-import DailyNewPositives from '../components/DailyNewPositives.js'
+import DailyNewPositivesChart from '../components/DailyNewPositivesChart.js'
 import PercentageTestResultsChart from '../components/PercentageTestResultsChart.js'
 import DeathHospitalizationChart from '../components/DeathHospitalizationChart.js'
 import StateMap from '../components/StateMap.js'
@@ -74,42 +74,42 @@ function StatePage(props) {
             </li>
             <li>
               <span className="label">Attack Rate</span>
-              <span className="value">{withPlaces(totals.attackRate, 3)}%</span>
+              <span className="value">{percentWithPlaces(totals.attackRate, 3)}</span>
             </li>
             <li>
-              <span className="label">CFR (estimated)</span>
-              <span className="value">{withPlaces(totals.cfrPercent, 2)}%</span>
+              <span className="label">CFR</span>
+              <span className="value">{percentWithPlaces(totals.cfrPercent, 2)} (estimated)</span>
             </li>
             <li>
               <span className="label">Dead</span>
               <span className="value">{numberWithCommas(totals.death)} or {withPlaces(deadPer1M, 2)}/million</span>
             </li>
             <li>
-              <span className="label">Total Hospitalizations</span>
-              <span className="value">{numberWithCommas(curr.hospitalizedCumulative) || "Unknown"}</span>
+              <span className="label">Hospitalizations</span>
+              <span className="value">{numberWithCommas(curr.hospitalizedCumulative) || "unknown"} total</span>
+            </li>
+            <li>
+              <span className="label"></span>
+              <span className="value">{numberWithCommas(curr.hospitalizedCurrently) || "unknown"} current</span>
+            </li>
+            <li>
+              <span className="label"></span>
+              <span className="value">{numberWithCommas(curr.recovered) || "unknown"} recovered</span>
             </li>
             <li>  
-              <span className="label">Total Hospitalization Rate (estimated)</span>
-              <span className="value">{percentWithPlaces(totals.hospitalizationRate, 2) || "Unknown"}</span>
-            </li>
-            <li>
-              <span className="label">Currently Hospitalized</span>
-              <span className="value">{numberWithCommas(curr.hospitalizedCurrently) || "Unknown"}</span>
-            </li>
-            <li>
-              <span className="label">Hospitalizations Recovered</span>
-              <span className="value">{numberWithCommas(curr.recovered) || "Unknown"}</span>
+              <span className="label"></span>
+              <span className="value">{percentWithPlaces(totals.hospitalizationRate, 2) || "unknown"} total rate</span>
             </li>
             <li>
               <span className="label">Currently in ICU</span>
-              <span className="value">{numberWithCommas(curr.inIcuCurrently) || "Unknown"}</span>
+              <span className="value">{numberWithCommas(curr.inIcuCurrently) || "unknown"}</span>
             </li>*
             {/* active, resolved */}
           </ul>
         </div>
       </div>
       <div className="charts">
-        <DailyNewPositives name="Daily New Positives" series={state.entries} />
+        <DailyNewPositivesChart name="Daily New Positives" series={state.entries} />
         <DeathHospitalizationChart name="Daily Deaths and Hospitalizations"
           series={state.entries} />
         <DailyChangesChart name="Daily Tests & Results" series={state.entries} />
