@@ -17,7 +17,7 @@ function StatePage(props) {
   const [basis, setBasis] = useState('per-1m')
   const [colorScale, setColorScale] = useState('linear')
   const [chartType, setChartType] = useState('daily')
-  const [trailingDays, setTrailingDays] = useState(null)
+  const [timeframe, setTimeframe] = useState('first-death')
   
   if(!props.state) { return <div>...loading</div> }
 
@@ -42,9 +42,14 @@ function StatePage(props) {
     default: //TODO: throw error
   }
 
-  if(trailingDays) {
-    entries = entries.slice(Math.max(entries.length - trailingDays, 0))
+  let index = 0
+  if(_.isInteger(timeframe)) {
+    index = Math.max(entries.length - timeframe, 0)
+  } else if(timeframe === 'first-death') {
+    index = entries.findIndex(f => f.death > 0 )
   }
+  debugger
+  entries = entries.slice(index)
 
 
   return (
@@ -126,11 +131,11 @@ function StatePage(props) {
             </li>
             <li>
               <span className="label">Ventilated</span>
-              <span className="value">{numberWithCommas(curr.onVentilatorCurrently) || "unknown"} currently</span>
+              <span className="value">{numberWithCommas(curr.onVentilatorCumulative) || "unknown"} cumulative</span>
             </li>
             <li>
               <span className="label"></span>
-              <span className="value">{numberWithCommas(curr.onVentilatorCumulative) || "unknown"} cumulative</span>
+              <span className="value">{numberWithCommas(curr.onVentilatorCurrently) || "unknown"} currently</span>
             </li>
             {/* active, resolved */}
           </ul>
@@ -145,10 +150,11 @@ function StatePage(props) {
               ['daily-percent', '% daily change'],
               // 'cumulative'
             ]}/>
-            <Filter accessors={[trailingDays, setTrailingDays]} options={[
+            <Filter accessors={[timeframe, setTimeframe]} options={[
               [null, 'all'],
-              [21, 'last 21d'],
-              [14, 'last 14d'],
+              ['first-death', 'from first death'],
+              // [21, 'last 21d'],
+              // [14, 'last 14d'],
             ]}/>
           </div>
         </div>
