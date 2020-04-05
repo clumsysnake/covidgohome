@@ -134,10 +134,10 @@ function StatePage(props) {
           <div className="filters">
             <Filter accessors={[chartType, setChartType]} options={[
               ['daily', 'daily change'],
-              ['daily-percent', 'daily % change'],
+              ['daily-percent', '% daily change'],
               // 'cumulative'
             ]}/>
-            <Filter accessors={[trailingDays, setTrailingDays]} options={[
+            <Filter accessors={[trailingDays, setTrailingDays]} label="days" options={[
               [null, 'all'],
               [21, 'last 21'],
               [14, 'last 14'],
