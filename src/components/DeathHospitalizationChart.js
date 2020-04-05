@@ -35,7 +35,8 @@ class DeathHospitalizationChart extends React.Component {
               stroke={Colors.DEATH}
               strokeWidth={2}
               dot={false}
-              isAnimationActive={false}
+              isAnimationActive={true}
+              animationDuration={200}
               name="Deaths"
             />
             <Line
@@ -45,7 +46,8 @@ class DeathHospitalizationChart extends React.Component {
               stroke={Colors.HOSPITALIZED}
               strokeWidth={2}
               dot={false}
-              isAnimationActive={false}
+              isAnimationActive={true}
+              animationDuration={200}
               name="Hospitalizations"
             />
 

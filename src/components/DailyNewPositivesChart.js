@@ -28,7 +28,8 @@ function DailyNewPositivesChart(props) {
             stroke={Colors.POSITIVE}
             strokeWidth={2}
             dot={false}
-            isAnimationActive={false}
+            isAnimationActive={true}
+            animationDuration={200}
             name="New Positives"
           />
           <XAxis
