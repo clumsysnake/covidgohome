@@ -8,7 +8,7 @@ import DeathHospitalizationChart from '../components/DeathHospitalizationChart.j
 import StateMap from '../components/StateMap.js'
 import Filter from '../components/Filter.js'
 import './StatePage.css'
-import { numberWithCommas, percentWithPlaces, withPlaces } from '../helpers/chartHelpers.js'
+import { numberWithCommas, percentWithPlaces, withPlaces, percentTickFormatter } from '../helpers/chartHelpers.js'
 import _ from 'lodash'
 
 function StatePage(props) {
@@ -16,6 +16,7 @@ function StatePage(props) {
   const [mapField, setMapfield] = useState('positive')
   const [basis, setBasis] = useState('per-1m')
   const [colorScale, setColorScale] = useState('linear')
+  const [chartType, setChartType] = useState('daily')
   
   if(!props.state) { return <div>...loading</div> }
 
@@ -27,19 +28,22 @@ function StatePage(props) {
 
   let curr = state.currentFrame
 
+  let entries, yTickFormatter
+  switch(chartType) {
+    case 'daily':
+      entries = state.entries;
+      break;
+    case 'daily-percent':
+      entries = state.deltaPercentageSeries;
+      yTickFormatter = percentTickFormatter
+      break;
+    // case 'cumulative': entries = state.entries; break;
+    default: //TODO: throw error
+  }
+
   return (
     <div className="state-page">
       <div className="top">
-        <div className="state-map">
-          <StateMap
-            state={state}
-            field={mapField}
-            basis={basis}
-            granularity="county"
-            colorScale={colorScale}
-            setTooltipContent={setTooltip}
-          />
-          <ReactTooltip place="right">{tooltip}</ReactTooltip>
           <div className="filters">
             <Filter accessors={[mapField, setMapfield]} options={[
               ['positive', 'positives'],
@@ -56,6 +60,16 @@ function StatePage(props) {
               ['log2', 'log(2)']
             ]}/>
           </div>
+        <div className="state-map">
+          <StateMap
+            state={state}
+            field={mapField}
+            basis={basis}
+            granularity="county"
+            colorScale={colorScale}
+            setTooltipContent={setTooltip}
+          />
+          <ReactTooltip place="right">{tooltip}</ReactTooltip>
         </div>
         <div className="stats">
           <h1 className="state-name">{state.name}</h1>
@@ -108,14 +122,26 @@ function StatePage(props) {
           </ul>
         </div>
       </div>
+      <hr />
       <div className="charts">
-        <DailyNewPositivesChart name="Daily New Positives" series={state.entries} />
-        <DeathHospitalizationChart name="Daily Deaths and Hospitalizations"
-          series={state.entries} />
-        <DailyChangesChart name="Daily Tests & Results" series={state.entries} />
-        <PercentageTestResultsChart name="Test Results as % of Total Tests"
+        <div className="filters-container">
+          <div className="filters">
+            <Filter accessors={[chartType, setChartType]} options={[
+              ['daily', 'daily change'],
+              ['daily-percent', 'daily % change'],
+              // 'cumulative'
+            ]}/>
+          </div>
+        </div>
+
+        <DailyNewPositivesChart name="Positives" series={entries} yTickFormatter={yTickFormatter}/>
+        <DeathHospitalizationChart name="Deaths and Hospitalizations"
+          series={entries} yTickFormatter={yTickFormatter}/>
+        {/*<DailyChangesChart name="Tests & Results" series={entries} />*/}
+{/*        <PercentageTestResultsChart name="Test Results as % of Total Tests"
           series={scaledPercentage} basis="percentage"/>
-      </div>
+*/} 
+     </div>
     </div>
   )
 }

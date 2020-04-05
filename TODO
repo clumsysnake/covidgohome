@@ -5,7 +5,6 @@
   - make top header disappear on scroll (decide if thats ONLY on mobile)
   - investigate a more elegant way of hiding filters while viewing graph.
 - in chart tooltips, show full date, and time of data collection for each day
-- incorporate latest intraday data, not just the last states/daily, which can be a day old for some
 - add other countries
 - add horizontal lines showing major events for areas: governor announcements, testing centers open, etc
 - optional overlay of dots on map: cities, testing centers
@@ -17,7 +16,6 @@
 - incorporate illness onset data where found
 - pass along covid tracking data quality grades to user
 - for covidtracking data, also show links to sites for data
-- poll for updated data
 - display age of data onscreen (minutes/hours since last poll)
 - display last update time for each area
 - distinguish between positive and presumptive positive, if possible
@@ -66,9 +64,12 @@
   "recovered": null,
 - is "recovered" all recovered, even mild cases, or only discharged hospitalizations?
 - bug: on USAMap, if you're looking at the county view, you can choose # test and total hospitalized, neither of which have data at the county level
-- bug: dumb filter {cursor: pointer} doesn't trigger while in the padding of an unchosen option
+- bug: dumb filter {cursor: pointer} doesn't trigger while in the padding of an unchosen option in chrome
+- bug: selected filters look different between safari and chrome (i actually like the unintended safari version)
 - bug: some regions not displaying correctly after pipeline
 - states.json
+  - have the page poll for updated states.json
+  - states.json needs to be served gzipped
   - how do i make really really sure chrome does it cache it at all ever?
   - add reporting so if script is breaking i know, and for warnings
   - for each run save the output files (and possible the source files?) to s3
@@ -90,3 +91,4 @@ REFACTOR
 - AreaModel#totals should just be the last entries, slightly decorated.
 - ideally neighborNumbers shouldn't return numbers it was given.
 - CT's 'total' field is deprecated and will be removed. calc myself if needed
+- record s3 bucket policy and cors should i need to rebuild... terraform?

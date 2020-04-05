@@ -92,3 +92,9 @@ a:active {
 .filter-control .filter-label {
   font-weight: bold;
 }
+
+hr {
+  border-color: pink;
+  border-top: 0;
+  margin: 20px 50px;
+}

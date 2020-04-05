@@ -11,9 +11,11 @@ import {
 } from '../helpers/chartHelpers'
 import "./charts.css"
 
-class DailyChart extends React.Component {
+class DeathHospitalizationChart extends React.Component {
   render() {
     let data = this.props.series
+
+    let yTickFormatter = this.props.yTickFormatter || countTickFormatter
 
     return (
       <div className="area-chart state-chart">
@@ -54,7 +56,7 @@ class DailyChart extends React.Component {
             />
             <YAxis
               yAxisId="left"
-              tickFormatter={countTickFormatter}
+              tickFormatter={yTickFormatter}
               orientation="left"
               type="number"
               allowDataOverflow={false}
@@ -68,15 +70,15 @@ class DailyChart extends React.Component {
   }
 }
 
-DailyChart.propTypes = {
+DeathHospitalizationChart.propTypes = {
   name: PropTypes.string,
   series: PropTypes.array,
   yDomain: PropTypes.array,
   xDomain: PropTypes.array,
 }
-DailyChart.defaultProps = {
+DeathHospitalizationChart.defaultProps = {
   yDomain: ['auto', 'auto'],
   xDomain: ['dataMin', 'dataMax'],
 }
 
-export default DailyChart
+export default DeathHospitalizationChart

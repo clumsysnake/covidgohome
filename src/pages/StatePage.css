@@ -55,3 +55,12 @@
   clear: both;
   display: table;
 }
+
+.state-page .filters-container {
+  display: flex;
+}
+
+.state-page .filters {
+   margin: 0 auto;
+   /* display: inline-flex; */
+}

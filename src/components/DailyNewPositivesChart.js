@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from "react"
 import { ResponsiveContainer, ComposedChart, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import Colors from '../helpers/Colors.js'
-import { tooltipFormatter, countTickFormatter, dateTickFormatter 
-} from '../helpers/chartHelpers'
+import { tooltipFormatter, countTickFormatter, dateTickFormatter } from '../helpers/chartHelpers'
 import "./charts.css"
 
 function DailyNewPositivesChart(props) {
   let data = props.series
 
+  let yTickFormatter = props.yTickFormatter || countTickFormatter
 
   return (
     <div className="area-chart">
@@ -38,7 +38,7 @@ function DailyNewPositivesChart(props) {
           />
           <YAxis
             yAxisId="left"
-            tickFormatter={countTickFormatter}
+            tickFormatter={props.yTickFormatter}
             orientation="left"
             type="number"
             allowDataOverflow={false}
@@ -56,6 +56,7 @@ DailyNewPositivesChart.propTypes = {
   series: PropTypes.array,
   yDomain: PropTypes.array,
   xDomain: PropTypes.array,
+  // yTickFormatter
 }
 DailyNewPositivesChart.defaultProps = {
   yDomain: ['auto', 'auto'],
