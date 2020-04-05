@@ -21,7 +21,13 @@ function fetchStates() {
     (e) => {
       store.dispatch(handleError())
     },
-    )
+    'json',
+    {
+      'Cache-control': 'no-cache',
+      'Pragma': 'no-cache'
+    }
+  )
+
 
   return {
     type: types.COVIDGOHOME_FETCH_STATES
