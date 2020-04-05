@@ -1,0 +1,79 @@
+per area:
+	population
+	density
+	geojsons
+	fips (if exists)
+	tp
+	children (areas it comprises)
+	series (has 0-to-many frames)
+		:time indexes
+			date
+			timestamp (of when data was released )
+		:monotonic increasing, >=0, these describe counts of events
+			collections (tests collected)
+			positives
+			negatives
+			deaths
+			recoveries
+			admissions (admitted to hospital)
+			icued (admitted to icu)
+			ventilations (started ventilation on)
+			*results (test results came back)
+			*resolutions (recovery or death)
+		:non-monotonic, >0, these describe events which begin and end
+			onVentilator
+			inHospital
+			inIcu
+			*active
+			*pending
+
+		**:deltas of monotonic, always >= 0
+			positivesDelta
+			negativesDelta
+			admissionsDeltaa
+			icuedDelta
+			ventilationsDelta
+			collectionsDelta
+			resultsDelta
+		**:deltas of non-monotonic (- or +)
+			pendingDelta
+			activeDelta
+			onVentilatorDelta
+			inHospitalDelta
+			inIcuDelta
+		**:rates have a calculation just for the current frame and also for period from 1st frame to current
+			deathRate = deaths / positives (not true CFR, CFR so far)
+			admissionRate = admissions / positives
+			icuRate = ... icued / positives OR icued / admissions
+			positiveRate = positives / results
+
+* while these are fundamental fields, they are derivable via equation, and these are the least reported.
+** all deltas and rates are derivable from initial 
+
+- All deltas are assumed to be between two equivalently spaced frames
+- attackrate = positives / population , this is an odd one, just positives scaled really..
+- is there a "mild" category?
+
+Terminology:
+	- counts = monotonic values. they simply increment when an event occurs. test, negative, death, etc.
+	- toggles = nonmonotonic values. 
+	- metrics = union of counts and toggles
+
+transforms:
+	scale (per 1m, etc) : all toggles and counts scaled.
+	squared: all togg
+	delta percentage
+	totals
+	percentage scale (does this make sense?)
+
+equalities and inequalities
+	getting tested:
+		collections = pending + results
+		results = positives + negatives
+	after diagnosis:
+		resolutions = deaths + recoveries
+		positives = actives + resolutions = actives + deaths + recoveries
+	in hospital:
+		inHospital > onVentilator + inICu
+		inIcu > onVentilator (I think)
+		positives > inHospital
