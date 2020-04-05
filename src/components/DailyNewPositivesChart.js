@@ -39,7 +39,7 @@ function DailyNewPositivesChart(props) {
           />
           <YAxis
             yAxisId="left"
-            tickFormatter={props.yTickFormatter}
+            tickFormatter={yTickFormatter}
             orientation="left"
             type="number"
             allowDataOverflow={false}
