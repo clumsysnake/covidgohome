@@ -106,11 +106,11 @@ function StatePage(props) {
             </li>
             <li>
               <span className="label">Hospitalizations</span>
-              <span className="value">{numberWithCommas(curr.hospitalizedCumulative) || "unknown"} total</span>
+              <span className="value">{numberWithCommas(curr.hospitalizedCumulative) || "unknown"} cumulative</span>
             </li>
             <li>
               <span className="label"></span>
-              <span className="value">{numberWithCommas(curr.hospitalizedCurrently) || "unknown"} current</span>
+              <span className="value">{numberWithCommas(curr.hospitalizedCurrently) || "unknown"} currently</span>
             </li>
             <li>
               <span className="label"></span>
@@ -121,8 +121,16 @@ function StatePage(props) {
               <span className="value">{percentWithPlaces(totals.hospitalizationRate, 2) || "unknown"} total rate</span>
             </li>
             <li>
-              <span className="label">Currently in ICU</span>
-              <span className="value">{numberWithCommas(curr.inIcuCurrently) || "unknown"}</span>
+              <span className="label">In ICU</span>
+              <span className="value">{numberWithCommas(curr.inIcuCurrently) || "unknown"} currently</span>
+            </li>
+            <li>
+              <span className="label">Ventilated</span>
+              <span className="value">{numberWithCommas(curr.onVentilatorCurrently) || "unknown"} currently</span>
+            </li>
+            <li>
+              <span className="label"></span>
+              <span className="value">{numberWithCommas(curr.onVentilatorCumulative) || "unknown"} cumulative</span>
             </li>
             {/* active, resolved */}
           </ul>
