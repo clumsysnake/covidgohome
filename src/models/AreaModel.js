@@ -247,7 +247,6 @@ class AreaModel {
 
     let entry = AreaModel.primaryStats.reduce((h, k) => Object.assign(h, {[k]: hash[k]}), {date})
 
-    // debugger
     entry.state = abbreviation
     entry.positiveIncrease = entry.positive - last.positive
     entry.negativeIncrease = entry.negative - last.negative
