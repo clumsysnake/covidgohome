@@ -189,23 +189,19 @@ class AreaModel {
       ['hospitalizedCumulative', 'hospitalizedDelta']
     ]
 
-    return this.entries.map((curr, i, a) => {
+    let x = this.entries.map((curr, i, a) => {
       let prev = a[i-1]
 
       let newDeltas = deltaMap.reduce((h, [baseKey, deltaKey]) => {
-        let val = (prev && _.isFinite(prev[baseKey]) && prev[deltaKey] > 0) ? 100*(curr[baseKey]/prev[baseKey]-1) : null
+        let val = (prev && _.isFinite(prev[baseKey]) && prev[baseKey] > 0) ? 100*(curr[baseKey]/prev[baseKey]-1) : null
 
-        // if(val === null) {debugger}
-
-        if(val > 500) { debugger}
-
-        return Object.assign(h, {
-          [deltaKey]: val
-        })
+        return Object.assign(h, {[deltaKey]: val})
       }, {})
 
       return Object.assign({}, curr, newDeltas)
     })
+    
+    return x
   }
 
   get currentFrame() {
