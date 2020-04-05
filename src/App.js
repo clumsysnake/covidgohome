@@ -32,7 +32,7 @@ class App extends React.Component {
             </nav>
             <span className="tagline"><em>...go back in your bat hole!</em></span>
           </header>
-          <div class="page">
+          <div className="page">
             <Switch>
               <Route path="/map" component={MapPage} />
               <Route path="/about" component={AboutPage} />
