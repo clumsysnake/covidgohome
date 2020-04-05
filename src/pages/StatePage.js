@@ -110,7 +110,7 @@ function StatePage(props) {
             </li>
             <li>
               <span className="label"></span>
-              <span className="value">{numberWithCommas(curr.hospitalizedCurrently) || "unknown"} currently</span>
+              <span className="value">{numberWithCommas(curr.hospitalizedCurrently) || "unknown"} current</span>
             </li>
             <li>
               <span className="label"></span>
@@ -145,10 +145,10 @@ function StatePage(props) {
               ['daily-percent', '% daily change'],
               // 'cumulative'
             ]}/>
-            <Filter accessors={[trailingDays, setTrailingDays]} label="days" options={[
+            <Filter accessors={[trailingDays, setTrailingDays]} options={[
               [null, 'all'],
-              [21, 'last 21'],
-              [14, 'last 14'],
+              [21, 'last 21d'],
+              [14, 'last 14d'],
             ]}/>
           </div>
         </div>
