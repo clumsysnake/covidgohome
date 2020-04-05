@@ -17,12 +17,13 @@ function StatePage(props) {
   const [basis, setBasis] = useState('per-1m')
   const [colorScale, setColorScale] = useState('linear')
   const [chartType, setChartType] = useState('daily')
+  const [trailingDays, setTrailingDays] = useState(null)
   
   if(!props.state) { return <div>...loading</div> }
 
   let state = props.state
   let totals = state.totals
-  let scaledPercentage = state.scaledToPercentage()
+  // let scaledPercentage = state.scaledToPercentage()
   //TODO: this line has so much wrong with it... fix AreaModel
   let deadPer1M = _.last(state.scaledPerMillion()).death
 
@@ -31,15 +32,20 @@ function StatePage(props) {
   let entries, yTickFormatter
   switch(chartType) {
     case 'daily':
-      entries = state.entries;
+      entries = state.entries
       break;
     case 'daily-percent':
-      entries = state.deltaPercentageSeries;
+      entries = state.deltaPercentageSeries
       yTickFormatter = percentTickFormatter
       break;
     // case 'cumulative': entries = state.entries; break;
     default: //TODO: throw error
   }
+
+  if(trailingDays) {
+    entries = entries.slice(Math.max(entries.length - trailingDays, 0))
+  }
+
 
   return (
     <div className="state-page">
@@ -130,6 +136,11 @@ function StatePage(props) {
               ['daily', 'daily change'],
               ['daily-percent', 'daily % change'],
               // 'cumulative'
+            ]}/>
+            <Filter accessors={[trailingDays, setTrailingDays]} options={[
+              [null, 'all'],
+              [21, 'last 21'],
+              [14, 'last 14'],
             ]}/>
           </div>
         </div>
