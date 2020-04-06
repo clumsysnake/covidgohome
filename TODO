@@ -67,7 +67,6 @@
   - for each run save the output files (and possible the source files?) to s3
   - heroku uses 12.16.1 node! so i should prolly use that locally unless i can upgrae?
 - Series/Transform update bugs:
-  - re-add totals to CombinedChart
   - fix ydomain scale matching
   - add back squared-per-1m
   - still getting censusData shouldn’t be called
