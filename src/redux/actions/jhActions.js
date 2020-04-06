@@ -7,7 +7,7 @@ import { censusDataForFips, UsCountyCensus } from '../../stores/CensusStore'
 import CountyModel from '../../models/CountyModel'
 import { fetchXhr } from './helpers'
 
-const hardCodedDate = '04-01-2020'
+const hardCodedDate = '04-05-2020'
 const githubDir = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/"
 const dailyReportUrl = function() {
   if(process.env.NODE_ENV === 'development') {
@@ -78,7 +78,8 @@ function handleDailyReport(csv, date) {
     if(jhCounty) {
       frame.positives = parseInt(jhCounty.Confirmed)
       frame.deaths = parseInt(jhCounty.Deaths)
-      frame.recoveries = frame.positives - frame.deaths - parseInt(jhCounty.Active) 
+      frame.recoveries = parseInt(jhCounty.Recovered)
+      //TODO: Active is also available... can i use as a checksum?
     }
 
     return new CountyModel({
