@@ -129,7 +129,7 @@ describe('Series', () => {
     describe('return a new Transform object', () => {
       it('with the same underlying series', () => {
         let series = make(frames1)
-        let transform1 = series.transform
+        let transform1 = series.transform()
         let transform2 = transform1.deltize()
 
         expect(transform1).not.toBe(transform2)

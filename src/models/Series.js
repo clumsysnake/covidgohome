@@ -1,3 +1,6 @@
+//TODO: the only strange part about Series/Transform is how rates are handled. its almost
+//      like they are a separate series that gets transformed differently...
+
 import _ from 'lodash'
 
 function finiteOrNull(v) {
@@ -35,25 +38,19 @@ export default class Series {
     })
   }
 
-  scale(...args) { return this.transform.scale(...args) }
-  deltize(...args) { return this.transform.deltize(...args) }
-  deltaPercentize(...args) { return this.transform.deltaPercentize(...args) }
-  average(...args) { return this.transform.average(...args) }
-  square(...args) { return this.transform.square(...args) }
+  scale(...args) { return this.transform().scale(...args) }
+  deltize(...args) { return this.transform().deltize(...args) }
+  deltaPercentize(...args) { return this.transform().deltaPercentize(...args) }
+  average(...args) { return this.transform().average(...args) }
+  square(...args) { return this.transform().square(...args) }
+  ratesScale(...args) { return this.transform().ratesScale(...args) }
 
-  get transform() {
+  transform() {
     return new Transform(this)
   }
 
   get frames() {
-    return this.__frames.map(f => {
-      return Object.assign(f, {
-        deathRate: finiteOrNull(f.deaths / f.positives),
-        positiveRate: finiteOrNull(f.positives / f.results),
-        admissionRate: finiteOrNull(f.admissions / f.positives),
-        icuRate: finiteOrNull(f.intensifications / f.admissions)
-      })
-    })
+    return this.__frames
   }
 
   //TODO: can optimize by only transforming the last frame
@@ -64,8 +61,9 @@ export default class Series {
 
 //lazy
 class Transform {
-  constructor(series, operations = []) {
+  constructor(series, operations = [], rateOperations = []) {
     this.__operations = operations
+    this.__rateOperations = rateOperations
     this.series = series
   }
 
@@ -75,24 +73,41 @@ class Transform {
 
   //CRZ: deltizing, which is almost a derivative, except discrete derivatives averages between 
   //     previous and next frame
-  newT(name, args) {
-    return new Transform(this.series, this.__operations.concat([[name, args]]))
+  newT(operation = null, rateOperation = null) { 
+    let t = new Transform(
+      this.series, 
+      this.__operations.concat(operation ? [operation] : []), 
+      this.__rateOperations.concat(rateOperation ? [rateOperation] : [])
+    )
+    return t
   }
-  deltize = (...args) => this.newT('deltize', args)
-  scale = (...args) => this.newT('scale', args)
-  deltaPercentize = (...args) => this.newT('deltaPercentize', args)
-  average = (...args) => this.newT('average', args)
-  square = (...args) => this.newT('square', args)
-  deltaPercentize = (...args) => this.newT('deltaPercentize', args)
+  deltize = (...args) => this.newT(['deltize', args])
+  scale = (...args) => this.newT(['scale', args])
+  deltaPercentize = (...args) => this.newT(['deltaPercentize', args])
+  average = (...args) => this.newT(['average', args])
+  square = (...args) => this.newT(['square', args])
+  deltaPercentize = (...args) => this.newT(['deltaPercentize', args])
+  ratesScale = (...args) => this.newT(null, ['ratesScale', args])
 
   __addOperation(name, args) {
     this.__operations.push([name, args])
   }
 
   get frames() {
-    return this.__operations.reduce((data, operation) => {
+    let transformedWithRates = this.__operations.reduce((data, operation) => {
       return this.__transform(data, operation)
-    }, this.series.frames)
+    }, this.series.frames).map(f => {
+      return Object.assign(f, {
+        deathRate: finiteOrNull(f.deaths / f.positives),
+        positiveRate: finiteOrNull(f.positives / f.results),
+        admissionRate: finiteOrNull(f.admissions / f.positives),
+        icuRate: finiteOrNull(f.intensifications / f.admissions)
+      })
+    })
+
+    return this.__rateOperations.reduce((data, operation) => {
+      return this.__transform(data, operation)
+    }, transformedWithRates)
   }
 
   //TODO: make each transform separate functions
@@ -116,7 +131,19 @@ class Transform {
             return h
           }, Object.assign({}, f))
         })
-
+      case 'ratesScale':
+        return data.map((f) => {
+          return Series.RATES.reduce((h, rate) => {
+            if(h.hasOwnProperty(rate)) {
+              if(_.isFinite(h[rate])) {
+                h[rate] = h[rate] * args[0]
+              } else {
+                h[rate] = null
+              }
+            }
+            return h
+          }, Object.assign({}, f))
+        })
       case 'deltize':
         return data.map((curr, fidx, arr) => {
           let prev = arr[fidx-1]
@@ -200,7 +227,7 @@ class Transform {
 
           return newEntry
         })
-      default: throw new TypeError(`unknown operation ${operation}`)
+      default: debugger; throw new TypeError(`unknown operation ${type}`)
     }
   }
 }
