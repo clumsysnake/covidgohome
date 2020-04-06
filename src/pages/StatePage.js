@@ -168,7 +168,11 @@ function StatePage(props) {
           </div>
         </div>
 
-        <DailyNewPositivesChart name="Positives" data={chartData} yTickFormatter={yTickFormatter}/>
+        <DailyNewPositivesChart 
+          name={<span className="name">Positives</span>}
+          data={chartData} 
+          yTickFormatter={yTickFormatter}
+        />
         <DeathHospitalizationChart name="Deaths and Hospitalizations"
           data={chartData} yTickFormatter={yTickFormatter}/>
         {/*<DailyChangesChart name="Tests & Results" series={chartData} />*/}
