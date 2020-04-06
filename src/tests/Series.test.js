@@ -125,6 +125,8 @@ describe('Series', () => {
     })
   })
 
+  //pending: for deltize and deltapercentize, test if curr and/or prev are null
+
   //pending: average() transform! not sure its correct!
   //pending: squared() transform test
   //pending: date exists for all frames

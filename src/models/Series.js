@@ -119,7 +119,11 @@ class Transform {
           let prev = arr[fidx-1]
           return Series.METRICS.reduce((h, metric) => {
             if(h.hasOwnProperty(metric)) {
-              h[metric] = prev ? curr[metric] - prev[metric] : null
+              if(_.isFinite(curr[metric]) && prev && _.isFinite(prev[metric]) && prev[metric] > 0) {
+                h[metric] = curr[metric] - prev[metric]
+              } else {
+                h[metric] = null
+              }
             }
             return h
           }, Object.assign({}, curr))
