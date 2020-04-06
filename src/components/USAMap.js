@@ -14,7 +14,6 @@ import {safeSmartNumPlaces} from "../helpers/chartHelpers.js"
 //TODO: dont use url, just hardcode! but how to load into Geographies..
 const countiesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
 const statesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
-// const allowableFields = ['positive', 'total', 'negative', 'posPerc', 'death', 'hospitalizedCumulative']
 
 function USAMap(props) {
   const history = useHistory();
@@ -56,17 +55,17 @@ function USAMap(props) {
               let value, tooltipValue;
               switch(props.basis) {
                 case 'total':
-                  value = _.last(area.entries)[props.field]
+                  value = area.lastFrame[props.field]
                   tooltipValue = value
                   break;
                 case 'per-1m':
-                  value = _.last(area.scaledPerMillion())[props.field]
+                  value = area.perMillionTransform().last[props.field]
                   tooltipValue = value
                   break;
                 case 'squared-per-1m':
                   //still want to show per 1m tooltip values
-                  value = _.last(area.scaledSquaredPerMillion())[props.field]
-                  tooltipValue = _.last(area.scaledPerMillion())[props.field]
+                  value = area.perMillionTransform().last[props.field]
+                  tooltipValue = area.perMillionTransform().last[props.field]
                   break;
                 default:
                   throw new TypeError(`error, unknown bases ${props.basis}`)

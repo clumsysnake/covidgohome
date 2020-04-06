@@ -1,53 +1,49 @@
 import PropTypes from 'prop-types';
 import React from "react"
-import { ResponsiveContainer, ComposedChart, Area, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import "./charts.css"
+import { ResponsiveContainer, ComposedChart, CartesianGrid, Area, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import Colors from '../helpers/Colors.js'
 import { 
-  percentTickFormatter, 
-  countTickFormatter, 
-  dateTickFormatter,
+  percentTickFormatter,
+  countTickFormatter,
   tooltipFormatter,
-  percentDisplay
+  percentDisplay, 
+  dateTickFormatter 
 } from '../helpers/chartHelpers'
+import "./charts.css"
 
-class CumulativeChart extends React.Component {
+class CombinedChart extends React.Component {
   render() {
-    let data = this.props.series
-
     return (
       <div className="area-chart">
         <div className="header">
-          <span className="name">
-            {this.props.name}
-          </span>
+          {this.props.name}
           {this.props.totals ? <span className="totals">
             {this.props.totals.total} tests; {this.props.totals.positive}({percentDisplay(this.props.totals.positivePercent, 1)}%) positive; {this.props.totals.death} dead
           </span> : null}
         </div>
         <ResponsiveContainer>
-          <ComposedChart data={data} margin={{ top: 10, right: 5, left: 5, bottom: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" />
+          <ComposedChart data={this.props.data} margin={{ top: 10, right: 0, left: 0, bottom: 10 }}>
             <Tooltip formatter={tooltipFormatter} labelFormatter={dateTickFormatter}/>
+            <CartesianGrid strokeDasharray="4 4" />
             <Area
               yAxisId="left"
               stackId="tested"
-              dataKey="negative"
+              dataKey="negatives"
               stroke={Colors.NEGATIVE}
               fillOpacity={1}
-              isAnimationActive={false}
               fill={Colors.NEGATIVE}
               name="Negatives"
+              isAnimationActive={false}
             />
             <Area
               yAxisId="left"
               stackId="tested"
-              dataKey="positive"
+              dataKey="positives"
               stroke={Colors.POSITIVE}
               fillOpacity={1}
-              isAnimationActive={false}
               fill={Colors.POSITIVE}
               name="Positives"
+              isAnimationActive={false}
             />
             <Area
               stackId="tested"
@@ -56,51 +52,49 @@ class CumulativeChart extends React.Component {
               dataKey="pending"
               stroke={Colors.PENDING}
               fill={Colors.PENDING}
-              isAnimationActive={false}
               name="Outcome Pending"
+              isAnimationActive={false}
             />
             <Line
               yAxisId="left"
               type="linear"
-              dataKey="death"
+              dataKey="deaths"
               stroke={Colors.DEATH}
               strokeWidth={2}
               dot={false}
-              isAnimationActive={false}
               name="Deaths"
+              isAnimationActive={false}
             />
             <Line
               yAxisId="left"
               type="linear"
-              dataKey="hospitalizedCumulative"
+              dataKey="admissions"
               stroke={Colors.HOSPITALIZED}
               strokeWidth={2}
               dot={false}
-              isAnimationActive={false}
               name="Hospitalizations"
+              isAnimationActive={false}
             />
-            <Line
+            <Line 
               yAxisId="left"
-              type="linear"
-              dataKey="total"
+              dataKey="results"
               stroke={Colors.TEST}
               strokeWidth={1}
               dot={false}
-              isAnimationActive={false}
               name="Total Tests"
+              isAnimationActive={false}
             />
-            <Line
+{/*            <Line
               yAxisId="percentage"
               type="monotone"
               strokeDasharray="3 2"
-              dataKey="positivePercent"
+              dataKey="positiveRate"
               stroke={Colors.POSITIVE_PERCENT}
               dot={false}
               strokeWidth={1}
-              isAnimationActive={false}
               name="% (+) Tests"
             />
-
+*/}
             <XAxis
               dataKey="date"
               tickFormatter={dateTickFormatter}
@@ -108,8 +102,8 @@ class CumulativeChart extends React.Component {
             />
             <YAxis
               yAxisId="left"
-              orientation="left"
               tickFormatter={countTickFormatter}
+              orientation="left"
               type="number"
               allowDataOverflow={false}
               domain={this.props.yDomain}
@@ -117,8 +111,8 @@ class CumulativeChart extends React.Component {
             />
             <YAxis
               yAxisId="percentage"
-              orientation="right"
               tickFormatter={percentTickFormatter}
+              orientation="right"
               type="number"
               allowDataOverflow={false}
               domain={[0, 100]}
@@ -131,17 +125,17 @@ class CumulativeChart extends React.Component {
   }
 }
 
-CumulativeChart.propTypes = {
+CombinedChart.propTypes = {
   //TODO: now a component
-  // name: PropTypes.string,
-  series: PropTypes.array,
+  // name: PropTypes.string, 
+  data: PropTypes.array,
   totals: PropTypes.object,
   yDomain: PropTypes.array,
   xDomain: PropTypes.array,
 }
-CumulativeChart.defaultProps = {
+CombinedChart.defaultProps = {
   yDomain: ['auto', 'auto'],
   xDomain: ['dataMin', 'dataMax'],
 }
 
-export default CumulativeChart
+export default CombinedChart

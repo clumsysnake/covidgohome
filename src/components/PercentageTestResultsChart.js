@@ -24,7 +24,7 @@ function PercentageTestResultsChart(props) {
           <Tooltip formatter={tooltipFormatter} labelFormatter={dateTickFormatter}/>
           <Area
             stackId="tested"
-            dataKey="negative"
+            dataKey="negatives"
             stroke={Colors.NEGATIVE}
             fillOpacity={1}
             isAnimationActive={false}
@@ -33,7 +33,7 @@ function PercentageTestResultsChart(props) {
           />
           <Area
             stackId="tested"
-            dataKey="positive"
+            dataKey="positives"
             stroke={Colors.POSITIVE}
             fillOpacity={1}
             isAnimationActive={false}

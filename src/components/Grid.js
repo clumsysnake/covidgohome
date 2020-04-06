@@ -5,9 +5,8 @@ import PropTypes from 'prop-types';
 
 import RegionModel from '../models/RegionModel.js'
 import AreaModel from '../models/AreaModel.js'
-import DailyChart from './DailyChart.js'
+import CombinedChart from './CombinedChart.js'
 import DailyNewPositivesChart from './DailyNewPositivesChart.js'
-import CumulativeChart from './CumulativeChart.js'
 import Group from './Group.js'
 
 const DOMAIN_MAX_STEPS = 20 //CRZ: give a certain OOM, how many possible domain maxes 
@@ -18,9 +17,13 @@ class Grid extends React.Component {
       case "alpha":
         return (a, b) => (a.code < b.code) ? -1 : 1
       case "most-cases":
-        return (a, b) => (a.totals.positive > b.totals.positive) ? -1 : 1
+        return (a, b) => {
+          return (a.series.last && a.series.last.positives > b.series.last && b.series.last.positives) ? -1 : 1
+        }
       case "most-tests":
-        return (a, b) => (a.totals.totalTestResults > b.totals.totalTestResults) ? -1 : 1
+        return (a, b) => {
+          return (a.series.last && a.series.last.results > b.series.last && b.series.last.results) ? -1 : 1
+        }
       default:
         return undefined //TODO
     }
@@ -32,19 +35,11 @@ class Grid extends React.Component {
     let comps = []
 
     let chartForArea = (a, yDomain, xDomain) => {
-      let ProperChart
-      switch(this.props.chartType) {
-        case "daily": ProperChart = DailyChart; break
-        case "cumulative": ProperChart = CumulativeChart; break
-        case "daily-new-cases": ProperChart = DailyNewPositivesChart; break
-        default: break //TODO: throw error
-      }
-      let scaledSeries = null;
-
+      let chartTransform
       switch(this.props.basis) {
-        case 'total': scaledSeries = a.entries; break
-        case 'per-1m': scaledSeries = a.scaledPerMillion(); break
-        case 'percentage': scaledSeries = a.scaledToPercentage(); break
+        case 'total': chartTransform = a.series.transform; break
+        case 'per-1m': chartTransform = a.perMillionTransform(); break
+        // case 'percentage': chartData = a.scaledToPercentage(); break
         default: break; //TODO: catch error
       }
 
@@ -53,35 +48,53 @@ class Grid extends React.Component {
           {(a.abbreviation) ? <Link to={`/states/${a.abbreviation}`}>{a.name}</Link> : a.name}
         </span>
 
-      return <ProperChart
-        key={a.name}
-        name={nameComp}
-        series={scaledSeries}
-        totals={a.totals}
-        yDomain={yDomain}
-        xDomain={xDomain}
-      />
+      switch(this.props.chartType) {
+        case "daily": 
+          chartTransform = chartTransform.deltize()
+        case "cumulative":
+          return <CombinedChart
+            key={a.name}
+            name={nameComp}
+            data={chartTransform.frames}
+            totals={a.totals}
+            yDomain={yDomain}
+            xDomain={xDomain}
+          />
+        case "daily-new-cases":
+          chartTransform = chartTransform.deltize()
+          return <DailyNewPositivesChart
+            key={a.name}
+            name={nameComp}
+            data={chartTransform.frames}
+            totals={a.totals}
+            yDomain={yDomain}
+            xDomain={xDomain}
+          />
+        default: throw new TypeError('unknown chartType')
+      }
     }
 
     //TODO: this calculation seems overwrought and needs tests
     let yDomain = (areas) => {
-      if(this.props.basis === "percentage") {
-        return [0, 100]
-      }
+      console.log('warning: need to fix yDomain')
+      return ['auto', 'auto']
+      // if(this.props.basis === "percentage") {
+      //   return [0, 100]
+      // }
 
-      if(!this.props.scaleMatching) {
-        return ['auto', 'auto']
-      }
+      // if(!this.props.scaleMatching) {
+      //   return ['auto', 'auto']
+      // }
 
-      let field = (this.props.chartType === "daily") ? 'posNegDelta' : 'total'
-      let max = AreaModel.fieldMax(areas, field, 'per-1m')
+      // let field = (this.props.chartType === "daily") ? 'posNegDelta' : 'total'
+      // let max = AreaModel.fieldMax(areas, field, 'per-1m')
 
-      const baseOoms = Math.floor(Math.log10(max))
-      const baseDomain = Math.pow(10, baseOoms)
-      const increment = baseDomain * 10/DOMAIN_MAX_STEPS
-      const domainMax =  Math.ceil(max / increment) * increment
+      // const baseOoms = Math.floor(Math.log10(max))
+      // const baseDomain = Math.pow(10, baseOoms)
+      // const increment = baseDomain * 10/DOMAIN_MAX_STEPS
+      // const domainMax =  Math.ceil(max / increment) * increment
 
-      return [0,domainMax]
+      // return [0,domainMax]
     }
 
     let xDomain = (areas) => {

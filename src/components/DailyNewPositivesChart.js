@@ -6,31 +6,27 @@ import { tooltipFormatter, countTickFormatter, dateTickFormatter } from '../help
 import "./charts.css"
 
 function DailyNewPositivesChart(props) {
-  let data = props.series
-
   let yTickFormatter = props.yTickFormatter || countTickFormatter
 
   return (
     <div className="area-chart">
       <div className="header">
-        <span className="name">
-          {props.name}
-        </span>
+        {props.name}
       </div>
       <ResponsiveContainer>
-        <ComposedChart data={data} margin={{ top: 10, right: 0, left: 0, bottom: 10 }}>
+        <ComposedChart data={props.data} margin={{ top: 10, right: 0, left: 0, bottom: 10 }}>
           <Tooltip formatter={tooltipFormatter} labelFormatter={dateTickFormatter}/>
           <CartesianGrid strokeDasharray="4 4" />
           <Line
             yAxisId="left"
             type="linear"
-            dataKey="positiveDelta"
+            dataKey="positives"
             stroke={Colors.POSITIVE}
             strokeWidth={2}
             dot={false}
             isAnimationActive={true}
             animationDuration={200}
-            name="New Positives"
+            name="Positives"
           />
           <XAxis
             dataKey="date"
@@ -54,7 +50,7 @@ function DailyNewPositivesChart(props) {
 
 DailyNewPositivesChart.propTypes = {
   name: PropTypes.string,
-  series: PropTypes.array,
+  data: PropTypes.array,
   yDomain: PropTypes.array,
   xDomain: PropTypes.array,
   // yTickFormatter

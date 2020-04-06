@@ -13,8 +13,6 @@ import "./charts.css"
 
 class DeathHospitalizationChart extends React.Component {
   render() {
-    let data = this.props.series
-
     let yTickFormatter = this.props.yTickFormatter || countTickFormatter
 
     return (
@@ -25,13 +23,13 @@ class DeathHospitalizationChart extends React.Component {
           </span>
         </div>
         <ResponsiveContainer>
-          <ComposedChart data={data} margin={{ top: 10, right: 0, left: 0, bottom: 10 }}>
+          <ComposedChart data={this.props.data} margin={{ top: 10, right: 0, left: 0, bottom: 10 }}>
             <Tooltip formatter={tooltipFormatter} labelFormatter={dateTickFormatter}/>
             <CartesianGrid strokeDasharray="4 4" />
             <Line
               yAxisId="left"
               type="linear"
-              dataKey="deathDelta"
+              dataKey="deaths"
               stroke={Colors.DEATH}
               strokeWidth={2}
               dot={false}
@@ -42,7 +40,7 @@ class DeathHospitalizationChart extends React.Component {
             <Line
               yAxisId="left"
               type="linear"
-              dataKey="hospitalizedDelta"
+              dataKey="admissions"
               stroke={Colors.HOSPITALIZED}
               strokeWidth={2}
               dot={false}

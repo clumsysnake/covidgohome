@@ -13,57 +13,59 @@ import _ from 'lodash'
 
 function StatePage(props) {
   const [tooltip, setTooltip] = useState('')
-  const [mapField, setMapfield] = useState('positive')
+  const [mapField, setMapfield] = useState('positives')
   const [basis, setBasis] = useState('per-1m')
   const [colorScale, setColorScale] = useState('linear')
   const [chartType, setChartType] = useState('daily')
   const [timeframe, setTimeframe] = useState('first-death')
+  const [averageDays, setAverageDays] = useState(1)
   
   if(!props.state) { return <div>...loading</div> }
 
   let state = props.state
-  let totals = state.totals
-  // let scaledPercentage = state.scaledToPercentage()
-  //TODO: this line has so much wrong with it... fix AreaModel
-  let deadPer1M = _.last(state.scaledPerMillion()).death
+  let current = state.series.last
+  let currentPer1M = state.series.scale(1000000/state.population).last
 
-  let curr = state.currentFrame
-
-  let entries, yTickFormatter
+  let yTickFormatter, chartData
   switch(chartType) {
+    case 'cumulative':
+      chartData = state.series.average(averageDays).frames
+      break;
     case 'daily':
-      entries = state.entries
+      chartData = state.series.deltize().average(averageDays).frames
+      break;
+    case 'daily-daily':
+      chartData = state.series.deltize().deltize().average(averageDays).frames
       break;
     case 'daily-percent':
-      entries = state.deltaPercentageSeries
+      chartData = state.series.deltaPercentize().average(averageDays).frames
       yTickFormatter = percentTickFormatter
       break;
-    // case 'cumulative': entries = state.entries; break;
-    default: //TODO: throw error
+    default: 
+      throw new Error(`chart type ${chartType} unknown`)
   }
 
   let index = 0
   if(_.isInteger(timeframe)) {
-    index = Math.max(entries.length - timeframe, 0)
+    index = Math.max(chartData.length - timeframe, 0)
   } else if(timeframe === 'first-death') {
-    index = entries.findIndex(f => f.death > 0 )
+    index = chartData.findIndex(f => f.deaths > 0 )
   }
-  debugger
-  entries = entries.slice(index)
 
+  chartData = chartData.slice(index)
 
   return (
     <div className="state-page">
       <div className="top">
           <div className="filters">
             <Filter accessors={[mapField, setMapfield]} options={[
-              ['positive', 'positives'],
-              ['death', 'deaths']
+              ['positives', 'positives'],
+              ['deaths', 'deaths']
             ]}/>
             <Filter accessors={[basis, setBasis]} options={[
               'total',
               ['per-1m', 'total / capita'],
-              ['squared-per-1m', 'total² / capita']
+              // ['squared-per-1m', 'total² / capita']
             ]}/>
             <Filter accessors={[colorScale, setColorScale]} options={[
               'linear',
@@ -91,53 +93,52 @@ function StatePage(props) {
             </li>
             <li>
               <span className="label">Tests Performed</span>
-              <span className="value">{numberWithCommas(totals.totalTestResults)}</span>
+              <span className="value">{numberWithCommas(current.results)}</span>
             </li>
             <li>
               <span className="label">Tests Positive</span>
-              <span className="value">{numberWithCommas(totals.positive)} or {percentWithPlaces(totals.positivePercent, 2)}</span>
+              <span className="value">{numberWithCommas(current.positives)} or {percentWithPlaces(100*current.positiveRate, 2)}</span>
             </li>
             <li>
               <span className="label">Attack Rate</span>
-              <span className="value">{percentWithPlaces(totals.attackRate, 3)}</span>
+              <span className="value">{percentWithPlaces(100*state.attackRate, 3)}</span>
             </li>
             <li>
               <span className="label">CFR</span>
-              <span className="value">{percentWithPlaces(totals.cfrPercent, 2)} (estimated)</span>
+              <span className="value">{percentWithPlaces(100* current.deathRate, 2)} (estimated)</span>
             </li>
             <li>
               <span className="label">Dead</span>
-              <span className="value">{numberWithCommas(totals.death)} or {withPlaces(deadPer1M, 2)}/million</span>
+              <span className="value">{numberWithCommas(current.deaths)} or {withPlaces(currentPer1M.deaths, 2)}/million</span>
             </li>
             <li>
               <span className="label">Hospitalizations</span>
-              <span className="value">{numberWithCommas(curr.hospitalizedCumulative) || "unknown"} cumulative</span>
+              <span className="value">{numberWithCommas(current.admissions) || "unknown"} cumulative</span>
             </li>
             <li>
               <span className="label"></span>
-              <span className="value">{numberWithCommas(curr.hospitalizedCurrently) || "unknown"} current</span>
+              <span className="value">{numberWithCommas(current.inHospital) || "unknown"} current</span>
             </li>
             <li>
               <span className="label"></span>
-              <span className="value">{numberWithCommas(curr.recovered) || "unknown"} recovered</span>
+              <span className="value">{numberWithCommas(current.recovered) || "unknown"} recovered</span>
             </li>
             <li>  
               <span className="label"></span>
-              <span className="value">{percentWithPlaces(totals.hospitalizationRate, 2) || "unknown"} total rate</span>
+              <span className="value">{percentWithPlaces(current.admissionRate, 2) || "unknown"} total rate</span>
             </li>
             <li>
               <span className="label">In ICU</span>
-              <span className="value">{numberWithCommas(curr.inIcuCurrently) || "unknown"} currently</span>
+              <span className="value">{numberWithCommas(current.inIcu) || "unknown"} currently</span>
             </li>
             <li>
               <span className="label">Ventilated</span>
-              <span className="value">{numberWithCommas(curr.onVentilatorCumulative) || "unknown"} cumulative</span>
+              <span className="value">{numberWithCommas(current.ventilations) || "unknown"} cumulative</span>
             </li>
             <li>
               <span className="label"></span>
-              <span className="value">{numberWithCommas(curr.onVentilatorCurrently) || "unknown"} currently</span>
+              <span className="value">{numberWithCommas(current.onVentilator) || "unknown"} currently</span>
             </li>
-            {/* active, resolved */}
           </ul>
         </div>
       </div>
@@ -146,9 +147,10 @@ function StatePage(props) {
         <div className="filters-container">
           <div className="filters">
             <Filter accessors={[chartType, setChartType]} options={[
-              ['daily', 'daily'],
+              ['cumulative', 'total'],
+              'daily',
+              // 'daily-daily',
               ['daily-percent', '% daily change'],
-              // 'cumulative'
             ]}/>
             <Filter accessors={[timeframe, setTimeframe]} options={[
               [null, 'all'],
@@ -156,15 +158,20 @@ function StatePage(props) {
               // [21, 'last 21d'],
               // [14, 'last 14d'],
             ]}/>
+            <Filter accessors={[averageDays, setAverageDays]} label="smoothing" options={[
+              [1, 'none'],
+              [2, '2 day'],
+              [3, '3 day'],
+            ]}/>
           </div>
         </div>
 
-        <DailyNewPositivesChart name="Positives" series={entries} yTickFormatter={yTickFormatter}/>
+        <DailyNewPositivesChart name="Positives" data={chartData} yTickFormatter={yTickFormatter}/>
         <DeathHospitalizationChart name="Deaths and Hospitalizations"
-          series={entries} yTickFormatter={yTickFormatter}/>
-        {/*<DailyChangesChart name="Tests & Results" series={entries} />*/}
+          data={chartData} yTickFormatter={yTickFormatter}/>
+        {/*<DailyChangesChart name="Tests & Results" series={chartData} />*/}
 {/*        <PercentageTestResultsChart name="Test Results as % of Total Tests"
-          series={scaledPercentage} basis="percentage"/>
+          series={chartData} basis="percentage"/>
 */} 
      </div>
     </div>

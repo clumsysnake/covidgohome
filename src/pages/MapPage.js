@@ -4,7 +4,7 @@ import USAMap from '../components/USAMap.js'
 import Filter from '../components/Filter.js'
 
 export default function MapPage(props) {
-  let [mapField, setMapfield] = useState('positive')
+  let [mapField, setMapfield] = useState('positives')
   let [basis, setBasis] = useState('total')
   let [granularity, setGranularity] = useState('county')
   let [colorScale, setColorScale] = useState('log2')
@@ -14,15 +14,15 @@ export default function MapPage(props) {
     <div className="top">
       <div className="filters">
         <Filter accessors={[mapField, setMapfield]} label="showing" options={[
-          ['positive', 'positives'],
-          ['death', 'deaths'],
-          ['totalTestResults', '# tests'], 
-          ['hospitalizedCumulative', 'total hospitalized']
+          ['positives', 'positives'],
+          ['deaths', 'deaths'],
+          ['results', '# tests'], 
+          ['admissions', 'total hospitalized']
         ]}/>
         <Filter accessors={[basis, setBasis]} label="basis" options={[
           'total',
           ['per-1m', 'total / capita'],
-          ['squared-per-1m', 'total² / capita']
+          // ['squared-per-1m', 'total² / capita']
         ]} />
         <Filter accessors={[granularity, setGranularity]} options={[
           'state',

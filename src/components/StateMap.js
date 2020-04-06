@@ -1,18 +1,15 @@
+import _ from 'lodash'
 import React from "react";
 import {connect} from "react-redux"
 import { useHistory } from "react-router-dom";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { colorScale } from '../helpers/chartHelpers'
-import _ from 'lodash'
 
 import { projectionForState, topologyForState } from '../stores/Topologies.js'
 import StateModel from "../models/StateModel.js"
 import CountyModel from "../models/CountyModel.js"
 import AreaModel from "../models/AreaModel.js"
-// import "./StateMap.css"
 import {safeSmartNumPlaces} from "../helpers/chartHelpers.js"
-
-// const allowableFields = ['positive', 'total', 'negative', 'posPerc', 'death', 'hospitalizedCumulative']
 
 function StateMap(props) {
   const history = useHistory();
@@ -53,21 +50,21 @@ function StateMap(props) {
               let value, tooltipValue;
               switch(props.basis) {
                 case 'total':
-                  value = _.last(area.entries)[props.field]
+                  value = area.lastFrame[props.field]
                   tooltipValue = value
                   break;
                 case 'per-1m':
-                  value = _.last(area.scaledPerMillion())[props.field]
+                  value = area.perMillionTransform().last[props.field]
                   tooltipValue = value
                   break;
                 case 'squared-per-1m':
                   //We still want to show per 1m tooltip values
-                  value = _.last(area.scaledSquaredPerMillion())[props.field]
-                  tooltipValue = _.last(area.scaledPerMillion())[props.field]
+                  value = area.perMillionTransform().last[props.field]
+                  tooltipValue = area.perMillionTransform().last[props.field]
                   break;
                 default:
-                  throw new TypeError(`error, unknown bases ${props.basis}`)
-              }
+                  throw new TypeError(`error, unknown basis ${props.basis}`)
+              } 
 
               if(_.isFinite(value)) { color = colorF(value) }
               tooltip = `${area.name} -- ${safeSmartNumPlaces(tooltipValue, 1)} ${props.field}s`

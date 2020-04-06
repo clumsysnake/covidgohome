@@ -43,6 +43,7 @@ class StateModel extends AreaModel {
   }
 
   get censusData() {
+    console.log('warning: censusData shouldnt be called')
     return censusDataForState(this.name)
   }
 

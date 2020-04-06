@@ -24,6 +24,7 @@ const NYT_STATES_URL = "https://raw.githubusercontent.com/nytimes/covid-19-data/
 const MAPPING_JSON = "src/stores/us_state_mapping.json"
 const CENSUS_JSON  = "src/stores/census-2019-07-01-pop-estimate.json"
 const S3_KEY = "data/states.json"
+const FORMAT_VERSION = 2
 
 // function suspectedMissingDay(e) {
 //   return AreaModel.deltaStats.every(s => e[s] === 0) && e.positive > 100
@@ -53,9 +54,27 @@ const ctDailyPickFields =[
 ]
 //removed: dateChecked, hash, fips, state
 function translateCtDailyFrame(ct) {
-  let h = _.pick(ct, ctDailyPickFields)
-  h.date = dateParse(h.date)
-  return h
+  return {
+    //INDEXES
+    date: dateParse(ct.date),
+
+    //COUNTS
+    positives: ct.positive,
+    negatives: ct.negative,
+    collections: ct.positive + ct.negative + (ct.pending || 0),
+    deaths: ct.death,
+    recoveries: ct.recovered,
+    admissions: ct.hospitalizedCumulative,
+    intensifications: ct.inIcuCumulative,
+    ventilations: ct.onVentilatorCumulative, 
+    //derived: results, resolutions
+
+    //TOGGLES
+    onVentilator: ct.onVentilatorCurrently,
+    inHospital: ct.hospitalizedCurrently,
+    inICU: ct.inIcuCurrently
+    //derived: pending, active
+  }
 }
 
 //CRZ: Note: not all days have all these fields. old days havent changed.
@@ -75,9 +94,13 @@ const dateParse = function(string) {
   return moment(string, 'YYYYMMDD').unix()
 }
 
-
+//CRZ: atm positive, negative, and death determine equality, nothing else. whats best is unclear.
 function containsFrame(series, frame) {
-  return !!series.find((f) => AreaModel.areEqualFrames(f, frame))
+  return !!series.find((f) => {
+    return  f.positive === frame.positive && 
+            f.negative === frame.negative && 
+            f.death === frame.death
+  })
 }
 
 //CRZ: increments date and adds rest of fields
@@ -148,7 +171,7 @@ function createStatesJson(groups) {
     Object.assign(state, {series: g.ctDaily.map(x => translateCtDailyFrame(x)).reverse()})  
 
     //Add states current unless it already exists.
-    possiblyAddDaily(state, g)
+    // possiblyAddDaily(state, g)
 
     return state
   })
@@ -166,8 +189,9 @@ function outputResults(json, filename = null) {
 
 function packageStatesJson(json) {
   return {
+    version: FORMAT_VERSION,
+    timestamp: Date.now(),
     states: json,
-    timestamp: Date.now()
   }
 }
 

@@ -67,18 +67,18 @@ function handleDailyReport(csv, date) {
 
   let jhCounties = results.data.filter(res => res.Country_Region === "US" && res.FIPS)
 
-  let counties =  UsCountyCensus.map(row => {
+  let counties = UsCountyCensus.map(row => {
 
     let fips = row[8] + row[9]
     let [countyName, stateName] = row[5].split(',').map(s => s.trim())
     const population = (fips === "36061") ? censusDataNYCHack().population : row[4]
     let jhCounty = jhCounties.find(c => c.FIPS === fips)
 
-    let entries = [{
+    let series = [{
         date: date,
-        positive: jhCounty ? parseInt(jhCounty.Confirmed) : 0,
-        death: jhCounty ? parseInt(jhCounty.Deaths) : 0,
-        active: jhCounty ? parseInt(jhCounty.Active) : 0
+        positives: jhCounty ? parseInt(jhCounty.Confirmed) : 0,
+        deaths: jhCounty ? parseInt(jhCounty.Deaths) : 0,
+        // active: jhCounty ? parseInt(jhCounty.Active) : 0
       }]
 
     return new CountyModel({
@@ -86,7 +86,7 @@ function handleDailyReport(csv, date) {
       name: countyName,
       stateName: stateName,
       population,
-      entries
+      series
     })
   })
 

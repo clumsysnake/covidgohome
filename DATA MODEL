@@ -3,77 +3,69 @@ per area:
 	density
 	geojsons
 	fips (if exists)
-	tp
-	children (areas it comprises)
-	series (has 0-to-many frames)
-		:time indexes
+	children (0-to-many areas it comprises)
+	series
+
+series
+ 	frame: (has 0-to-many)
+		:indexes
 			date
 			timestamp (of when data was released )
-		:monotonic increasing, >=0, these describe counts of events
+		:counts -- monotonic increasing, >=0, these describe counts of events
 			collections (tests collected)
-			positives
-			negatives
-			deaths
-			recoveries
+			positives (positive results on test)
+			negatives (negative results on test)
+			deaths (died from covid)
+			recoveries (no longer testing positive)
 			admissions (admitted to hospital)
-			icued (admitted to icu)
+			intensifications (admitted to icu)
 			ventilations (started ventilation on)
 			*results (test results came back)
 			*resolutions (recovery or death)
-		:non-monotonic, >0, these describe events which begin and end
-			onVentilator
-			inHospital
-			inIcu
-			*active
-			*pending
-
-		**:deltas of monotonic, always >= 0
-			positivesDelta
-			negativesDelta
-			admissionsDeltaa
-			icuedDelta
-			ventilationsDelta
-			collectionsDelta
-			resultsDelta
-		**:deltas of non-monotonic (- or +)
-			pendingDelta
-			activeDelta
-			onVentilatorDelta
-			inHospitalDelta
-			inIcuDelta
-		**:rates have a calculation just for the current frame and also for period from 1st frame to current
+		:toggles -- non-monotonic, >0, these describe states which have a begin and end
+			inHospital (positive patient at the hospital)
+			inIcu (positive patient in the ICU)
+			onVentilator (positive patient using a ventilator)
+			*active (currently positive patient)
+			*pending (test that has been collected but we dont have results for yet)
+			*mild (positive patient not in the hospital)
+		:rates - non-monotonic, all derived, only populated at end (calced after final transform)
 			deathRate = deaths / positives (not true CFR, CFR so far)
 			admissionRate = admissions / positives
-			icuRate = ... icued / positives OR icued / admissions
+			icuRate = ... intensifications / positives OR icued / admissions
 			positiveRate = positives / results
 
-* while these are fundamental fields, they are derivable via equation, and these are the least reported.
-** all deltas and rates are derivable from initial 
 
-- All deltas are assumed to be between two equivalently spaced frames
-- attackrate = positives / population , this is an odd one, just positives scaled really..
-- is there a "mild" category?
 
-Terminology:
-	- counts = monotonic values. they simply increment when an event occurs. test, negative, death, etc.
-	- toggles = nonmonotonic values. 
-	- metrics = union of counts and toggles
-
-transforms:
-	scale (per 1m, etc) : all toggles and counts scaled.
-	squared: all togg
-	delta percentage
-	totals
-	percentage scale (does this make sense?)
-
-equalities and inequalities
+Equalities and Inequalities
 	getting tested:
 		collections = pending + results
 		results = positives + negatives
 	after diagnosis:
 		resolutions = deaths + recoveries
 		positives = actives + resolutions = actives + deaths + recoveries
+		mild = positives - resolutions - inHospital
 	in hospital:
 		inHospital > onVentilator + inICu
 		inIcu > onVentilator (I think)
 		positives > inHospital
+
+Terminology:
+	- counts = monotonic values. they simply increment when an event occurs. test, negative, death, etc.
+	- toggles = nonmonotonic values. 
+	- metrics = union of counts and toggles
+
+Series Transforms:
+	- scale (per 1m, etc) : all metrics scaled linearly
+	- squared: all metrics squared
+	- delta: all metrics simply the difference between last frame and this frame
+	- deltaPercentage: all metrics, the delta as a percentage of the previous frame
+	- deriv: rate of change for all metrics.
+	- ...
+
+Notes
+	AttackRate is not a rate as listed above... its just #.positives / popopulation, so its just scaled positives
+	* while these are fundamental fields, they are derivable via equation, and these are the least reported.
+	- Rates always have a calculation just for the current frame and also for period from 1st frame to current. I dont see any reason to determine the rate for a different set of frames
+	- Rates are weird... do they not change with transforms? if not we should represent them differently.
+	- if it says "Rate" its 0-1. fields that say "Percent" will be 0-100.
