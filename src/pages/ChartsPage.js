@@ -9,7 +9,7 @@ export default function ChartsPage(props) {
   const [group, setGroup] = useState("none")
   const [chartType, setChartType] = useState("daily")
   const [basis, setBasis] = useState("per-1m")
-  const [scaleMatching, setScaleMatching] = useState(true)
+  const [scaleMatching, setScaleMatching] = useState(false)
 
   return <div className="charts-page">
     <div className="top">
@@ -37,10 +37,10 @@ export default function ChartsPage(props) {
           'none',
           'region'
         ]} />
-        <Filter accessors={[scaleMatching, setScaleMatching]} label="scale match" options={[
+{/*        <Filter accessors={[scaleMatching, setScaleMatching]} label="scale match" options={[
           [true, 'yes'],
           [false, 'no']
-        ]} />
+        ]} />*/}
       </div>
     </div>
     <div className="bottom">
