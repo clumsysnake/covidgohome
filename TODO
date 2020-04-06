@@ -54,6 +54,7 @@
 - add banner ability to top header
 - i need date reported of each number, then i can average the entries values based on when the date
 - is "recovered" all recovered, even mild cases, or only discharged hospitalizations?
+- add legend to maps!
 - bug: on USAMap, if you're looking at the county view, you can choose # test and total hospitalized, neither of which have data at the county level
 - bug: dumb filter {cursor: pointer} doesn't trigger while in the padding of an unchosen option in chrome
 - bug: selected filters look different between safari and chrome (i actually like the unintended safari version)

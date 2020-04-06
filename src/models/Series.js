@@ -9,16 +9,16 @@ export default class Series {
     this.__frames = frames.map((f, fidx) => {
       Object.entries(f).forEach(([k,v]) => {
         if(!Series.ALL.includes(k)) { 
-          throw new TypeError(`frame no ${fidx+1} has unknown field ${k}: ${v} in`)
+          throw new TypeError(`frame #${fidx+1} has unknown field '${k}' = '${v}'`)
         }
 
         if(Series.DERIVED.includes(k)) { 
-          throw new TypeError(`frame no ${fidx+1} has derived field ${k}: ${v}`)
+          throw new TypeError(`frame #${fidx+1} has derived field '${k}' = '${v}'`)
         }
 
         if(Series.TOGGLES.includes(k)) {
           if(v < 0) {
-            throw new TypeError(`Series constructor passed value for toggle field below 0: ${k}: ${v} in frame no ${fidx+1}`)
+            throw new TypeError(`Series constructor in frame #${fidx+1} passed value for toggle field below 0: ${k}: ${v}`)
           }
         }
       })

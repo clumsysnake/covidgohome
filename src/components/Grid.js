@@ -39,7 +39,6 @@ class Grid extends React.Component {
       switch(this.props.basis) {
         case 'total': chartTransform = a.series.transform; break
         case 'per-1m': chartTransform = a.perMillionTransform(); break
-        // case 'percentage': chartData = a.scaledToPercentage(); break
         default: break; //TODO: catch error
       }
 
@@ -76,15 +75,12 @@ class Grid extends React.Component {
 
     //TODO: this calculation seems overwrought and needs tests
     let yDomain = (areas) => {
+      if(!this.props.scaleMatching) {
+        return ['auto', 'auto']
+      }
+
       console.log('warning: need to fix yDomain')
       return ['auto', 'auto']
-      // if(this.props.basis === "percentage") {
-      //   return [0, 100]
-      // }
-
-      // if(!this.props.scaleMatching) {
-      //   return ['auto', 'auto']
-      // }
 
       // let field = (this.props.chartType === "daily") ? 'posNegDelta' : 'total'
       // let max = AreaModel.fieldMax(areas, field, 'per-1m')
