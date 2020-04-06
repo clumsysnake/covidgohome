@@ -71,7 +71,9 @@ function USAMap(props) {
                   throw new TypeError(`error, unknown bases ${props.basis}`)
               }
 
-              if(_.isFinite(value)) { color = colorF(value || 1) }
+              //CRZ: choosing to display counties with null fields as white. this is because I
+              //     am assuming that JH is not listing counties with no counts
+              color = (_.isFinite(value)) ? color = colorF(value) : 'white'
               tooltip = `${area.name} -- ${safeSmartNumPlaces(tooltipValue, 1)} ${props.field}s`
               if(perMillion) { tooltip += " per million people" }
             } else {

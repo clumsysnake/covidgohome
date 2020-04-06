@@ -27,7 +27,6 @@
 - show doubling rate; not sure how best to calculate that.
 - investigate desirable behavior for storing filter settings in localstorage
 - add city locations on maps
-- incorporate ALL jh daily data, then show graphs for individual counties
 - switching from USA map to state map should keep filters same as much as possible
 - add IFR estimate, if possible
 - dont have population data for the territories... minor issue atm.
@@ -44,8 +43,7 @@
 - truly address the NYC problem
 - decide on if "confirmed" is the correct terminology rather than "positive"?
 - bug: alaska state display is broken
-- for SOME fields in ct data i am making turning null's into 0s. stop doing that (make sure it breaks nothing)
-- what does it mean when counties are absent from JH data? does it mean they are 0 or unknown?
+- WHAT DOES IT MENA when counties are absent from JH data? does it mean they are 0 or unknown? atm showing nulls as 0s on the map
 - styling: i want the state name to always be always centered over the stats on the state page, but the table to take up all the room to the left and right
 - styling: make state page stats a true table so word wrap takes place only on its side of the stats
 - styling: charts should always take up entire width until a breakpoint, and then multiple charts can exist horizontally
