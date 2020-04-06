@@ -56,7 +56,7 @@ class Grid extends React.Component {
             key={a.name}
             name={nameComp}
             data={chartTransform.frames}
-            totals={a.totals}
+            totals={a.series.last}
             yDomain={yDomain}
             xDomain={xDomain}
           />
@@ -66,7 +66,7 @@ class Grid extends React.Component {
             key={a.name}
             name={nameComp}
             data={chartTransform.frames}
-            totals={a.totals}
+            totals={a.series.last}
             yDomain={yDomain}
             xDomain={xDomain}
           />

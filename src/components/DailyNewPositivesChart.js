@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from "react"
 import { ResponsiveContainer, ComposedChart, CartesianGrid, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import Colors from '../helpers/Colors.js'
-import { tooltipFormatter, countTickFormatter, dateTickFormatter } from '../helpers/chartHelpers'
+import { tooltipFormatter, countTickFormatter, dateTickFormatter, percentDisplay } from '../helpers/chartHelpers'
 import "./charts.css"
 
 function DailyNewPositivesChart(props) {
@@ -12,6 +12,9 @@ function DailyNewPositivesChart(props) {
     <div className="area-chart">
       <div className="header">
         {props.name}
+        {props.totals ? <span className="totals">
+          {props.totals.results} tests; {props.totals.positives}({percentDisplay(100*props.totals.positiveRate, 1)}%) positive; {props.totals.deaths} dead
+        </span> : null}
       </div>
       <ResponsiveContainer>
         <ComposedChart data={props.data} margin={{ top: 10, right: 0, left: 0, bottom: 10 }}>
@@ -49,7 +52,7 @@ function DailyNewPositivesChart(props) {
 }
 
 DailyNewPositivesChart.propTypes = {
-  name: PropTypes.string,
+  // name: PropTypes.string, -- now send component
   data: PropTypes.array,
   yDomain: PropTypes.array,
   xDomain: PropTypes.array,

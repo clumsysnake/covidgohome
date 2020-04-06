@@ -18,7 +18,7 @@ class CombinedChart extends React.Component {
         <div className="header">
           {this.props.name}
           {this.props.totals ? <span className="totals">
-            {this.props.totals.total} tests; {this.props.totals.positive}({percentDisplay(this.props.totals.positivePercent, 1)}%) positive; {this.props.totals.death} dead
+            {this.props.totals.results} tests; {this.props.totals.positives}({percentDisplay(100*this.props.totals.positiveRate, 1)}%) positive; {this.props.totals.deaths} dead
           </span> : null}
         </div>
         <ResponsiveContainer>
