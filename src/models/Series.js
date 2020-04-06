@@ -209,6 +209,8 @@ Series.RATES = ['deathRate', 'positiveRate', 'admissionRate', 'icuRate']
 Series.ALL = Series.METRICS.concat(Series.INDEXES, Series.RATES)
 Series.DERIVED = Series.RATES.concat(['results', 'resolutions', 'active', 'pending'])
 Series.FUNDAMENTAL = _.difference(Series.ALL, Series.DERIVED)
+Series.FUNDAMENTAL_METRICS = _.difference(Series.METRICS, Series.DERIVED)
+
 // Series.FIELD_MAP = [
 //   ['positives', 'actives'],
 //   ['admissions', 'inHospital'],
