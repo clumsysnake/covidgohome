@@ -57,6 +57,7 @@ function StatePage(props) {
   return (
     <div className="state-page">
       <div className="top">
+        <div className="left">
           <div className="filters">
             <Filter accessors={[mapField, setMapfield]} options={[
               ['positives', 'positives'],
@@ -73,16 +74,17 @@ function StatePage(props) {
               ['log2', 'log(2)']
             ]}/>
           </div>
-        <div className="state-map">
-          <StateMap
-            state={state}
-            field={mapField}
-            basis={basis}
-            granularity="county"
-            colorScale={colorScale}
-            setTooltipContent={setTooltip}
-          />
-          <ReactTooltip place="right">{tooltip}</ReactTooltip>
+          <div className="state-map">
+            <StateMap
+              state={state}
+              field={mapField}
+              basis={basis}
+              granularity="county"
+              colorScale={colorScale}
+              setTooltipContent={setTooltip}
+            />
+            <ReactTooltip place="right">{tooltip}</ReactTooltip>
+          </div>
         </div>
         <div className="stats">
           <h1 className="state-name">{state.name}</h1>

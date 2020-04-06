@@ -1,10 +1,14 @@
 
-.state-page > .top > div{
+.state-page > .top > div {
   float: left;
 }
 
-.state-page > .top > .state-map {
+.state-page > .top > .left {
   width: 54%;
+}
+
+.state-page > .top > .state-map {
+  
   padding: 0 1% 0 0;
 }
 
