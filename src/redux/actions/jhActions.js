@@ -74,19 +74,19 @@ function handleDailyReport(csv, date) {
     const population = (fips === "36061") ? censusDataNYCHack().population : row[4]
     let jhCounty = jhCounties.find(c => c.FIPS === fips)
 
-    let series = [{
-        date: date,
-        positives: jhCounty ? parseInt(jhCounty.Confirmed) : 0,
-        deaths: jhCounty ? parseInt(jhCounty.Deaths) : 0,
-        // active: jhCounty ? parseInt(jhCounty.Active) : 0
-      }]
+    let frame = {date: date}
+    if(jhCounty) {
+      frame.positives = parseInt(jhCounty.Confirmed)
+      frame.deaths = parseInt(jhCounty.Deaths)
+      frame.recoveries = frame.positives - frame.deaths - parseInt(jhCounty.Active) 
+    }
 
     return new CountyModel({
       fips,
       name: countyName,
       stateName: stateName,
       population,
-      series
+      series: [frame]
     })
   })
 

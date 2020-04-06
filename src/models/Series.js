@@ -29,7 +29,7 @@ export default class Series {
         results: finiteOrNull(f.positives + f.negatives),
         resolutions: finiteOrNull(f.deaths + f.recoveries),
         pending: finiteOrNull(f.collections - f.positives - f.negatives),
-        active: finiteOrNull(f.positives - f.deaths - f.recovered),
+        active: finiteOrNull(f.positives - f.deaths - f.recoveries),
         mild: finiteOrNull(f.positives - f.deaths - f.recoveries - f.inHospital)
       })
     })
