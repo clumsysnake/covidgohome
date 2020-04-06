@@ -12,7 +12,6 @@ function SourcesPage(props) {
 
   let states = UsStateMapping.map(mapping => {
     let nytSeries = _.sortBy(props.nytStates.filter(x => x.state === mapping.name), 'date')
-    console.log(mapping.abbreviation)
     let ctState = StateModel.findByAbbrev(mapping.abbreviation)
 
     if(!ctState || _.isEmpty(nytSeries)) { return null }
