@@ -125,9 +125,35 @@ describe('Series', () => {
     })
   })
 
+  describe('all transform functions', () => {
+    describe('return a new Transform object', () => {
+      it('with the same underlying series', () => {
+        let series = make(frames1)
+        let transform1 = series.transform
+        let transform2 = transform1.deltize()
+
+        expect(transform1).not.toBe(transform2)
+        expect(transform1.series).toEqual(series)
+        expect(transform2.series).toEqual(series)
+      })
+
+      it('which can be executed separately from the original', () =>{
+        let series = make(frames1)
+        let transform1 = series.scale(1)
+        let transform2 = series.deltize()
+        let f1 = transform1.frames
+        let f2 = transform2.frames
+
+        expect(f1[1].positives).toEqual(f1[1].positives)
+        expect(f2[1].positives).toEqual(frames1[1].positives - frames1[0].positives)
+      })
+    })
+  })
+
   //pending: for deltize and deltapercentize, test if curr and/or prev are null
 
   //pending: average() transform! not sure its correct!
+  //pending: test average() transform when on a null value, or part of the range contains a null value!
   //pending: squared() transform test
   //pending: date exists for all frames
   //pending; each date field is sequential from the previous

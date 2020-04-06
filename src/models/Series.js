@@ -64,8 +64,8 @@ export default class Series {
 
 //lazy
 class Transform {
-  constructor(series) {
-    this.__operations = []
+  constructor(series, operations = []) {
+    this.__operations = operations
     this.series = series
   }
 
@@ -75,11 +75,15 @@ class Transform {
 
   //CRZ: deltizing, which is almost a derivative, except discrete derivatives averages between 
   //     previous and next frame
-  deltize(...args) { this.__addOperation('deltize', args); return this}
-  scale(...args) { this.__addOperation('scale', args); return this}
-  deltaPercentize(...args) { this.__addOperation('deltaPercentize', args); return this}
-  average(...args) { this.__addOperation('average', args); return this }
-  square(...args) { this.__addOperation('square', args); return this}
+  newT(name, args) {
+    return new Transform(this.series, this.__operations.concat([[name, args]]))
+  }
+  deltize = (...args) => this.newT('deltize', args)
+  scale = (...args) => this.newT('scale', args)
+  deltaPercentize = (...args) => this.newT('deltaPercentize', args)
+  average = (...args) => this.newT('average', args)
+  square = (...args) => this.newT('square', args)
+  deltaPercentize = (...args) => this.newT('deltaPercentize', args)
 
   __addOperation(name, args) {
     this.__operations.push([name, args])
@@ -92,7 +96,6 @@ class Transform {
   }
 
   //TODO: make each transform separate functions
-  //TODO: should each operation return a NEW transform, such that operations are immutable? i think so
   __transform(data, operation) {
     let type = operation[0]
     let args = operation[1]
@@ -184,7 +187,9 @@ class Transform {
           let newEntry = Object.assign({}, e)
 
           Series.METRICS.forEach(field => {
-            if(i === 0) {
+            if(!_.isFinite(e[field])) {
+              newEntry[field] = null
+            } else if(i === 0) {
               newEntry[field] = e[field]*edgeDayFraction + s[1][field]*adjacentDayFraction
             } else if(i === s.length-1) {
               newEntry[field] = s[i-1][field]*adjacentDayFraction + s[i][field]*edgeDayFraction

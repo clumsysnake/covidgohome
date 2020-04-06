@@ -68,6 +68,7 @@
   - fix ydomain scale matching
   - add back squared-per-1m
   - still getting censusData shouldn’t be called
+- bug: smoothing smoothing nulls values! and gives them value!
 
 REFACTOR
 - switch to graphql interface
