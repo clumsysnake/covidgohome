@@ -31,6 +31,7 @@ function DailyNewPositivesChart(props) {
             animationDuration={200}
             name="Positives"
           />
+          {props.children}
           <XAxis
             dataKey="date"
             tickFormatter={dateTickFormatter}

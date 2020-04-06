@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
-import ReactTooltip from 'react-tooltip';
-import { connect } from 'react-redux';
-import DailyChangesChart from '../components/DailyChangesChart.js'
+import React, {useState} from 'react'
+import ReactTooltip from 'react-tooltip'
+import { connect } from 'react-redux'
+import { Line, Legend } from 'recharts'
+import Chart from '../components/Chart'
+import Colors from '../helpers/Colors'
+// import DailyChangesChart from '../components/DailyChangesChart.js'
 import DailyNewPositivesChart from '../components/DailyNewPositivesChart.js'
 import PercentageTestResultsChart from '../components/PercentageTestResultsChart.js'
-import DeathHospitalizationChart from '../components/DeathHospitalizationChart.js'
 import StateMap from '../components/StateMap.js'
 import Filter from '../components/Filter.js'
 import './StatePage.css'
@@ -25,25 +27,29 @@ function StatePage(props) {
   let state = props.state
   let current = state.series.last
   let currentPer1M = state.series.scale(1000000/state.population).last
+  let transform = state.series.transform()
 
   let yTickFormatter, chartData
   switch(chartType) {
-    case 'cumulative':
-      chartData = state.series.average(averageDays).frames
-      break;
-    case 'daily':
-      chartData = state.series.deltize().average(averageDays).frames
-      break;
-    case 'daily-daily':
-      chartData = state.series.deltize().deltize().average(averageDays).frames
-      break;
+    case 'cumulative': chartData = transform.average(averageDays).frames; break;
+    case 'daily': chartData = transform.deltize().average(averageDays).frames; break;
+    // case 'daily-daily': chartData = transform.deltize().deltize().average(averageDays).frames; break;
     case 'daily-percent':
-      chartData = state.series.deltaPercentize().average(averageDays).frames
+      chartData = transform.deltaPercentize().average(averageDays).frames
       yTickFormatter = percentTickFormatter
       break;
     default: 
       throw new Error(`chart type ${chartType} unknown`)
   }
+
+  //TODO: this takes work... i can't have BOTH a positiveRate for just its day AND over all 
+  //      days in one transform such that i get one set of frames. so i have to manually
+  //      combine. i could just add positiveRate and positiveRateTotal... but those are subject
+  //      to transforms? Rates could just NOT be subject to transforms and I could add all the
+  //      ones i need....or a Transform#combine...?
+  let posPercFrames = state.series.ratesScale(100).frames
+  let deltaFrames = state.series.deltize().ratesScale(100).frames
+  posPercFrames.forEach((f, idx) => f.positiveRateDaily = deltaFrames[idx].positiveRate)
 
   let index = 0
   if(_.isInteger(timeframe)) {
@@ -53,7 +59,8 @@ function StatePage(props) {
   }
 
   chartData = chartData.slice(index)
-
+  posPercFrames.slice(index)
+  
   return (
     <div className="state-page">
       <div className="top">
@@ -65,7 +72,7 @@ function StatePage(props) {
             ]}/>
             <Filter accessors={[basis, setBasis]} options={[
               'total',
-              ['per-1m', 'total / capita'],
+              ['per-1m', 'total/capita'],
               // ['squared-per-1m', 'total² / capita']
             ]}/>
             <Filter accessors={[colorScale, setColorScale]} options={[
@@ -115,23 +122,23 @@ function StatePage(props) {
             </li>
             <li>
               <span className="label">Hospitalizations</span>
+              <span className="value">{percentWithPlaces(current.admissionRate, 2) || "unknown"} admission rate</span>
+            </li>
+            <li>  
+              <span className="label"></span>
               <span className="value">{numberWithCommas(current.admissions) || "unknown"} cumulative</span>
             </li>
             <li>
               <span className="label"></span>
-              <span className="value">{numberWithCommas(current.inHospital) || "unknown"} current</span>
+              <span className="value">{numberWithCommas(current.inHospital) || "unknown"} currently</span>
             </li>
             <li>
               <span className="label"></span>
               <span className="value">{numberWithCommas(current.recovered) || "unknown"} recovered</span>
             </li>
-            <li>  
-              <span className="label"></span>
-              <span className="value">{percentWithPlaces(current.admissionRate, 2) || "unknown"} total rate</span>
-            </li>
             <li>
               <span className="label">In ICU</span>
-              <span className="value">{numberWithCommas(current.inIcu) || "unknown"} currently</span>
+              <span className="value">{numberWithCommas(current.inICU) || "unknown"} currently</span>
             </li>
             <li>
               <span className="label">Ventilated</span>
@@ -171,14 +178,100 @@ function StatePage(props) {
         <DailyNewPositivesChart 
           name={<span className="name">Positives</span>}
           data={chartData} 
-          yTickFormatter={yTickFormatter}
-        />
-        <DeathHospitalizationChart name="Deaths and Hospitalizations"
-          data={chartData} yTickFormatter={yTickFormatter}/>
+          yTickFormatter={yTickFormatter}>
+          <Legend />
+        </DailyNewPositivesChart>
+        <Chart name="Cumulative Deaths and Hospitalizations"
+               data={chartData} yTickFormatter={yTickFormatter}>
+          <Line
+            yAxisId="left"
+            type="linear"
+            dataKey="deaths"
+            stroke={Colors.DEATH}
+            strokeWidth={2}
+            dot={false}
+            isAnimationActive={true}
+            animationDuration={200}
+            name="Deaths"
+          />
+          <Line
+            yAxisId="left"
+            type="linear"
+            dataKey="admissions"
+            stroke={Colors.HOSPITALIZED}
+            strokeWidth={2}
+            dot={false}
+            isAnimationActive={true}
+            animationDuration={200}
+            name="Hospitalizations"
+          />
+          <Legend />
+        </Chart>
+        <Chart name="Currently Hospitalized" data={chartData}>
+          <Line
+            yAxisId="left"
+            type="linear"
+            dataKey="inHospital"
+            stroke={Colors.HOSPITALIZED}
+            strokeWidth={2}
+            dot={false}
+            isAnimationActive={true}
+            animationDuration={200}
+            name="in Hospital"
+          />
+          <Line
+            yAxisId="left"
+            type="linear"
+            dataKey="inICU"
+            stroke={Colors.ICU}
+            strokeWidth={2}
+            dot={false}
+            isAnimationActive={true}
+            animationDuration={200}
+            name="in ICU"
+          />
+          <Line
+            yAxisId="left"
+            type="linear"
+            dataKey="onVentilator"
+            stroke={Colors.VENT}
+            strokeWidth={2}
+            dot={false}
+            isAnimationActive={true}
+            animationDuration={200}
+            name="on Ventilator"
+          />
+          <Legend />
+        </Chart>
         {/*<DailyChangesChart name="Tests & Results" series={chartData} />*/}
-{/*        <PercentageTestResultsChart name="Test Results as % of Total Tests"
-          series={chartData} basis="percentage"/>
-*/} 
+        <Chart name="Test Positive %" 
+               data={posPercFrames} yTickFormatter={percentTickFormatter}>
+          <Line
+            yAxisId="left"
+            type="linear"
+            dataKey="positiveRate"
+            stroke={Colors.POSITIVE_PERCENT}
+            strokeDasharray="3 2"
+            strokeWidth={1}
+            dot={false}
+            isAnimationActive={true}
+            animationDuration={200}
+            name="Test Pos. % Cumulative"
+          />
+          <Line
+            yAxisId="left"
+            type="linear"
+            dataKey="positiveRateDaily"
+            stroke={"red"}
+            strokeDasharray="3 2"
+            strokeWidth={1}
+            dot={false}
+            isAnimationActive={true}
+            animationDuration={200}
+            name="Test Pos. % for Day"
+          />
+          <Legend />
+        </Chart>
      </div>
     </div>
   )

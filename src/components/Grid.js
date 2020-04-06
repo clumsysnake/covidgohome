@@ -37,7 +37,7 @@ class Grid extends React.Component {
     let chartForArea = (a, yDomain, xDomain) => {
       let chartTransform
       switch(this.props.basis) {
-        case 'total': chartTransform = a.series.transform; break
+        case 'total': chartTransform = a.series.transform(); break
         case 'per-1m': chartTransform = a.perMillionTransform(); break
         default: break; //TODO: catch error
       }
