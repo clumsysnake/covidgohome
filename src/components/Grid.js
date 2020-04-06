@@ -18,11 +18,11 @@ class Grid extends React.Component {
         return (a, b) => (a.code < b.code) ? -1 : 1
       case "most-cases":
         return (a, b) => {
-          return (a.series.last && a.series.last.positives > b.series.last && b.series.last.positives) ? -1 : 1
+          return ((a.series.last && a.series.last.positives) > (b.series.last && b.series.last.positives)) ? -1 : 1
         }
       case "most-tests":
         return (a, b) => {
-          return (a.series.last && a.series.last.results > b.series.last && b.series.last.results) ? -1 : 1
+          return ((a.series.last && a.series.last.results) > (b.series.last && b.series.last.results)) ? -1 : 1
         }
       default:
         return undefined //TODO
