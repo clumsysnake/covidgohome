@@ -29,27 +29,30 @@ class AreaModel {
     }, null)
   }
 
-  // static createAggregate(name, areas) {
-  //   //CRZ: not elegant but js doesnt like func prog.
-  //   let entries = []
-  //   areas.flatMap(a => a.entries).forEach((e) => {
-  //     let s = entries.find(s => s.date === e.date) 
-  //     if(_.isNil(s)) {
-  //       s = {date: e.date}
-  //       Object.assign(s, emptyEntry)
-  //       entries.push(s)
-  //     }
+  //TODO: there is a bug here... if only SOME areas have values for some dates,
+  //      the resulting series looks like it trails off at those dates
+  //TODO: Series should handle its own merging... delegate that.
+  static createAggregate(name, areas) {
+    let series = areas.flatMap(a => a.series.frames).reduce((frames, frame) => {
+      let s = frames.find(s => s.date === frame.date)
 
-  //     Object.keys(emptyEntry).forEach((key) => {
-  //       s[key] += e[key] || 0
-  //     })
-  //   })
-  //   entries.sort((a,b) => (a.date > b.date) ? 1 : -1 )
+      if(_.isNil(s)) {
+        return frames.concat(_.pick(frame, Series.FUNDAMENTAL))
+      } else {
+        //TODO: fugly
+        Series.FUNDAMENTAL_METRICS.forEach((key) => {
+          if(frame.hasOwnProperty(key)) {
+            s[key] += frame[key]
+          }
+        })
+        return frames
+      }
+    }, [])
+    series.sort((a,b) => (a.date > b.date) ? 1 : -1 )
+    let population = areas.reduce((sum, a) => sum + a.population, 0)
 
-  //   let population = areas.reduce((sum, a) => sum + a.population, 0)
-
-  //   return new AreaModel({name, entries, population})
-  // }
+    return new AreaModel({name, series, population})
+  }
 
   //TODO: rename entries to series
   constructor(props) {

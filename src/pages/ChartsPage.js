@@ -14,11 +14,11 @@ export default function ChartsPage(props) {
   return <div className="charts-page">
     <div className="top">
       <div className="filters">
-{/*        <Filter accessors={[aggregate, setAggregate]} options={[
+        <Filter accessors={[aggregate, setAggregate]} options={[
           'state',
           'region',
           'country'
-        ]} />*/}
+        ]} />
         <Filter accessors={[chartType, setChartType]} options={[
           'daily',
           'cumulative',

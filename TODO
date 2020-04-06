@@ -70,7 +70,6 @@
   - fix ydomain scale matching
   - add back squared-per-1m
   - still getting censusData shouldn’t be called
-  - createAggregate doesn’t work
   - chartsPage sort isn’t sorting correctly.
 
 
