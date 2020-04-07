@@ -11,6 +11,7 @@ import "./charts.css"
 
 export default function Chart(props) {
   let yTickFormatter = props.yTickFormatter || countTickFormatter
+  let ttFormatter = props.tooltipFormatter || tooltipFormatter
 
   let xAxis = props.xAxis || (
   	<XAxis
@@ -40,7 +41,7 @@ export default function Chart(props) {
       </div>
       <ResponsiveContainer>
         <ComposedChart data={props.data} margin={{ top: 10, right: 0, left: 0, bottom: 10 }}>
-          <Tooltip formatter={tooltipFormatter} labelFormatter={dateTickFormatter}/>
+          <Tooltip formatter={ttFormatter} labelFormatter={dateTickFormatter}/>
           <CartesianGrid strokeDasharray="4 4" />
           {props.children}
           {xAxis}
