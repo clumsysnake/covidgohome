@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import ReactTooltip from 'react-tooltip'
 import { connect } from 'react-redux'
-import { Line, Legend } from 'recharts'
+import { Line, Legend, Bar, YAxis } from 'recharts'
 import Chart from '../components/Chart'
 import Colors from '../helpers/Colors'
 // import DailyChangesChart from '../components/DailyChangesChart.js'
@@ -10,7 +10,7 @@ import PercentageTestResultsChart from '../components/PercentageTestResultsChart
 import StateMap from '../components/StateMap.js'
 import Filter from '../components/Filter.js'
 import './StatePage.css'
-import { numberWithCommas, percentWithPlaces, withPlaces, percentTickFormatter } from '../helpers/chartHelpers.js'
+import { numberWithCommas, countTickFormatter, percentWithPlaces, withPlaces, percentTickFormatter } from '../helpers/chartHelpers.js'
 import _ from 'lodash'
 
 function StatePage(props) {
@@ -47,9 +47,15 @@ function StatePage(props) {
   //      combine. i could just add positiveRate and positiveRateTotal... but those are subject
   //      to transforms? Rates could just NOT be subject to transforms and I could add all the
   //      ones i need....or a Transform#combine...?
-  let posPercFrames = state.series.ratesScale(100).frames
+  let testResultsData = state.series.ratesScale(100).frames
   let deltaFrames = state.series.deltize().ratesScale(100).frames
-  posPercFrames.forEach((f, idx) => f.positiveRateDaily = deltaFrames[idx].positiveRate)
+  testResultsData.forEach((f, idx) => {
+    Object.assign(f, {
+      positiveRateDelta: deltaFrames[idx].positiveRate,
+      resultsDelta: deltaFrames[idx].results
+    })
+  })
+
 
   let index = 0
   if(_.isInteger(timeframe)) {
@@ -59,7 +65,7 @@ function StatePage(props) {
   }
 
   chartData = chartData.slice(index)
-  posPercFrames.slice(index)
+  testResultsData.slice(index)
   
   return (
     <div className="state-page">
@@ -211,7 +217,8 @@ function StatePage(props) {
           />
           <Legend />
         </Chart>
-        <Chart name="Currently Hospitalized" data={chartData}>
+        <Chart name="Currently Hospitalized"
+          data={chartData} yTickFormatter={percentTickFormatter}>
           <Line
             yAxisId="left"
             type="linear"
@@ -249,7 +256,17 @@ function StatePage(props) {
         </Chart>
         {/*<DailyChangesChart name="Tests & Results" series={chartData} />*/}
         <Chart name="Test Positive %" 
-               data={posPercFrames} yTickFormatter={percentTickFormatter}>
+               data={testResultsData} yTickFormatter={percentTickFormatter}>
+          <Bar
+            yAxisId="right"
+            dataKey="resultsDelta"
+            type="linear"
+            opacity={0.3}
+            stroke={Colors.TEST}
+            isAnimationActive={true}
+            animationDuration={200}
+            name="Tests Performed"
+          />
           <Line
             yAxisId="left"
             type="linear"
@@ -265,7 +282,7 @@ function StatePage(props) {
           <Line
             yAxisId="left"
             type="linear"
-            dataKey="positiveRateDaily"
+            dataKey="positiveRateDelta"
             stroke={"red"}
             strokeDasharray="3 2"
             strokeWidth={1}
@@ -273,6 +290,15 @@ function StatePage(props) {
             isAnimationActive={true}
             animationDuration={200}
             name="Test Pos. % for Day"
+          />
+          <YAxis
+            yAxisId="right"
+            tickFormatter={countTickFormatter}
+            orientation="right"
+            type="number"
+            allowDataOverflow={false}
+            domain={props.yDomain}
+            tick={{stroke: "grey"}}
           />
           <Legend />
         </Chart>
