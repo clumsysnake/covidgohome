@@ -254,8 +254,7 @@ function StatePage(props) {
           />
           <Legend />
         </Chart>
-        {/*<DailyChangesChart name="Tests & Results" series={chartData} />*/}
-        <Chart name="Test Positive %" 
+        <Chart name="Positive % vs # of Tests" 
                data={testResultsData} yTickFormatter={percentTickFormatter}>
           <Bar
             yAxisId="right"
@@ -265,7 +264,7 @@ function StatePage(props) {
             stroke={Colors.TEST}
             isAnimationActive={true}
             animationDuration={200}
-            name="Tests Performed"
+            name="# Test Results"
           />
           <Line
             yAxisId="left"
