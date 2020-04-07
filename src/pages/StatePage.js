@@ -218,7 +218,7 @@ function StatePage(props) {
           <Legend />
         </Chart>
         <Chart name="Currently Hospitalized"
-          data={chartData} yTickFormatter={percentTickFormatter}>
+          data={chartData} yTickFormatter={yTickFormatter}>
           <Line
             yAxisId="left"
             type="linear"
