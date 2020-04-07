@@ -7,7 +7,7 @@ import { censusDataForFips, UsCountyCensus } from '../../stores/CensusStore'
 import CountyModel from '../../models/CountyModel'
 import { fetchXhr } from './helpers'
 
-const hardCodedDate = '04-05-2020'
+const hardCodedDate = '04-06-2020'
 const githubDir = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/"
 const dailyReportUrl = function() {
   if(process.env.NODE_ENV === 'development') {
