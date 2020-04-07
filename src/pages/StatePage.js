@@ -122,7 +122,7 @@ function StatePage(props) {
             </li>
             <li>
               <span className="label">Hospitalizations</span>
-              <span className="value">{percentWithPlaces(current.admissionRate, 2) || "unknown"} admission rate</span>
+              <span className="value">{percentWithPlaces(100 * current.admissionRate, 2) || "unknown"} admission rate</span>
             </li>
             <li>  
               <span className="label"></span>
@@ -141,12 +141,16 @@ function StatePage(props) {
               <span className="value">{numberWithCommas(current.inICU) || "unknown"} currently</span>
             </li>
             <li>
+              <span className="label"></span>
+              <span className="value">{numberWithCommas(current.intensifications) || "unknown"} cumulatively</span>
+            </li>
+            <li>
               <span className="label">Ventilated</span>
-              <span className="value">{numberWithCommas(current.ventilations) || "unknown"} cumulative</span>
+              <span className="value">{numberWithCommas(current.onVentilator) || "unknown"} currently</span>
             </li>
             <li>
               <span className="label"></span>
-              <span className="value">{numberWithCommas(current.onVentilator) || "unknown"} currently</span>
+              <span className="value">{numberWithCommas(current.ventilations) || "unknown"} cumulative</span>
             </li>
           </ul>
         </div>

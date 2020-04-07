@@ -69,7 +69,7 @@ function StateMap(props) {
               //CRZ: choosing to display counties with null fields as white. this is because I
               //     am assuming that JH is not listing counties with no counts
               color = (_.isFinite(value)) ? color = colorF(value) : 'white'
-              tooltip = `${area.name} -- ${safeSmartNumPlaces(tooltipValue, 1)} ${props.field}s`
+              tooltip = `${area.name} -- ${safeSmartNumPlaces(tooltipValue, 1)} ${props.field}`
               if(perMillion) { tooltip += " per million people" }
             }
 
