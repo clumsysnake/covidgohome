@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import ReactTooltip from 'react-tooltip'
 import { connect } from 'react-redux'
-import { Line, Legend, Bar, YAxis } from 'recharts'
+import { Line, Legend, Bar, YAxis, Area } from 'recharts'
 import Chart from '../components/Chart'
 import Colors from '../helpers/Colors'
 // import DailyChangesChart from '../components/DailyChangesChart.js'
