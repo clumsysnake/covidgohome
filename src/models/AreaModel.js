@@ -54,7 +54,6 @@ class AreaModel {
     return new AreaModel({name, frames, population})
   }
 
-  //TODO: rename entries to series
   constructor(props) {
     if(!_.isArray(props.frames)) { throw new TypeError("frames must be an array") }
 
@@ -96,11 +95,6 @@ class AreaModel {
       default:
         throw new TypeError(`inBasis encountered unknown basis ${basis}`)
     }
-  }
-
-  //CRZ: only bother matching the primary fields
-  findMatchingEntry(hash) {
-    return this.entries.find((e) => AreaModel.areEqualFrames(hash, e))
   }
 }
 

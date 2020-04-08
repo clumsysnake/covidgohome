@@ -20,7 +20,7 @@ function SourcesPage(props) {
       name: mapping.name,
       abbreviation: mapping.abbreviation,
       nytSeries,
-      ctSeries: ctState.entries
+      ctFrames: ctState.series.frames
     }
   })
 
@@ -32,10 +32,10 @@ function SourcesPage(props) {
   }
 
   let stateReports = states.map(s => {
-    let zeroDeltaEntries = s.ctSeries.filter(suspectedMissingDay)
+    let zeroDeltaFrames = s.ctFrames.filter(suspectedMissingDay)
     // debugger
     return Object.assign({}, s, {
-      zeroDeltaMapping: zeroDeltaEntries.map(e => {
+      zeroDeltaMapping: zeroDeltaFrames.map(e => {
         return {
           ct: e,
           nyt: s.nytSeries.find(nyt => e.date === nyt.date)

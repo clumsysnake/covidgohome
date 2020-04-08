@@ -31,7 +31,6 @@ function USAMap(props) {
       geoUrl = statesGeoUrl;
       areas = props.states
       areaFindF = geo => StateModel.findByName(geo.properties.name)
-      //TODO: where are the route helpers?
       clickedAreaF = (state) => history.push("/states/" + state.abbreviation)
       break
     default:

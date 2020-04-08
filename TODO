@@ -1,5 +1,14 @@
-DATA FIXES
-- fix old positives #s for cali using public.tableau.com link... there are inaccuracies
+DATASET / DATA FEED FIXES
+- when a CT current frame is diff than last daily frame, is that current frame possibly going to update again before 
+- WHAT DOES IT MEAN when counties are absent from JH data? does it mean they are 0 or unknown? atm showing nulls as 0s on the map
+- is "recovered" all recovered, even mild cases, or only discharged hospitalizations?
+- i need date reported of each state, then i can average the entries values based on when the date
+- dont have population data for the territories... minor issue atm.
+- understand what CT dateChecked/dateModified is and add it into our Series model
+- distinguish between positive and presumptive positive, if possible
+- atleast add italy as another country using salute.it data
+- specifics
+  - fix old positives #s for cali using public.tableau.com link... there are inaccuracies
 
 - make mobile-friendly
   - fixed header looks wrong
@@ -21,9 +30,7 @@ DATA FIXES
 - for covidtracking data, also show links to sites for data
 - display age of data onscreen (minutes/hours since last poll)
 - display last update time for each area
-- distinguish between positive and presumptive positive, if possible
 - confirm that my aggregate country #s matches the Covidtracking /us/daily #s
-- atleast add italy as another country using salute.it data
 - for regions, show which states are in the region
 - when switching filters, there is a long delay before the user is given feedback. do something. 
 - can/should we vary the width of the positive %age line depending on how accurate the %age is according to test count?
@@ -32,9 +39,7 @@ DATA FIXES
 - add city locations on maps
 - switching from USA map to state map should keep filters same as much as possible
 - add IFR estimate, if possible
-- dont have population data for the territories... minor issue atm.
 - our cfr is not correct, its not based off recoveries. is there a better term for that?
-- daily charts on charts page display pending, which may blow the domainMax, since we calculate it from max of total.
 - bug: recharts has uneven ticks on both axes
 - no longer fixed header, and header padding wrong, after adding react-router
 - confirm all the withPlaces helpers are rounding off? thought some weren't
@@ -46,15 +51,11 @@ DATA FIXES
 - truly address the NYC problem
 - decide on if "confirmed" is the correct terminology rather than "positive"?
 - bug: alaska state display is broken
-- WHAT DOES IT MENA when counties are absent from JH data? does it mean they are 0 or unknown? atm showing nulls as 0s on the map
 - styling: i want the state name to always be always centered over the stats on the state page, but the table to take up all the room to the left and right
 - styling: make state page stats a true table so word wrap takes place only on its side of the stats
 - styling: charts should always take up entire width until a breakpoint, and then multiple charts can exist horizontally
 - bug: scale matching broke for ChartsPage with total basis
-- add hospital data to areamodel! vents, icu beds, doctors, hospitals, utilization... that would be cool
 - add banner ability to top header
-- i need date reported of each number, then i can average the entries values based on when the date
-- is "recovered" all recovered, even mild cases, or only discharged hospitalizations?
 - add legend to maps!
 - bug: on USAMap, if you're looking at the county view, you can choose # test and total hospitalized, neither of which have data at the county level
 - bug: dumb filter {cursor: pointer} doesn't trigger while in the padding of an unchosen option in chrome
@@ -78,15 +79,10 @@ REFACTOR
 - investigate other chloropleth packages, including google-map-react, http://polymaps.org/
 - consider redux-orm
 - decide where CensusStore goes now
-- rename remaining "entries" variables to "series"
-- remove all the renaming in decorateTimeSeries! or just properly map fields in actions.js
 - use a proper time series library... pondjs? ts.js, zodiac-ts
-- is FIPS still the code i should be using? seems deprecated
-- use route helpers if react-router has them? in map click handlers
+- use route helpers if react-router has them, in all the history.push's in map handlers
 - fix the damned sourcemaps
 - get page to set body (or .app) classname like in ember
 - submit bugfix to react-simple-maps to render *all* objects, not only the first GeometryCollection
-- AreaModel#totals should just be the last entries, slightly decorated.
 - ideally neighborNumbers shouldn't return numbers it was given.
-- CT's 'total' field is deprecated and will be removed. calc myself if needed
 - record s3 bucket policy and cors should i need to rebuild... terraform?
