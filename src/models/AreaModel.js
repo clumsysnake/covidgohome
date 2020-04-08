@@ -33,7 +33,7 @@ class AreaModel {
   //      the resulting series looks like it trails off at those dates
   //TODO: Series should handle its own merging... delegate that.
   static createAggregate(name, areas) {
-    let series = areas.flatMap(a => a.series.frames).reduce((frames, frame) => {
+    let frames = areas.flatMap(a => a.series.frames).reduce((frames, frame) => {
       let s = frames.find(s => s.date === frame.date)
 
       if(_.isNil(s)) {
@@ -48,17 +48,17 @@ class AreaModel {
         return frames
       }
     }, [])
-    series.sort((a,b) => (a.date > b.date) ? 1 : -1 )
+    frames.sort((a,b) => (a.date > b.date) ? 1 : -1 )
     let population = areas.reduce((sum, a) => sum + a.population, 0)
 
-    return new AreaModel({name, series, population})
+    return new AreaModel({name, frames, population})
   }
 
   //TODO: rename entries to series
   constructor(props) {
-    if(!_.isArray(props.series)) { throw new TypeError("series must be an array") }
+    if(!_.isArray(props.frames)) { throw new TypeError("frames must be an array") }
 
-    this.series = new Series(props.series)
+    this.series = new Series(props.frames)
     this.name = props.name
     this.population = props.population
     this.density = props.density

@@ -50,7 +50,7 @@ const dateTickFormatter = (date) => {
     throw new TypeError(`cannot format date because given non-integer: ${date}`)
   }
 
-  return moment.unix(date).format('M-DD')
+  return moment(date, 'YYYYMMDD').format('M-DD')
 }
 
 //CRZ: return exactly null if value is not finite, limit to max dec places, but dont use dec places if zero

@@ -28,8 +28,9 @@ function fetchDailyReport() {
   };
 }
 
+const dateFormat = 'MM-DD-YYYY'
 function dateParse(string) {
-  return moment(string, 'MM-DD-YYYY').unix()
+  return moment(string, dateFormat).format('YYYYMMDD')
 }
 
 //New York City extends over its 5 boroughs. I assume its borders are coterminous with the combined area of its 5 counties:
@@ -87,7 +88,7 @@ function handleDailyReport(csv, date) {
       name: countyName,
       stateName: stateName,
       population,
-      series: [frame]
+      frames: [frame]
     })
   })
 
