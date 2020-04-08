@@ -58,8 +58,7 @@ const safeSmartNumPlaces = (value, maxPlaces) => {
   if(!_.isFinite(value)) { return null }
 
   //TODO: this works in only the case where maxPlaces = 1 and value is integer. do all cases
-  let maxPlacesValue = withPlaces(value, maxPlaces)
-  return (maxPlacesValue % 1 === 0) ? withPlaces(maxPlacesValue, 0) : maxPlacesValue
+  return _.isInteger(value) ? withPlaces(value, 0) : withPlaces(value, maxPlaces)
 }
 
 const tooltipFormatter = (value, name) => {
