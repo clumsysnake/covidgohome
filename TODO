@@ -1,5 +1,6 @@
 DATASET / DATA FEED FIXES
-- when a CT current frame is diff than last daily frame, is that current frame possibly going to update again before 
+- when a CT current frame is diff than last daily frame, is that current frame possibly going to update again before its set? i.e. is the current frame reported possibly a partial count, not a full 24h period?
+- you always have a current day after 4pm, so if the state updates after then, another frame is added for a day possibly in the FUTURE. does that make sense?
 - WHAT DOES IT MEAN when counties are absent from JH data? does it mean they are 0 or unknown? atm showing nulls as 0s on the map
 - is "recovered" all recovered, even mild cases, or only discharged hospitalizations?
 - i need date reported of each state, then i can average the entries values based on when the date
@@ -20,7 +21,6 @@ DATASET / DATA FEED FIXES
 - add other countries
 - add horizontal lines showing major events for areas: governor announcements, testing centers open, etc
 - optional overlay of dots on map: cities, testing centers
-- try out windowing functions, maybe just 48 hours. (trying to solve jaggedy lines)
 - add optional rolling average lines to chart
 - add animated playback of cases on map
 - let user drill down from globe -> country -> state -> county on map

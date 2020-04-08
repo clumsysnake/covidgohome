@@ -3,7 +3,7 @@ import AreaModel from '../models/AreaModel'
 const areaModel1 = new AreaModel({
   name: 'bar',
   population: 100000,
-  series: [
+  frames: [
     {
       date: 20200201,
       positives: 4,
@@ -22,7 +22,7 @@ const areaModel1 = new AreaModel({
 const areaModel2 = new AreaModel({
   name: 'baz',
   population: 1000000,
-  series: [{
+  frames: [{
     date: 20200201,
     positives: 1,
     negatives: 2,
@@ -33,7 +33,7 @@ const areaModel2 = new AreaModel({
 const unknownPopulationModel = new AreaModel({
   name: 'baz',
   population: null,
-  series: [{
+  frames: [{
     date: 20200201,
     positives: 1,
     negatives: 1,
@@ -56,12 +56,12 @@ it('creates aggregate with correct values', () => {
   expect(frames[1].negatives).toEqual(4);
 })
 
-describe('.fieldMax(areas, field, perMillion)', () => {
-  it('returns max field in areas', () => {
-    expect(AreaModel.fieldMax([areaModel1, areaModel2], 'positives')).toEqual(5)
-  })
+// describe('.fieldMax(areas, field, perMillion)', () => {
+//   it('returns max field in areas', () => {
+//     expect(AreaModel.fieldMax([areaModel1, areaModel2], 'positives')).toEqual(5)
+//   })
 
-  it('returns max field in areas when perMillion with some areas not having listed population', () => {
-    expect(AreaModel.fieldMax([areaModel1, unknownPopulationModel], 'positives', 'per-1m')).toEqual(50)
-  })
-})
+//   it('returns max field in areas when perMillion with some areas not having listed population', () => {
+//     expect(AreaModel.fieldMax([areaModel1, unknownPopulationModel], 'positives', 'per-1m')).toEqual(50)
+//   })
+// })
