@@ -15,6 +15,8 @@ import {safeSmartNumPlaces} from "../helpers/chartHelpers.js"
 const countiesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
 const statesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
+const NO_COUNTY_DATA_COLOR = 'white'
+
 function USAMap(props) {
   const history = useHistory();
   const perMillion = ["per-1m", "squared-per-1m"].includes(props.basis)
@@ -48,7 +50,7 @@ function USAMap(props) {
             let color = "#BBBBBB", tooltip = ""
 
             let area = areaFindF(geo)
-            if(area) {
+            if(area && area.lastFrame) {
               //TODO: handle if area doesn't have population data.
 
               let value, tooltipValue;
@@ -75,8 +77,9 @@ function USAMap(props) {
               color = (_.isFinite(value)) ? color = colorF(value) : 'white'
               tooltip = `${area.name} -- ${safeSmartNumPlaces(tooltipValue, 1)} ${props.field}s`
               if(perMillion) { tooltip += " per million people" }
-            } else {
-              tooltip = "unknown" //TODO: can still show area counts
+            } else if(area) {
+              color = NO_COUNTY_DATA_COLOR
+              tooltip = "unknown"
             }
 
             return <Geography

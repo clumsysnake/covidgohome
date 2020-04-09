@@ -11,6 +11,11 @@ import CountyModel from "../models/CountyModel.js"
 import AreaModel from "../models/AreaModel.js"
 import {safeSmartNumPlaces} from "../helpers/chartHelpers.js"
 
+//CRZ: choosing to display counties without data as white. I'm not sure if JH
+//     just doesn't have data for the counties, or if they choose not to include counties
+//     with all zero counts to save space.
+const NO_COUNTY_DATA_COLOR = 'white'
+
 function StateMap(props) {
   const history = useHistory();
   const perMillion = ["per-1m", "squared-per-1m"].includes(props.basis)
@@ -36,6 +41,7 @@ function StateMap(props) {
   let topo = topologyForState(props.state, props.granularity, 2) //2 so neighbors of neighbors are displayed
   let projection = projectionForState(props.state)
 
+
   return (
     <ComposableMap data-tip="" projection={projection}>
       <Geographies geography={topo}>
@@ -44,9 +50,7 @@ function StateMap(props) {
             let color = "#DDDDDD", tooltip = ""
 
             let area = areaFindF(geo)
-            if(area) {
-              //TODO: handle if area doesn't have population data.
-
+            if(area && area.lastFrame) {
               let value, tooltipValue;
               switch(props.basis) {
                 case 'total':
@@ -66,11 +70,11 @@ function StateMap(props) {
                   throw new TypeError(`error, unknown basis ${props.basis}`)
               } 
 
-              //CRZ: choosing to display counties with null fields as white. this is because I
-              //     am assuming that JH is not listing counties with no counts
-              color = (_.isFinite(value)) ? color = colorF(value) : 'white'
+              color = (_.isFinite(value)) ? color = colorF(value) : NO_COUNTY_DATA_COLOR
               tooltip = `${area.name} -- ${safeSmartNumPlaces(tooltipValue, 1)} ${props.field}`
               if(perMillion) { tooltip += " per million people" }
+            } else if(area) {
+              color = NO_COUNTY_DATA_COLOR
             }
 
             return <Geography
