@@ -1,5 +1,5 @@
-import johnsHopkins from './actions/jhActions'
+import cghCounties from './actions/cghCountiesActions'
 import nyt from './actions/nytActions'
 import cgh from './actions/cghActions'
 
-export default { johnsHopkins, nyt, cgh }
+export default { nyt, cgh, cghCounties }

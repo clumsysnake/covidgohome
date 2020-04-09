@@ -1,5 +1,4 @@
-//TODO: - do the same for counties: census, jh historical county data
-//      - consider adding geo data in
+//TODO: - consider adding geo data in
 //      - can i use dateModified, dateChecked, or checkTimeEt to match current up with daily?
 //      - distinguish between states, territories, and districts
 //      - unite the field lists and other modelly functions with AreaModel
@@ -13,38 +12,12 @@
 import _ from 'lodash'
 import Papa from 'papaparse'
 import moment from 'moment'
-import fetch from 'node-fetch'
-import fs from 'fs'
-import AWS from 'aws-sdk'
-import AreaModel from '../models/AreaModel.js'
+import * as H from './pipeline/helpers.js'
 
-const JH_BASEURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/"
 const CT_STATESDAILY_URL = "https://covidtracking.com/api/states/daily"
 const CT_STATESCURRENT_URL = "https://covidtracking.com/api/states"
 const NYT_STATES_URL = "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv"
-const MAPPING_JSON = "src/stores/us_state_mapping.json"
-const CENSUS_JSON  = "src/stores/census-2019-07-01-pop-estimate.json"
-const S3_KEY = "data/states.json"
-const FORMAT_VERSION = 3
-
-const DATE_FORMAT = 'YYYYMMDD'
-
-// function suspectedMissingDay(e) {
-//   return AreaModel.deltaStats.every(s => e[s] === 0) && e.positive > 100
-// }
-
-// const stateReports = (states) => states.map(s => {
-//   let zeroDeltaEntries = s.ctSeries.filter(suspectedMissingDay)
-//   // debugger
-//   return Object.assign({}, s, {
-//     zeroDeltaMapping: zeroDeltaEntries.map(e => {
-//       return {
-//         ct: e,
-//         nyt: s.nytSeries.find(nyt => e.date === nyt.date)
-//       }
-//     })
-//   })
-// })
+const CT_DATE_FORMAT = 'YYYYMMDD'
 
 //CRZ: Note: not all days have all these fields. old days havent changed.
 //date, positive, negative, pending, death, recovered, totalTestResults, 
@@ -139,37 +112,21 @@ function possiblyAddDaily(state, ctCurrent) {
   }
 
   let frame = translateCtCurrentFrame(ctCurrent)
-  frame.date = parseInt(moment(lastFrame.date, DATE_FORMAT).add(1, 'days').format(DATE_FORMAT))
+  frame.date = parseInt(moment(lastFrame.date, CT_DATE_FORMAT).add(1, 'days').format(H.CGH_DATE_FORMAT))
   state.frames.push(frame)
 
   return true
 }
 
-function handleFetch(url, type = 'json') {
-  return function(res) {
-    if(res.ok) {
-      console.log(`fetch successful for ${url}`)
-      if(type === 'json') {
-        return res.json()
-      } else {
-        return res.text()
-      }
-    } else {
-      console.log(`fetch error for ${url}: res.statusText`)
-      process.exit(1)
-    }
-  }
-}
-
 //Fetch everything, then group it together
 function groupSources(then) {
   return Promise.all([
-    fetch(CT_STATESDAILY_URL).then(handleFetch(CT_STATESDAILY_URL)),
-    fetch(CT_STATESCURRENT_URL).then(handleFetch(CT_STATESCURRENT_URL)),
-    fetch(NYT_STATES_URL).then(handleFetch(NYT_STATES_URL, 'text'))
+    H.handleFetch(CT_STATESDAILY_URL),
+    H.handleFetch(CT_STATESCURRENT_URL),
+    H.handleFetch(NYT_STATES_URL, 'text')
   ]).then(([ctStatesDaily, ctStatesCurrent, nytStatesCsv]) => {
-    let mappingJson = JSON.parse(fs.readFileSync(MAPPING_JSON, {encoding: 'ascii'}))
-    let censusJson = JSON.parse(fs.readFileSync(CENSUS_JSON, {encoding: 'ascii'}))
+    let mappingJson = H.readMapping()
+    let censusJson = H.readStateCensus()
     let nytStates = Papa.parse(nytStatesCsv).data //TODO: handle error
 
     //TODO: report on all errors
@@ -213,56 +170,22 @@ function createStatesJson(groups) {
   })
 }
 
-function outputResults(json, filename = null) {
-  let jsonString = stringify(json)
-
-  if(_.isNil(filename)) {
-    process.stdout.write(jsonString)
-  } else {
-    fs.writeFileSync(filename, jsonString) //TODO: defined encoding
-  }
-}
-
 function packageStatesJson(json) {
   return {
-    version: FORMAT_VERSION,
+    version: H.FORMAT_VERSION,
     timestamp: Date.now(),
     states: json,
   }
 }
 
-function stringify(json) {
-  return JSON.stringify(json)
-}
-
-let __awsClient
-function s3Client() {
-  return __awsClient || (__awsClient = new AWS.S3({
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
-  }))
-}
-
-function uploadResults(json) {
-  const params = {
-    Bucket: process.env.S3_BUCKET_NAME,
-    Key: S3_KEY,
-    Body: stringify(json)
-  };
-  s3Client().upload(params, function(err, data) {
-   console.log(err, data);
-  });  
-}
-
 const uploadToS3 = (process.argv[2] === "--upload")
-
 groupSources((groups) => {
   const finalJson = packageStatesJson(createStatesJson(groups))
 
   if(uploadToS3) {
-    uploadResults(finalJson)
+    H.S3Upload(finalJson, H.STATES_S3_KEY)
   } else {
     let filename = process.argv[2]
-    outputResults(finalJson, filename)
+    H.writeResults(finalJson, filename)
   }
 })

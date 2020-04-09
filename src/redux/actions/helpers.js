@@ -1,3 +1,8 @@
+//TODO: use ENV var not hardcoded.
+export const S3_BUCKET = "http://covidgohome.s3-us-west-2.amazonaws.com"
+
+export const inDev = process.env.NODE_ENV === 'development'
+
 export function fetchXhr(url, onload = null, onerror = null, responseType = "json", headers = {}) {
   let oReq = new XMLHttpRequest();
   oReq.onload = onload

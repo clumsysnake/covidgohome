@@ -6,10 +6,14 @@ DATASET / DATA FEED FIXES
 - i need date reported of each state, then i can average the entries values based on when the date
 - dont have population data for the territories... minor issue atm.
 - understand what CT dateChecked/dateModified is and add it into our Series model
+- understand what JH's last_update means and add it
+- add JH other country data
 - distinguish between positive and presumptive positive, if possible
 - atleast add italy as another country using salute.it data
 - specifics
-  - fix old positives #s for cali using public.tableau.com link... there are inaccuracies
+  - CA: fix older death/positives #s using public.tableau.com link...
+  - CO: glitch on mar30-mar31... how to fix?
+  - NV: http://www.covidgohome.com/states/NV - somehow there is a # of tests less than 0?
 
 - make mobile-friendly
   - fixed header looks wrong
@@ -68,11 +72,9 @@ DATASET / DATA FEED FIXES
   - add reporting so if script is breaking i know, and for warnings
   - for each run save the output files (and possible the source files?) to s3
   - heroku uses 12.16.1 node! so i should prolly use that locally unless i can upgrae?
-- Series/Transform update bugs:
-  - fix ydomain scale matching
-  - add back squared-per-1m
-  - still getting censusData shouldn’t be called
-- bug: smoothing smoothing nulls values! and gives them value!
+- bug: fix ydomain scale matching
+- bug: add back squared-per-1m
+- bug: average() smoothing smoothing nulls values! and gives them value!
 
 REFACTOR
 - switch to graphql interface
@@ -86,3 +88,4 @@ REFACTOR
 - submit bugfix to react-simple-maps to render *all* objects, not only the first GeometryCollection
 - ideally neighborNumbers shouldn't return numbers it was given.
 - record s3 bucket policy and cors should i need to rebuild... terraform?
+- reduce us_county_census.json fields

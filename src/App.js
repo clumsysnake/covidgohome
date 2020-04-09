@@ -12,7 +12,7 @@ import StatePage from './pages/StatePage.js'
 class App extends React.Component {
   componentDidMount() {
     store.dispatch(actions.cgh.fetchStates())
-    store.dispatch(actions.johnsHopkins.fetchDailyReport())
+    store.dispatch(actions.cghCounties.fetch())
     store.dispatch(actions.nyt.fetchStates())
   }
 

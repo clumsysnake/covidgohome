@@ -1,19 +1,18 @@
 import * as types from '../types'
 import store from '../store'
 import StateModel from '../../models/StateModel'
-import { fetchXhr } from './helpers'
+import * as H from './helpers'
 
-const S3_BUCKET = "http://covidgohome.s3-us-west-2.amazonaws.com"
-const STATESDAILY_URL = S3_BUCKET + "/data/states.json"
+const STATES_URL = H.S3_BUCKET + "/data/states.json"
 const DEBUG_MAX_STATES = 1000 //CRZ: set lower to limit # of states fetched
 
-const statesUrl = function() {
-  return (process.env.NODE_ENV === 'development') ? "/data/states.json" : STATESDAILY_URL
+const url = function() {
+  return H.inDev ? "/data/states.json" : STATES_URL
 }
 
 function fetchStates() {
-  fetchXhr(
-    statesUrl(),
+  H.fetchXhr(
+    url(),
     (e) => {
       let json = e.target.response
       store.dispatch(handleStates(json))
@@ -27,7 +26,6 @@ function fetchStates() {
       'Pragma': 'no-cache'
     }
   )
-
 
   return {
     type: types.COVIDGOHOME_FETCH_STATES
