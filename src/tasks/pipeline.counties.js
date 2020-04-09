@@ -1,35 +1,12 @@
 import Papa from 'papaparse'
 import moment from 'moment'
 import * as H from './pipeline/helpers.js'
-import fs from 'fs'
 
 const JH_BASEURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/"
 const JH_DATEFORMAT = 'MM-DD-YYYY'
 
 function dateParse(string) {
   return moment(string, JH_DATEFORMAT).format(H.CGH_DATE_FORMAT)
-}
-
-//New York City extends over its 5 boroughs. I assume its borders are coterminous with the combined area of its 5 counties:
-  // Census data:
-  // ["005","12","7/1/2019 population estimate","33726.504271","1418207","Bronx County, New York","36","12","36","005"],
-  // ["061","12","7/1/2019 population estimate","71874.138732","1628706","New York County, New York","36","12","36","061"],
-  // ["081","12","7/1/2019 population estimate","20719.741247","2253858","Queens County, New York","36","12","36","081"],
-  // ["085","12","7/1/2019 population estimate","8277.8254914","476143","Richmond County, New York","36","12","36","085"],
-  // ["047","12","7/1/2019 population estimate","36901.373131","2559903","Kings County, New York","36","12","36","047"],
-//JH data, where it incorrectly lists new york city as FIPS 36061.
-  //36061,New York City,New York,US,2020-03-31 23:43:56,40.76727260000001,-73.97152637,43119,932,0,0,"New York City, New York, US"
-//CRZ: hackily, very hackily, give new york county's population as that of new york city's, to stop distorting the county maps.
-//     JH gives us badly formatted data, aggregated by city not county, and i need to support a more complex data model.
-//     this will fix color scaling issues for now.
-function censusDataNYCHack() {
-  const nycFIPS = ["36005", "36061", "36081", "36085", "36047"]
-
-  return {
-    // density:
-    // name:
-    // population: nycFIPS.map(f => censusDataForFips(f).population).reduce((a, p) => a + p)
-  }
 }
 
 function csvUrl(date) {
@@ -78,6 +55,31 @@ function packageCountiesJson(json) {
     version: H.FORMAT_VERSION,
     timestamp: Date.now(),
     counties: json,
+  }
+}
+
+//New York City extends over its 5 boroughs. I assume its borders are coterminous with the combined area of its 5 counties:
+  // Census data:
+  // ["005","12","7/1/2019 population estimate","33726.504271","1418207","Bronx County, New York","36","12","36","005"],
+  // ["061","12","7/1/2019 population estimate","71874.138732","1628706","New York County, New York","36","12","36","061"],
+  // ["081","12","7/1/2019 population estimate","20719.741247","2253858","Queens County, New York","36","12","36","081"],
+  // ["085","12","7/1/2019 population estimate","8277.8254914","476143","Richmond County, New York","36","12","36","085"],
+  // ["047","12","7/1/2019 population estimate","36901.373131","2559903","Kings County, New York","36","12","36","047"],
+//JH data, where it incorrectly lists new york city as FIPS 36061.
+  //36061,New York City,New York,US,2020-03-31 23:43:56,40.76727260000001,-73.97152637,43119,932,0,0,"New York City, New York, US"
+//CRZ: hackily, very hackily, give new york county's population as that of new york city's, to stop distorting the county maps.
+//     JH gives us badly formatted data, aggregated by city not county, and i need to support a more complex data model.
+//     this will fix color scaling issues for now.
+function censusDataNYCHack() {
+  const nycCountyNums = ["005", "061", "081", "085", "047"]
+
+  let rows = H.readCountyCensus().slice(1).filter(
+    row => nycCountyNums.includes(row[1]) && row[0] === "36"
+  )
+
+  return {
+    // density: ?
+    population: rows.map(row => parseInt(row[3])).reduce((t, p) => t + p)
   }
 }
 

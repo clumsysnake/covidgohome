@@ -60,8 +60,12 @@ export function readMapping() {
 export function readStateCensus() {
   return JSON.parse(fs.readFileSync(STATE_CENSUS_JSON, {encoding: 'ascii'}))
 }
+
+let __countyCensus = null
 export function readCountyCensus() {
-  return JSON.parse(fs.readFileSync(COUNTY_CENSUS_JSON, {encoding: 'ascii'}))
+  return __countyCensus || (__countyCensus = JSON.parse(
+    fs.readFileSync(COUNTY_CENSUS_JSON, {encoding: 'ascii'}))
+  )
 }
 
 
