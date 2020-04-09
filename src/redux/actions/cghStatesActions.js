@@ -10,12 +10,12 @@ const url = function() {
   return H.inDev ? "/data/states.json" : STATES_URL
 }
 
-function fetchStates() {
+function fetch() {
   H.fetchXhr(
     url(),
     (e) => {
       let json = e.target.response
-      store.dispatch(handleStates(json))
+      store.dispatch(handleSuccess(json))
     },
     (e) => {
       store.dispatch(handleError())
@@ -39,15 +39,15 @@ function handleError() {
 }
 
 //CRZ: our own data is perfectly suited for our model, so there is little to handle.
-function handleStates(statesJson) {
+function handleSuccess(json) {
   //TODO: confirm that states key exists and that its an array
-  let states = statesJson.states.slice(0, DEBUG_MAX_STATES).map((state) => new StateModel(state))
+  let states = json.states.slice(0, DEBUG_MAX_STATES).map((state) => new StateModel(state))
 
   return {
     type: types.COVIDGOHOME_HANDLE_STATES,
-    json: statesJson,
+    json: json,
     states: states
   };
 }
 
-export default { fetchStates }
+export default { fetch }

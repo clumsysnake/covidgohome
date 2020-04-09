@@ -1,5 +1,5 @@
 import cghCounties from './actions/cghCountiesActions'
+import cghStates from './actions/cghStatesActions'
 import nyt from './actions/nytActions'
-import cgh from './actions/cghActions'
 
-export default { nyt, cgh, cghCounties }
+export default { nyt, cghStates, cghCounties }

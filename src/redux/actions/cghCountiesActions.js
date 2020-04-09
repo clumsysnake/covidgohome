@@ -14,7 +14,7 @@ function fetch() {
     url(),
     (e) => {
       let json = e.target.response
-      store.dispatch(handle(json))
+      store.dispatch(handleSuccess(json))
     },
     (e) => {
       store.dispatch(handleError())
@@ -38,7 +38,7 @@ function handleError() {
 }
 
 //CRZ: our own data is perfectly suited for our model, so there is little to handle.
-function handle(json) {
+function handleSuccess(json) {
   let counties = json.counties.map((state) => new CountyModel(state))
 
   return {
