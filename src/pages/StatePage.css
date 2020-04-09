@@ -74,6 +74,7 @@
   outline: none;
   color: black;
   text-align: right;
+  margin-left:  10px;
 }
 
 .state-page .select-dropdown *  {
