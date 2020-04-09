@@ -62,7 +62,7 @@ function translateCtDailyFrame(ct) {
 function translateCtCurrentFrame(ct) {
   return {
     //INDEXES
-    // date: ctDateParse(ct.date),
+    //date doesn't exist
     //dateChecked: ctDateCheckedParse(dateChecked)
     //dateModified: ctDateCheckedParse(dateModified)
 

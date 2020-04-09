@@ -75,6 +75,7 @@ DATASET / DATA FEED FIXES
 - bug: fix ydomain scale matching
 - bug: add back squared-per-1m
 - bug: average() smoothing smoothing nulls values! and gives them value!
+- bug: statepage dropdown: remove blue outline; when selected remove placeholder text
 
 REFACTOR
 - switch to graphql interface
