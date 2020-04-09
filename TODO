@@ -76,6 +76,7 @@ DATASET / DATA FEED FIXES
 - bug: add back squared-per-1m
 - bug: average() smoothing smoothing nulls values! and gives them value!
 - bug: statepage dropdown: remove blue outline; when selected remove placeholder text
+- bug: if you go to states/<unknown code> it just says loading forever
 
 REFACTOR
 - switch to graphql interface
