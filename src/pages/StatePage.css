@@ -8,7 +8,6 @@
 }
 
 .state-page > .top > .state-map {
-  
   padding: 0 1% 0 0;
 }
 
@@ -68,4 +67,18 @@
    margin: 0 auto;
    margin-bottom: 10px;
    /* display: inline-flex; */
+}
+
+.state-page .select-dropdown {
+  font-size: 2em;
+  outline: none;
+  color: black;
+  text-align: right;
+}
+
+.state-page .select-dropdown *  {
+  outline: none;
+  color: black;
+  font-weight: bold;
+  text-align: right;
 }

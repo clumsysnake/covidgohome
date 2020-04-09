@@ -1,7 +1,9 @@
 import React, {useState} from 'react'
 import ReactTooltip from 'react-tooltip'
 import { connect } from 'react-redux'
+import Select from 'react-select'
 import { Line, Legend, Bar, YAxis, Area } from 'recharts'
+import { useHistory } from "react-router-dom";
 import Chart from '../components/Chart'
 import Colors from '../helpers/Colors'
 // import DailyChangesChart from '../components/DailyChangesChart.js'
@@ -14,6 +16,7 @@ import { numberWithCommas, countTickFormatter, percentWithPlaces, withPlaces, pe
 import _ from 'lodash'
 
 function StatePage(props) {
+  const history = useHistory();
   const [tooltip, setTooltip] = useState('')
   const [mapField, setMapfield] = useState('positives')
   const [basis, setBasis] = useState('per-1m')
@@ -56,7 +59,6 @@ function StatePage(props) {
     })
   })
 
-
   let index = 0
   if(_.isInteger(timeframe)) {
     index = Math.max(chartData.length - timeframe, 0)
@@ -67,6 +69,10 @@ function StatePage(props) {
   chartData = chartData.slice(index)
   testResultsData.slice(index)
   
+  function onStateChange(option) {
+    history.push("/states/" + option.value)
+  }
+
   return (
     <div className="state-page">
       <div className="top">
@@ -100,7 +106,10 @@ function StatePage(props) {
           </div>
         </div>
         <div className="stats">
-          <h1 className="state-name">{state.name}</h1>
+          <Select className="select-dropdown"
+                  onChange={onStateChange}
+                  options={props.stateOptions}
+                  placeholder={state.name}/>
           <ul>
             <li>
               <span className="label">Population</span>
@@ -191,7 +200,7 @@ function StatePage(props) {
           yTickFormatter={yTickFormatter}>
           <Legend />
         </DailyNewPositivesChart>
-        <Chart name="Cumulative Deaths and Hospitalizations"
+        <Chart name="Deaths and Hospitalization Entries"
                data={chartData} yTickFormatter={yTickFormatter}>
           <Line
             yAxisId="left"
@@ -308,7 +317,10 @@ function StatePage(props) {
 
 function mapStateToProps(state, ownProps) {
   let abbrev = ownProps.match.params.stateAbbrev
-  return {state: state.states.find(s => s.abbreviation.toUpperCase() === abbrev)}
+  return {
+    state: state.states.find(s => s.abbreviation.toUpperCase() === abbrev),
+    stateOptions: state.states.map(s => { return {label: s.name, value: s.abbreviation }})
+  }
 }
 
 export default connect(mapStateToProps)(StatePage)
