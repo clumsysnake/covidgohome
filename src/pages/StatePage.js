@@ -2,16 +2,18 @@ import React, {useState} from 'react'
 import ReactTooltip from 'react-tooltip'
 import { connect } from 'react-redux'
 import Select from 'react-select'
-import { Line, Legend, Bar, YAxis, Area } from 'recharts'
+import { Line, Legend, Bar, YAxis } from 'recharts'
 import { useHistory } from "react-router-dom";
 import Chart from '../components/Chart'
 import Colors from '../helpers/Colors'
-// import DailyChangesChart from '../components/DailyChangesChart.js'
-import DailyNewPositivesChart from '../components/DailyNewPositivesChart.js'
 import StateMap from '../components/StateMap.js'
 import Filter from '../components/Filter.js'
 import './StatePage.css'
-import { numberWithCommas, countTickFormatter, percentWithPlaces, withPlaces, percentTickFormatter } from '../helpers/chartHelpers.js'
+import {
+  numberWithCommas, countTickFormatter, percentWithPlaces, 
+  withPlaces, percentTickFormatter, percentChangeFormatter, 
+  countChangeFormatter
+} from '../helpers/chartHelpers.js'
 import _ from 'lodash'
 
 function StatePage(props) {
@@ -31,14 +33,18 @@ function StatePage(props) {
   let currentPer1M = state.series.scale(1000000/state.population).last
   let transform = state.series.transform()
 
-  let yTickFormatter, chartData
+  let yTickFormatter, chartData, chartSuffix
   switch(chartType) {
     case 'cumulative': chartData = transform.average(averageDays).frames; break;
-    case 'daily': chartData = transform.deltize().average(averageDays).frames; break;
-    // case 'daily-daily': chartData = transform.deltize().deltize().average(averageDays).frames; break;
+    case 'daily':
+      chartData = transform.deltize().average(averageDays).frames;
+      yTickFormatter = countChangeFormatter
+      chartSuffix = "daily change"
+      break;
     case 'daily-percent':
       chartData = transform.deltaPercentize().average(averageDays).frames
-      yTickFormatter = percentTickFormatter
+      yTickFormatter = percentChangeFormatter
+      chartSuffix = "daily change %"
       break;
     default: 
       throw new Error(`chart type ${chartType} unknown`)
@@ -68,8 +74,8 @@ function StatePage(props) {
   chartData = chartData.slice(index)
   testResultsData.slice(index)
   
-  function onStateChange(option) {
-    history.push("/states/" + option.value)
+  function suffixed(name) {
+    return chartSuffix ? `${name} (${chartSuffix})` : name
   }
 
   return (
@@ -106,7 +112,7 @@ function StatePage(props) {
         </div>
         <div className="stats">
           <Select className="select-dropdown"
-                  onChange={onStateChange}
+                  onChange={option => history.push("/states/" + option.value)}
                   options={props.stateOptions}
                   placeholder={state.name}/>
           <ul>
@@ -116,7 +122,7 @@ function StatePage(props) {
             </li>
             <li>
               <span className="label">Tests Performed</span>
-              <span className="value">{numberWithCommas(current.results)}</span>
+              <span className="value">{numberWithCommas(current.results)} or {percentWithPlaces(currentPer1M.results/10000, 2)}</span>
             </li>
             <li>
               <span className="label">Tests Positive</span>
@@ -192,14 +198,20 @@ function StatePage(props) {
             ]}/>
           </div>
         </div>
-
-        <DailyNewPositivesChart 
-          name={<span className="name">Positives</span>}
-          data={chartData} 
-          yTickFormatter={yTickFormatter}>
-          <Legend />
-        </DailyNewPositivesChart>
-        <Chart name="Deaths and Hospitalization Entries"
+        <Chart name={suffixed("Positives")} data={chartData} yTickFormatter={yTickFormatter}>
+          <Line
+            yAxisId="left"
+            type="linear"
+            dataKey="positives"
+            stroke={Colors.POSITIVE}
+            strokeWidth={2}
+            dot={false}
+            isAnimationActive={true}
+            animationDuration={200}
+            name="Positives"
+          />  
+        </Chart>
+        <Chart name={suffixed("Deaths and Hospital Admissions")}
                data={chartData} yTickFormatter={yTickFormatter}>
           <Line
             yAxisId="left"
@@ -221,11 +233,11 @@ function StatePage(props) {
             dot={false}
             isAnimationActive={true}
             animationDuration={200}
-            name="Hospitalizations"
+            name="Hospital Admissions"
           />
           <Legend />
         </Chart>
-        <Chart name="Currently Hospitalized"
+        <Chart name={suffixed("Currently Hospitalized")}
           data={chartData} yTickFormatter={yTickFormatter}>
           <Line
             yAxisId="left"

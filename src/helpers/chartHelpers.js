@@ -23,21 +23,30 @@ const withPlaces = (n, places) => {
 }
 const percentDisplay = (n, places) => withPlaces(n, places)
 const percentTickFormatter = (n) => `${n}%`
+export const countChangeFormatter = (n) => {
+  return plussed(n, condenseNumber(n))
+}
+export const percentChangeFormatter = (n) => `${plussed(n)}%`
 const countTickFormatter = (n) => {
+  return condenseNumber(n)
+}
+
+const condenseNumber = (n) => {
+  let abs = Math.abs(n)
   if(n >= 1000000) {
     let decimals = (n % 1000000 === 0) ? 0 : 1
     let x = withPlaces(n/1000000, decimals)
     return x + 'm'
   }
-  else if(n >= 1000) {
+  else if(abs >= 1000) {
     let decimals = (n % 1000 === 0) ? 0 : 1
     let x = withPlaces(n/1000, decimals)
     return x + 'k'
-  } else if(n >= 100) {
+  } else if(abs >= 100) {
     return withPlaces(n, 0)
-  } else if(n === 0) {
+  } else if(abs === 0) {
     return withPlaces(0, 0)
-  } else if(n < 1) {
+  } else if(abs < 1) {
     return withPlaces(n, 2)
   } else {
     return safeSmartNumPlaces(n, 1)
@@ -63,6 +72,12 @@ const safeSmartNumPlaces = (value, maxPlaces) => {
 
 const tooltipFormatter = (value, name) => {
   return safeSmartNumPlaces(value, 1)
+}
+
+//pass string to add + sign to it instead of n as string
+const plussed = (n, str=null) => {
+  let s = str || `${n}`
+  return (n>0) ? `+${s}` : s
 }
 
 export function colorScale(scaleType, max) {

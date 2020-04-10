@@ -14,6 +14,8 @@ DATASET / DATA FEED FIXES
   - CA: fix older death/positives #s using public.tableau.com link...
   - CO: glitch on mar30-mar31... how to fix?
   - NV: http://www.covidgohome.com/states/NV - somehow there is a # of tests less than 0?
+  - MI: http://www.covidgohome.com/states/MI - over 100% positive tests somehow on one day?
+  - CT: apr 8 missing?
 
 - make mobile-friendly
   - fixed header looks wrong
@@ -77,6 +79,7 @@ DATASET / DATA FEED FIXES
 - bug: average() smoothing smoothing nulls values! and gives them value!
 - bug: statepage dropdown: remove blue outline; when selected remove placeholder text
 - bug: if you go to states/<unknown code> it just says loading forever
+- smoothing probably shouldnt change ydomain... its confusing that way.
 
 REFACTOR
 - switch to graphql interface
