@@ -1,52 +1,61 @@
 import Papa from 'papaparse'
 import moment from 'moment'
+import _ from 'lodash'
 import * as H from './pipeline/helpers.js'
 
 const JH_BASEURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/"
 const JH_DATEFORMAT = 'MM-DD-YYYY'
+
+const datesToFetch = _.times(DAYS_PREVIOUS_WINDOW, (n) => {
+  return moment().subtract(`${n+1}`, 'day').format(JH_DATEFORMAT)
+})
+
+const censusCounties =  H.readCountyCensus().slice(1) //The first line is headers
 
 function dateParse(string) {
   return moment(string, JH_DATEFORMAT).format(H.CGH_DATE_FORMAT)
 }
 
 function csvUrl(date) {
-  return `${JH_BASEURL}/${moment().subtract('1', 'day').format(JH_DATEFORMAT)}.csv`
+  return `${JH_BASEURL}/${date}.csv`
 }
 
-function bestGuessLastDate() {
-  return moment().subtract('1', 'day').format(JH_DATEFORMAT)
-}
-
-//Fetch everything, then group it together
-function groupSources(then) {
-  let csvDate = bestGuessLastDate()
-
-  return Promise.all([
-    H.handleFetch(csvUrl(csvDate), 'text'),
-  ]).then(([jhCSV]) => {
-    let countyCensusJson = H.readCountyCensus().slice(1) //The first line is headers
-    let results = Papa.parse(jhCSV, {header: true})
+function csvDateMaps(csvs) {
+  return csvs.map((csv, i) => {
+    let results = Papa.parse(csv, {header: true})
 
     results.errors.forEach(error => {
       console.log(`error on row ${error.row}: ${error.code} ${error.message}`)
     })
 
-    //filter only US counties atm.
-    let jhCounties = results.data.filter(res => res.Country_Region === "US" && res.FIPS)
+    return {
+      jh: results.data.filter(x => x.Country_Region === "US" && x.FIPS),
+      date: datesToFetch[i]
+    }
+  })
+}
 
-    //TODO: report on all errors
+//Fetch everything, then group it together
+function groupSources(then) {
+  return Promise.all(datesToFetch.map(date => {
+    return H.handleFetch(csvUrl(date), 'text')
+  })).then((csvs) => {  
+    let dateMaps = csvDateMaps(csvs).reverse() // crucial reverse to get dates sorted
 
-    let groups = countyCensusJson.map(censusData => {
+    let groups = censusCounties.map(censusData => {
       let fips = censusData[0] + censusData[1]
 
       return {
         fips: fips,
         census: censusData,
-        jh: jhCounties.find(c => c.FIPS === fips)
+        jhByDate: dateMaps.map(dateMap => ({
+          jh: dateMap.jh.find(x => x.FIPS === fips),
+          date: dateMap.date
+        }))
       }
     })
 
-    then(groups, csvDate)
+    then(groups)
   })
 }
 
@@ -73,7 +82,7 @@ function packageCountiesJson(json) {
 function censusDataNYCHack() {
   const nycCountyNums = ["005", "061", "081", "085", "047"]
 
-  let rows = H.readCountyCensus().slice(1).filter(
+  let rows = censusCounties.filter(
     row => nycCountyNums.includes(row[1]) && row[0] === "36"
   )
 
@@ -86,12 +95,14 @@ function censusDataNYCHack() {
 function createCountiesJson(groups, date) {
   return groups.map(group => {
     let [countyName, stateName] = group.census[4].split(',').map(s => s.trim())
-    const population = (group.fips === "36061") ? censusDataNYCHack().population : group.census[3]
+    const population = (group.fips === "36061") ? censusDataNYCHack().population : parseInt(group.census[3])
 
-    let frames = []
-    if(group.jh) {
-      frames.push(Object.assign({date: dateParse(date)}, translateJhFrame(group.jh)))
-    }
+
+    let frames = group.jhByDate.map(x => Object.assign(
+      {date: parseInt(dateParse(x.date))},
+      x.jh ? translateJhFrame(x.jh) : {},
+    ))
+
 
     return {
       fips: group.fips,

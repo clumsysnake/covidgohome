@@ -69,7 +69,7 @@ DATASET / DATA FEED FIXES
 - bug: some regions not displaying correctly after pipeline
 - states.json
   - have the page poll for updated states.json
-  - states.json needs to be served gzipped
+  - states.json needs to be served gzipped, counties MUST BE or its too big.
   - how do i make really really sure chrome does it cache it at all ever?
   - add reporting so if script is breaking i know, and for warnings
   - for each run save the output files (and possible the source files?) to s3
@@ -94,3 +94,4 @@ REFACTOR
 - ideally neighborNumbers shouldn't return numbers it was given.
 - record s3 bucket policy and cors should i need to rebuild... terraform?
 - reduce us_county_census.json fields
+- consider reorganizing county json to reduce space. sequences? positives: [1,4,5,20,34,55,56].. etc
