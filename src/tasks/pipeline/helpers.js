@@ -22,7 +22,7 @@ export function handleFetch(url, type = 'json') {
 	        return res.text()
 	      }
 	    } else {
-	      console.log(`fetch error for ${url}: res.statusText`)
+	      console.log(`fetch error for ${url}: ${res.statusText}`)
 	      process.exit(1)
 	    }
 	  }

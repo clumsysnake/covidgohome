@@ -32,7 +32,7 @@ function csvDateMaps(csvs) {
       jh: results.data.filter(x => x.Country_Region === "US" && x.FIPS),
       date: datesToFetch[i]
     }
-  })
+  }).reverse() // crucial reverse to get dates sorted
 }
 
 //Fetch everything, then group it together
@@ -40,7 +40,7 @@ function groupSources(then) {
   return Promise.all(datesToFetch.map(date => {
     return H.handleFetch(csvUrl(date), 'text')
   })).then((csvs) => {  
-    let dateMaps = csvDateMaps(csvs).reverse() // crucial reverse to get dates sorted
+    let dateMaps = csvDateMaps(csvs)
 
     let groups = censusCounties.map(censusData => {
       let fips = censusData[0] + censusData[1]
