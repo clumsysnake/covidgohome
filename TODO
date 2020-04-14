@@ -16,7 +16,10 @@ DATASET / DATA FEED FIXES
   - NV: http://www.covidgohome.com/states/NV - somehow there is a # of tests less than 0?
   - MI: http://www.covidgohome.com/states/MI - over 100% positive tests somehow on one day?
   - CT: apr 8 missing?
+- confirm that my aggregate country #s matches the Covidtracking /us/daily #s
+- add OMB PSA definitions for: MSAs, µSAs, CSAs, CBSAs
 
+- remove our regions, and add display of large MSAs, maybe top... 30?
 - make mobile-friendly
   - fixed header looks wrong
   - default graph width is too wide
@@ -36,8 +39,6 @@ DATASET / DATA FEED FIXES
 - for covidtracking data, also show links to sites for data
 - display age of data onscreen (minutes/hours since last poll)
 - display last update time for each area
-- confirm that my aggregate country #s matches the Covidtracking /us/daily #s
-- for regions, show which states are in the region
 - when switching filters, there is a long delay before the user is given feedback. do something. 
 - can/should we vary the width of the positive %age line depending on how accurate the %age is according to test count?
 - show doubling rate; not sure how best to calculate that.
@@ -46,7 +47,6 @@ DATASET / DATA FEED FIXES
 - switching from USA map to state map should keep filters same as much as possible
 - add IFR estimate, if possible
 - our cfr is not correct, its not based off recoveries. is there a better term for that?
-- bug: recharts has uneven ticks on both axes
 - no longer fixed header, and header padding wrong, after adding react-router
 - confirm all the withPlaces helpers are rounding off? thought some weren't
 - confirm my "total squared per 1m" is statistically legitimate, or replace with whatever is best practice
@@ -56,33 +56,41 @@ DATASET / DATA FEED FIXES
 - for the country also see if we can use a flat USA projection, like google maps
 - truly address the NYC problem
 - decide on if "confirmed" is the correct terminology rather than "positive"?
-- bug: alaska state display is broken
 - styling: i want the state name to always be always centered over the stats on the state page, but the table to take up all the room to the left and right
 - styling: make state page stats a true table so word wrap takes place only on its side of the stats
 - styling: charts should always take up entire width until a breakpoint, and then multiple charts can exist horizontally
-- bug: scale matching broke for ChartsPage with total basis
-- add banner ability to top header
-- add legend to maps!
-- bug: on USAMap, if you're looking at the county view, you can choose # test and total hospitalized, neither of which have data at the county level
-- bug: dumb filter {cursor: pointer} doesn't trigger while in the padding of an unchosen option in chrome
-- bug: selected filters look different between safari and chrome (i actually like the unintended safari version)
-- bug: some regions not displaying correctly after pipeline
-- states.json
-  - have the page poll for updated states.json
+- counties.json / states.json
+  - have the page poll for updated states.json atleast
   - states.json needs to be served gzipped, counties MUST BE or its too big.
   - how do i make really really sure chrome does it cache it at all ever?
   - add reporting so if script is breaking i know, and for warnings
   - for each run save the output files (and possible the source files?) to s3
   - heroku uses 12.16.1 node! so i should prolly use that locally unless i can upgrae?
+  - make sure density is saved as number not string
+- smoothing probably shouldnt change ydomain... its confusing that way.
+- add banner ability to top header
+- add legend to maps!
+- for dateslider, consider having the width be determined by the number of days. 
+- speed: are county topologies being gzipped?
+- speed: minimize material ui bundle size: https://material-ui.com/guides/minimizing-bundle-size/
+- bug: alaska state display is broken
+- bug: scale matching broke for ChartsPage with total basis
+- bug: on USAMap, if you're looking at the county view, you can choose # test and total hospitalized, neither of which have data at the county level
+- bug: filter {cursor: pointer} style doesn't trigger while in the padding of an unchosen option in chrome
+- bug: selected filters look different between safari and chrome (i actually like the unintended safari version)
 - bug: fix ydomain scale matching
 - bug: add back squared-per-1m
 - bug: average() smoothing smoothing nulls values! and gives them value!
 - bug: statepage dropdown: remove blue outline; when selected remove placeholder text
 - bug: if you go to states/<unknown code> it just says loading forever
-- smoothing probably shouldnt change ydomain... its confusing that way.
+- bug: recharts has uneven ticks on both axes
+- bug: state dropdown can select territories that break the page
 
 REFACTOR
+- unite the maps, or split into one that shows counties and one that doesn't.
+- introduce administration level into terminology (admin=1 is country, admin=2 is state, admin=3 is county, etc.)
 - switch to graphql interface
+- USAMap should use topologies
 - investigate other chloropleth packages, including google-map-react, http://polymaps.org/
 - consider redux-orm
 - decide where CensusStore goes now
@@ -95,3 +103,5 @@ REFACTOR
 - record s3 bucket policy and cors should i need to rebuild... terraform?
 - reduce us_county_census.json fields
 - consider reorganizing county json to reduce space. sequences? positives: [1,4,5,20,34,55,56].. etc
+- move PM files to wiki
+- simply connect heroku to github

@@ -3,7 +3,7 @@ import moment from 'moment'
 import _ from 'lodash'
 import * as H from './pipeline/helpers.js'
 
-const JH_BASEURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/"
+const JH_BASEURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports"
 const JH_DATEFORMAT = 'MM-DD-YYYY'
 const DAYS_PREVIOUS_WINDOW = parseInt(process.env.DAYS_PREVIOUS_WINDOW) || 1
 

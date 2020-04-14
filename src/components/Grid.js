@@ -50,6 +50,7 @@ class Grid extends React.Component {
       switch(this.props.chartType) {
         case "daily": 
           chartTransform = chartTransform.deltize()
+          //fallthru
         case "cumulative":
           return <CombinedChart
             key={a.name}
