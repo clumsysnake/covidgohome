@@ -21,12 +21,17 @@ function csvUrl(date) {
   return `${JH_BASEURL}/${date}.csv`
 }
 
+//JH *sometimes* drops 0 prefix (most likely because of casting to integer). ex. 6001 & 06001
+function isFipsEqual(a, b) {
+  return parseInt(a) === parseInt(b)
+}
+
 function csvDateMaps(csvs) {
   return csvs.map((csv, i) => {
     let results = Papa.parse(csv, {header: true})
 
     results.errors.forEach(error => {
-      console.log(`error on row ${error.row}: ${error.code} ${error.message}`)
+      console.log(`${datesToFetch[i]} error on row ${error.row}: ${error.code} ${error.message}`)
     })
 
     return {
@@ -50,7 +55,7 @@ function groupSources(then) {
         fips: fips,
         census: censusData,
         jhByDate: dateMaps.map(dateMap => ({
-          jh: dateMap.jh.find(x => x.FIPS === fips),
+          jh: dateMap.jh.find(x => isFipsEqual(x.FIPS, fips)),
           date: dateMap.date
         }))
       }
