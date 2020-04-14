@@ -1,20 +1,16 @@
+import _ from 'lodash'
 import React, {useState} from 'react'
 import ReactTooltip from 'react-tooltip'
 import { connect } from 'react-redux'
 import Select from 'react-select'
 import { Line, Legend, Bar, YAxis } from 'recharts'
-import { useHistory } from "react-router-dom";
-import Chart from '../components/Chart'
+import { useHistory } from "react-router-dom"
+
+import AreaModel from '../models/AreaModel.js'
+import C from '../components.js'
 import Colors from '../helpers/Colors'
-import StateMap from '../components/StateMap.js'
-import Filter from '../components/Filter.js'
 import './StatePage.css'
-import {
-  numberWithCommas, countTickFormatter, percentWithPlaces, 
-  withPlaces, percentTickFormatter, percentChangeFormatter, 
-  countChangeFormatter
-} from '../helpers/chartHelpers.js'
-import _ from 'lodash'
+import * as H from '../helpers/chartHelpers.js'
 
 function StatePage(props) {
   const history = useHistory();
@@ -25,6 +21,7 @@ function StatePage(props) {
   const [chartType, setChartType] = useState('daily')
   const [timeframe, setTimeframe] = useState('first-death')
   const [averageDays, setAverageDays] = useState(1)
+  const [mapDate, setMapDate] = useState(null)
   
   if(!props.state) { return <div>...loading</div> }
 
@@ -38,12 +35,12 @@ function StatePage(props) {
     case 'cumulative': chartData = transform.average(averageDays).frames; break;
     case 'daily':
       chartData = transform.deltize().average(averageDays).frames;
-      yTickFormatter = countChangeFormatter
+      yTickFormatter = H.countChangeFormatter
       chartSuffix = "daily change"
       break;
     case 'daily-percent':
       chartData = transform.deltaPercentize().average(averageDays).frames
-      yTickFormatter = percentChangeFormatter
+      yTickFormatter = H.percentChangeFormatter
       chartSuffix = "daily change %"
       break;
     default: 
@@ -78,37 +75,42 @@ function StatePage(props) {
     return chartSuffix ? `${name} (${chartSuffix})` : name
   }
 
+  let startDate = AreaModel.fieldMin(state.counties, 'date')
+  let endDate = AreaModel.fieldMax(state.counties, 'date')
+
   return (
     <div className="state-page">
       <div className="top">
         <div className="left">
           <div className="filters">
-            <Filter accessors={[mapField, setMapfield]} options={[
+            <C.Filter accessors={[mapField, setMapfield]} options={[
               ['positives', 'positives'],
               ['deaths', 'deaths']
             ]}/>
-            <Filter accessors={[basis, setBasis]} options={[
+            <C.Filter accessors={[basis, setBasis]} options={[
               'total',
               ['per-1m', 'total/capita'],
               // ['squared-per-1m', 'total² / capita']
             ]}/>
-            <Filter accessors={[colorScale, setColorScale]} options={[
+            <C.Filter accessors={[colorScale, setColorScale]} options={[
               'linear',
               'sqrt',
               ['log2', 'log(2)']
             ]}/>
           </div>
           <div className="state-map">
-            <StateMap
+            <C.StateMap
               state={state}
               field={mapField}
               basis={basis}
               granularity="county"
               colorScale={colorScale}
               setTooltipContent={setTooltip}
+              date={mapDate || endDate}
             />
             <ReactTooltip place="right">{tooltip}</ReactTooltip>
           </div>
+          <C.DateSlider startDate={startDate} endDate={endDate} onChange={setMapDate} />
         </div>
         <div className="stats">
           <Select className="select-dropdown"
@@ -118,59 +120,59 @@ function StatePage(props) {
           <ul>
             <li>
               <span className="label">Population</span>
-              <span className="value">{numberWithCommas(state.population)}</span>
+              <span className="value">{H.numberWithCommas(state.population)}</span>
             </li>
             <li>
               <span className="label">Tests Performed</span>
-              <span className="value">{numberWithCommas(current.results)} or {percentWithPlaces(currentPer1M.results/10000, 2)}</span>
+              <span className="value">{H.numberWithCommas(current.results)} or {H.percentWithPlaces(currentPer1M.results/10000, 2)}</span>
             </li>
             <li>
               <span className="label">Tests Positive</span>
-              <span className="value">{numberWithCommas(current.positives)} or {percentWithPlaces(100*current.positiveRate, 2)}</span>
+              <span className="value">{H.numberWithCommas(current.positives)} or {H.percentWithPlaces(100*current.positiveRate, 2)}</span>
             </li>
             <li>
               <span className="label">Attack Rate</span>
-              <span className="value">{percentWithPlaces(100*state.attackRate, 3)}</span>
+              <span className="value">{H.percentWithPlaces(100*state.attackRate, 3)}</span>
             </li>
             <li>
               <span className="label">CFR</span>
-              <span className="value">{percentWithPlaces(100* current.deathRate, 2)} (estimated)</span>
+              <span className="value">{H.percentWithPlaces(100* current.deathRate, 2)} (estimated)</span>
             </li>
             <li>
               <span className="label">Dead</span>
-              <span className="value">{numberWithCommas(current.deaths)} or {withPlaces(currentPer1M.deaths, 2)}/million</span>
+              <span className="value">{H.numberWithCommas(current.deaths)} or {H.withPlaces(currentPer1M.deaths, 2)}/million</span>
             </li>
             <li>
               <span className="label">Hospitalizations</span>
-              <span className="value">{percentWithPlaces(100 * current.admissionRate, 2) || "unknown"} admission rate</span>
+              <span className="value">{H.percentWithPlaces(100 * current.admissionRate, 2) || "unknown"} admission rate</span>
             </li>
             <li>  
               <span className="label"></span>
-              <span className="value">{numberWithCommas(current.admissions) || "unknown"} cumulative</span>
+              <span className="value">{H.numberWithCommas(current.admissions) || "unknown"} cumulative</span>
             </li>
             <li>
               <span className="label"></span>
-              <span className="value">{numberWithCommas(current.inHospital) || "unknown"} currently</span>
+              <span className="value">{H.numberWithCommas(current.inHospital) || "unknown"} currently</span>
             </li>
             <li>
               <span className="label"></span>
-              <span className="value">{numberWithCommas(current.recovered) || "unknown"} recovered</span>
+              <span className="value">{H.numberWithCommas(current.recovered) || "unknown"} recovered</span>
             </li>
             <li>
               <span className="label">In ICU</span>
-              <span className="value">{numberWithCommas(current.inICU) || "unknown"} currently</span>
+              <span className="value">{H.numberWithCommas(current.inICU) || "unknown"} currently</span>
             </li>
             <li>
               <span className="label"></span>
-              <span className="value">{numberWithCommas(current.intensifications) || "unknown"} cumulatively</span>
+              <span className="value">{H.numberWithCommas(current.intensifications) || "unknown"} cumulatively</span>
             </li>
             <li>
               <span className="label">Ventilated</span>
-              <span className="value">{numberWithCommas(current.onVentilator) || "unknown"} currently</span>
+              <span className="value">{H.numberWithCommas(current.onVentilator) || "unknown"} currently</span>
             </li>
             <li>
               <span className="label"></span>
-              <span className="value">{numberWithCommas(current.ventilations) || "unknown"} cumulative</span>
+              <span className="value">{H.numberWithCommas(current.ventilations) || "unknown"} cumulative</span>
             </li>
           </ul>
         </div>
@@ -179,26 +181,25 @@ function StatePage(props) {
       <div className="charts">
         <div className="filters-container">
           <div className="filters">
-            <Filter accessors={[chartType, setChartType]} options={[
+            <C.Filter accessors={[chartType, setChartType]} options={[
               ['cumulative', 'total'],
               'daily',
               // 'daily-daily',
               ['daily-percent', '% daily change'],
             ]}/>
-            <Filter accessors={[timeframe, setTimeframe]} options={[
+            <C.Filter accessors={[timeframe, setTimeframe]} options={[
               [null, 'all'],
               ['first-death', 'from first death'],
-              // [21, 'last 21d'],
               // [14, 'last 14d'],
             ]}/>
-            <Filter accessors={[averageDays, setAverageDays]} label="smoothing" options={[
+            <C.Filter accessors={[averageDays, setAverageDays]} label="smoothing" options={[
               [1, 'none'],
               [2, '2 day'],
               [3, '3 day'],
             ]}/>
           </div>
         </div>
-        <Chart name={suffixed("Positives")} data={chartData} yTickFormatter={yTickFormatter}>
+        <C.Chart name={suffixed("Positives")} data={chartData} yTickFormatter={yTickFormatter}>
           <Line
             yAxisId="left"
             type="linear"
@@ -210,8 +211,8 @@ function StatePage(props) {
             animationDuration={200}
             name="Positives"
           />  
-        </Chart>
-        <Chart name={suffixed("Deaths and Hospital Admissions")}
+        </C.Chart>
+        <C.Chart name={suffixed("Deaths and New Hospital Admissions")}
                data={chartData} yTickFormatter={yTickFormatter}>
           <Line
             yAxisId="left"
@@ -236,8 +237,8 @@ function StatePage(props) {
             name="Hospital Admissions"
           />
           <Legend />
-        </Chart>
-        <Chart name={suffixed("Currently Hospitalized")}
+        </C.Chart>
+        <C.Chart name={suffixed("Currently Hospitalized")}
           data={chartData} yTickFormatter={yTickFormatter}>
           <Line
             yAxisId="left"
@@ -273,9 +274,9 @@ function StatePage(props) {
             name="on Ventilator"
           />
           <Legend />
-        </Chart>
-        <Chart name="Positive % vs # of Tests" 
-               data={testResultsData} yTickFormatter={percentTickFormatter}>
+        </C.Chart>
+        <C.Chart name="Positive % vs # of Tests" 
+               data={testResultsData} yTickFormatter={H.percentTickFormatter}>
           <Bar
             yAxisId="right"
             dataKey="resultsDelta"
@@ -312,7 +313,7 @@ function StatePage(props) {
           />
           <YAxis
             yAxisId="right"
-            tickFormatter={countTickFormatter}
+            tickFormatter={H.countTickFormatter}
             orientation="right"
             type="number"
             allowDataOverflow={false}
@@ -320,7 +321,7 @@ function StatePage(props) {
             tick={{stroke: "grey"}}
           />
           <Legend />
-        </Chart>
+        </C.Chart>
      </div>
     </div>
   )

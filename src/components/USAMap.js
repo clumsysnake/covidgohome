@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux"
 import { useHistory } from "react-router-dom";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import { colorScale } from '../helpers/chartHelpers'
+import * as H from '../helpers/chartHelpers'
 import _ from 'lodash'
 
 import StateModel from "../models/StateModel.js"
@@ -11,15 +11,19 @@ import AreaModel from "../models/AreaModel.js"
 import "./USAMap.css"
 import {safeSmartNumPlaces} from "../helpers/chartHelpers.js"
 
-//TODO: dont use url, just hardcode! but how to load into Geographies..
 const countiesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
 const statesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
+//CRZ: choosing to display counties with null fields as white. this is because I
+//     am assuming that JH is not listing counties when they have count=0.
+//     If the counts were unknown, i would use a grey. grey is unknown, white is 0.
 const NO_COUNTY_DATA_COLOR = 'white'
+const UNKNOWN_AREA_COLOR = "#BBBBBB"
 
 function USAMap(props) {
   const history = useHistory();
   const perMillion = ["per-1m", "squared-per-1m"].includes(props.basis)
+  const field = props.field
 
   let areas, geoUrl, areaFindF, clickedAreaF;
   switch(props.granularity) {
@@ -39,47 +43,30 @@ function USAMap(props) {
       throw new TypeError("error, unknown granularity")
   }
 
-  let max = AreaModel.fieldMax(areas, props.field, props.basis)
-  let colorF = colorScale(props.colorScale, max)
+  let max = AreaModel.fieldMax(areas, field, props.basis)
+  let colorF = H.colorScale(props.colorScale, max)
+  let date = props.date
 
   return (
     <ComposableMap data-tip="" projection="geoAlbersUsa">
       <Geographies geography={geoUrl}>
         {({ geographies }) =>
           geographies.map(geo => {
-            let color = "#BBBBBB", tooltip = ""
-
+            let color, tooltip = ""
             let area = areaFindF(geo)
-            if(area && area.lastFrame) {
-              //TODO: handle if area doesn't have population data.
-
-              let value, tooltipValue;
-              switch(props.basis) {
-                case 'total':
-                  value = area.lastFrame[props.field]
-                  tooltipValue = value
-                  break;
-                case 'per-1m':
-                  value = area.perMillionTransform().last[props.field]
-                  tooltipValue = value
-                  break;
-                case 'squared-per-1m':
-                  //still want to show per 1m tooltip values
-                  value = area.perMillionTransform().last[props.field]
-                  tooltipValue = area.perMillionTransform().last[props.field]
-                  break;
-                default:
-                  throw new TypeError(`error, unknown bases ${props.basis}`)
-              }
-
-              //CRZ: choosing to display counties with null fields as white. this is because I
-              //     am assuming that JH is not listing counties with no counts
-              color = (_.isFinite(value)) ? color = colorF(value) : 'white'
-              tooltip = `${area.name} -- ${safeSmartNumPlaces(tooltipValue, 1)} ${props.field}s`
+            if(area && area.frames && area.frameForDate(date)) {
+              let [tooltipTransform, transform] = H.basisTransforms(area, props.basis)
+              let value = transform.frameForDate(date)[props.field]
+              let tooltipValue = tooltipTransform.frameForDate(date)[props.field]
+              color = (_.isFinite(value)) ? color = colorF(value) : NO_COUNTY_DATA_COLOR
+              tooltip = `${area.name} -- ${safeSmartNumPlaces(tooltipValue || 0, 1)} ${field}`
               if(perMillion) { tooltip += " per million people" }
             } else if(area) {
               color = NO_COUNTY_DATA_COLOR
-              tooltip = "unknown"
+              tooltip = area.name
+            } else {
+               color = UNKNOWN_AREA_COLOR
+              tooltip = "unknown area"
             }
 
             return <Geography
@@ -123,5 +110,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 //proptypes: states, counties, granularity, field, basis, scale
+USAMap.defaultProps = {
+}
 
 export default connect(mapStateToProps)(USAMap)

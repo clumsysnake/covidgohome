@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ReactTooltip from 'react-tooltip'
-import USAMap from '../components/USAMap.js'
-import Filter from '../components/Filter.js'
+import M from '../models.js'
+import C from '../components.js'
 
 export default function MapPage(props) {
   let [mapField, setMapfield] = useState('positives')
@@ -9,38 +9,45 @@ export default function MapPage(props) {
   let [granularity, setGranularity] = useState('county')
   let [colorScale, setColorScale] = useState('log2')
   let [tooltip, setTooltip] = useState('')
+  let [mapDate, setMapDate] = useState(null)
+
+  let startDate = M.AreaModel.fieldMin(M.CountyModel.all, 'date')
+  let endDate = M.AreaModel.fieldMax(M.CountyModel.all, 'date')
 
   return <>
     <div className="top">
       <div className="filters">
-        <Filter accessors={[mapField, setMapfield]} label="showing" options={[
+        <C.Filter accessors={[mapField, setMapfield]} label="showing" options={[
           ['positives', 'positives'],
           ['deaths', 'deaths'],
           ['results', '# tests']
         ]}/>
-        <Filter accessors={[basis, setBasis]} label="basis" options={[
+        <C.Filter accessors={[basis, setBasis]} label="basis" options={[
           'total',
           ['per-1m', 'total / capita'],
           // ['squared-per-1m', 'total² / capita']
         ]} />
-        <Filter accessors={[granularity, setGranularity]} options={[
+        <C.Filter accessors={[granularity, setGranularity]} options={[
           'state',
           'county'
         ]} />
-        <Filter accessors={[colorScale, setColorScale]} label="scale" options={[
+        <C.Filter accessors={[colorScale, setColorScale]} label="scale" options={[
           'linear',
           'sqrt',
           ['log2', 'log(2)']
         ]} />
       </div>
+      {/*<C.DateSlider startDate={startDate} endDate={endDate} onChange={setMapDate} />*/}
     </div>
+    
     <div className="bottom usa-map">
-      <USAMap
+      <C.USAMap
         field={mapField}
         basis={basis}
         granularity={granularity}
         colorScale={colorScale}
         setTooltipContent={setTooltip}
+        date={mapDate || startDate}
       />
       <ReactTooltip place="right">{tooltip}</ReactTooltip>
     </div>

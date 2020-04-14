@@ -96,4 +96,20 @@ export function colorScale(scaleType, max) {
   return (x) => (x === 0) ? "white" : f(x)
 }
 
+export function basisTransforms(area, basis) {
+  let x
+  switch(basis) {
+    case 'total':
+      x = area.transform()
+      return [x, x]
+    case 'per-1m':
+      x = area.perMillionTransform()
+      return [x, x]
+    case 'squared-per-1m':
+      return [area.squaredPerMillionTransform(), area.perMillionTransform()]
+    default:
+      throw new TypeError(`error, unknown basis ${basis}`)
+  }
+}
+
 export {numberWithCommas, safeSmartNumPlaces, withPlaces, percentWithPlaces, percentDisplay, tooltipFormatter, percentTickFormatter, countTickFormatter, dateTickFormatter}

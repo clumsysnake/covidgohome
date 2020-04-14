@@ -57,6 +57,10 @@ export default class Series {
   get last() {
     return _.last(this.frames)
   }
+
+  frameForDate(date) {
+    return this.transform().frameForDate(date)
+  }
 }
 
 //lazy
@@ -108,6 +112,10 @@ class Transform {
     return this.__rateOperations.reduce((data, operation) => {
       return this.__transform(data, operation)
     }, transformedWithRates)
+  }
+
+  frameForDate(date) {
+    return this.frames.find(f => f.date === date)
   }
 
   //TODO: make each transform separate functions

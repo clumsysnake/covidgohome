@@ -85,6 +85,8 @@ DATASET / DATA FEED FIXES
 - bug: if you go to states/<unknown code> it just says loading forever
 - bug: recharts has uneven ticks on both axes
 - bug: state dropdown can select territories that break the page
+- bug: prevent dateslider pop-in... i hate page reflows
+- bug: show a reasonable slider if DateSlider only spanning one day
 
 REFACTOR
 - unite the maps, or split into one that shows counties and one that doesn't.

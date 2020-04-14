@@ -78,9 +78,11 @@ class AreaModel {
     return this.series.square()
   }
 
-  get lastFrame() {
-    return this.series.last
-  }
+  //CRZ: convenience forwarding functions to series
+  transform() { return this.series.transform() }
+  get lastFrame() { return this.series.last }
+  get frames() { return this.series.frames }
+  frameForDate(date) { return this.series.frameForDate(date) }
 
   //CRZ: attack rate is simple, # of positives per person
   get attackRate() {
