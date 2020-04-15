@@ -47,7 +47,7 @@ export default function MapPage(props) {
         granularity={granularity}
         colorScale={colorScale}
         setTooltipContent={setTooltip}
-        date={mapDate || startDate}
+        date={mapDate || endDate}
       />
       <ReactTooltip place="right">{tooltip}</ReactTooltip>
     </div>
