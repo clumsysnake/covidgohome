@@ -7,7 +7,7 @@ import { Line, Legend, Bar, YAxis } from 'recharts'
 import { useHistory } from "react-router-dom"
 
 import C from '../components.js'
-import M from '../components.js'
+import M from '../models.js'
 import Colors from '../helpers/Colors'
 import './StatePage.css'
 import * as H from '../helpers/chartHelpers.js'

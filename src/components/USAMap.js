@@ -42,7 +42,7 @@ function USAMap(props) {
 
   let max = M.AreaModel.fieldMax(areas, field, props.basis)
   let colorF = H.colorScale(props.colorScale, max)
-  let date = props.date
+  let date = props.date || M.AreaModel.fieldMax(areas, 'date')
 
   return (
     <ComposableMap data-tip="" projection="geoAlbersUsa">
