@@ -101,7 +101,6 @@ function Grid(props) {
     return areas.map(a => chartForArea(a, yD, xD))
   }
 
-  //TODO: refactor. its the group filter that makes it not clean atm.
   if(props.aggregate === "country") {
     comps = compsForAreas([M.AreaModel.createAggregate('USA', states)])
   } else {

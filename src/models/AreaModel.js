@@ -29,11 +29,30 @@ class AreaModel {
     }, null)
   }
 
+  //TODO: need to doublecheck this Math.min way of comparing..
+  static findMostRecentCommonFrameDate(areas) {
+    return areas.reduce(
+      (mrcd, a) => Math.min(mrcd, a.lastFrame.date),
+      areas[0] && areas[0].lastFrame && areas[0].lastFrame.date
+    )
+  }
+
   //TODO: there is a bug here... if only SOME areas have values for some dates,
   //      the resulting series looks like it trails off at those dates
   //TODO: Series should handle its own merging... delegate that.
-  static createAggregate(name, areas) {
-    let frames = areas.flatMap(a => a.series.frames).reduce((frames, frame) => {
+  //TODO: define strategies for aggregation; atm just trims any incomplete areas.
+  static createAggregate(name, areas, strategy = "trim") {
+    let children = areas
+
+    if(strategy === "trim") {
+      children = children.filter(c => _.isFinite(c.population))
+    }
+
+    let lastDate = AreaModel.findMostRecentCommonFrameDate(children)
+
+    let frames = children.flatMap(a => a.series.frames).reduce((frames, frame) => {
+      if(frame.date > lastDate) { return frames }
+
       let s = frames.find(s => s.date === frame.date)
 
       if(_.isNil(s)) {
@@ -49,9 +68,10 @@ class AreaModel {
       }
     }, [])
     frames.sort((a,b) => (a.date > b.date) ? 1 : -1 )
-    let population = areas.reduce((sum, a) => sum + a.population, 0)
 
-    return new AreaModel({name, frames, population})
+    let population = children.reduce((sum, a) => sum + a.population, 0)
+
+    return new AreaModel({name, frames, population, children})
   }
 
   constructor(props) {
@@ -61,6 +81,7 @@ class AreaModel {
     this.name = props.name
     this.population = props.population
     this.density = props.density
+    this.children = props.children
 
     allModels.push(this)
   }
