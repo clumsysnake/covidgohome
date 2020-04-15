@@ -6,8 +6,8 @@ import Select from 'react-select'
 import { Line, Legend, Bar, YAxis } from 'recharts'
 import { useHistory } from "react-router-dom"
 
-import AreaModel from '../models/AreaModel.js'
 import C from '../components.js'
+import M from '../components.js'
 import Colors from '../helpers/Colors'
 import './StatePage.css'
 import * as H from '../helpers/chartHelpers.js'
@@ -75,8 +75,8 @@ function StatePage(props) {
     return chartSuffix ? `${name} (${chartSuffix})` : name
   }
 
-  let startDate = AreaModel.fieldMin(state.counties, 'date')
-  let endDate = AreaModel.fieldMax(state.counties, 'date')
+  let startDate = M.AreaModel.fieldMin(state.counties, 'date')
+  let endDate = M.AreaModel.fieldMax(state.counties, 'date')
 
   return (
     <div className="state-page">

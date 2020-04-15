@@ -2,14 +2,11 @@ import React from "react";
 import {connect} from "react-redux"
 import { useHistory } from "react-router-dom";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import * as H from '../helpers/chartHelpers'
 import _ from 'lodash'
 
-import StateModel from "../models/StateModel.js"
-import CountyModel from "../models/CountyModel.js"
-import AreaModel from "../models/AreaModel.js"
+import * as H from '../helpers/chartHelpers'
+import M from '../models.js'
 import "./USAMap.css"
-import {safeSmartNumPlaces} from "../helpers/chartHelpers.js"
 
 const countiesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
 const statesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
@@ -30,20 +27,20 @@ function USAMap(props) {
     case "county":
       geoUrl = countiesGeoUrl; 
       areas = props.counties
-      areaFindF = geo => CountyModel.findByFips(parseInt(geo.id))
+      areaFindF = geo => M.CountyModel.findByFips(parseInt(geo.id))
       clickedAreaF = (county) => history.push("/states/" + county.state.abbreviation)
       break
     case "state":
       geoUrl = statesGeoUrl;
       areas = props.states
-      areaFindF = geo => StateModel.findByName(geo.properties.name)
+      areaFindF = geo => M.StateModel.findByName(geo.properties.name)
       clickedAreaF = (state) => history.push("/states/" + state.abbreviation)
       break
     default:
       throw new TypeError("error, unknown granularity")
   }
 
-  let max = AreaModel.fieldMax(areas, field, props.basis)
+  let max = M.AreaModel.fieldMax(areas, field, props.basis)
   let colorF = H.colorScale(props.colorScale, max)
   let date = props.date
 
@@ -59,7 +56,7 @@ function USAMap(props) {
               let value = transform.frameForDate(date)[props.field]
               let tooltipValue = tooltipTransform.frameForDate(date)[props.field]
               color = (_.isFinite(value)) ? color = colorF(value) : NO_COUNTY_DATA_COLOR
-              tooltip = `${area.name} -- ${safeSmartNumPlaces(tooltipValue || 0, 1)} ${field}`
+              tooltip = `${area.name} -- ${H.safeSmartNumPlaces(tooltipValue || 0, 1)} ${field}`
               if(perMillion) { tooltip += " per million people" }
             } else if(area) {
               color = NO_COUNTY_DATA_COLOR

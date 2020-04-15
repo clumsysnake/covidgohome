@@ -5,7 +5,7 @@ import Colors from '../helpers/Colors.js'
 import { tooltipFormatter, countTickFormatter, dateTickFormatter, percentDisplay } from '../helpers/chartHelpers'
 import "./charts.css"
 
-function DailyNewPositivesChart(props) {
+export default function DailyNewPositivesChart(props) {
   let yTickFormatter = props.yTickFormatter || countTickFormatter
 
   return (
@@ -63,5 +63,3 @@ DailyNewPositivesChart.defaultProps = {
   yDomain: ['auto', 'auto'],
   xDomain: ['dataMin', 'dataMax'],
 }
-
-export default DailyNewPositivesChart

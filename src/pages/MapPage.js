@@ -11,9 +11,6 @@ export default function MapPage(props) {
   let [tooltip, setTooltip] = useState('')
   let [mapDate, setMapDate] = useState(null)
 
-  let startDate = M.AreaModel.fieldMin(M.CountyModel.all, 'date')
-  let endDate = M.AreaModel.fieldMax(M.CountyModel.all, 'date')
-
   return <>
     <div className="top">
       <div className="filters">
@@ -47,7 +44,6 @@ export default function MapPage(props) {
         granularity={granularity}
         colorScale={colorScale}
         setTooltipContent={setTooltip}
-        date={mapDate || endDate}
       />
       <ReactTooltip place="right">{tooltip}</ReactTooltip>
     </div>
