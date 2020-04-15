@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import M from '../models.js'
 import CombinedChart from './CombinedChart.js'
 import DailyNewPositivesChart from './DailyNewPositivesChart.js'
-import Group from './Group.js'
 
 const DOMAIN_MAX_STEPS = 20 //CRZ: give a certain OOM, how many possible domain maxes 
 
@@ -102,28 +101,9 @@ function Grid(props) {
     return areas.map(a => chartForArea(a, yD, xD))
   }
 
-  let withoutRegion = states.filter(m => m.region === null)
-
   //TODO: refactor. its the group filter that makes it not clean atm.
-  if(props.aggregate === "region") {
-    let areas = M.RegionModel.all.map((r) => r.createAggregate())
-    areas.push(M.AreaModel.createAggregate('Other', withoutRegion))
-    areas.sort(sortFunction(sort))
-    comps = compsForAreas(areas)
-  } else if(props.aggregate === "country") {
+  if(props.aggregate === "country") {
     comps = compsForAreas([M.AreaModel.createAggregate('USA', states)])
-  } else if(props.group === "region") {
-    //CRZ: intentionally setting maxes different for different regions
-    let regionGroups = M.RegionModel.all.map(r => {
-      return <Group key={r.name} name={r.name} children={
-        compsForAreas(r.states.sort(sortFunction(sort)))
-      } />
-    })
-
-    let unregionedComps = compsForAreas(withoutRegion.sort(sortFunction(sort)))
-    let unregionedGroup = <Group key="Other" name="Other">{unregionedComps}</Group>
-
-    comps.push(regionGroups, unregionedGroup)
   } else {
     comps = compsForAreas(states.sort(sortFunction(sort)))
   }

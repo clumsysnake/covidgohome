@@ -26,7 +26,7 @@ IMPROVE DATA ANALYSIS
 - add city locations on maps
 - add IFR estimate, if possible
 - our cfr is not correct, its not based off recoveries. is there a better term for that?
-- remove our regions, and add display of large MSAs, maybe top... 30?
+- add display of large MSAs, maybe top... 30?
 - in chart tooltips, show full date, and time of data collection for each day
 - optional overlay of dots on map: cities, testing centers
 - add optional rolling average lines to chart

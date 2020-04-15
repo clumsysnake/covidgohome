@@ -6,7 +6,6 @@ import './ChartsPage.css'
 export default function ChartsPage(props) {
   const [sort, setSort] = useState("most-cases")
   const [aggregate, setAggregate] = useState("state")
-  const [group, setGroup] = useState("none")
   const [chartType, setChartType] = useState("daily")
   const [basis, setBasis] = useState("per-1m")
   const [scaleMatching, setScaleMatching] = useState(false)
@@ -16,7 +15,6 @@ export default function ChartsPage(props) {
       <div className="filters">
         <Filter accessors={[aggregate, setAggregate]} options={[
           'state',
-          'region',
           'country'
         ]} />
         <Filter accessors={[chartType, setChartType]} options={[
@@ -33,10 +31,6 @@ export default function ChartsPage(props) {
           ['most-cases', 'most cases']
         ]} />
 */} 
-        <Filter accessors={[group, setGroup]} label="group" options={[
-          'none',
-          'region'
-        ]} />
 {/*        <Filter accessors={[scaleMatching, setScaleMatching]} label="scale match" options={[
           [true, 'yes'],
           [false, 'no']
@@ -47,7 +41,6 @@ export default function ChartsPage(props) {
       <Grid
         sort={sort}
         aggregate={aggregate}
-        group={group}
         chartType={chartType}
         basis={basis}
         scaleMatching={scaleMatching}
