@@ -22,8 +22,8 @@ export default function App(props) {
         <header className="app-header">
           <nav>
             <ul className="nav">
-              <li><Link to={`/charts`}>Charts</Link></li>
-              <li><Link to={`/map`}>Map</Link></li>
+              <li><Link to={`/compare`}>States</Link></li>
+              <li><Link to={`/country/usa`}>USA</Link></li>
               <li><Link to={`/about`}>About</Link></li>
             </ul>
           </nav>
@@ -31,15 +31,15 @@ export default function App(props) {
         </header>
         <div className="page">
           <Switch>
-            <Route path="/map" component={MapPage} />
+            <Route path="/country/usa" component={MapPage} />
             <Route path="/about" component={AboutPage} />
-            <Route path="/charts" component={ChartsPage} />
+            <Route path="/compare" component={ChartsPage} />
             <Route path="/states/:stateAbbrev" component={StatePage} /> 
             <Route exact path="/">
-              <Redirect to="/map" />
+              <Redirect to="/country/usa" />
             </Route>
             <Route>
-              <Redirect to="/map" />
+              <Redirect to="/country/usa" />
             </Route>
           </Switch>
         </div>

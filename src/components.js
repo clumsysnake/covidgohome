@@ -6,6 +6,7 @@ import Filter from './components/Filter.js'
 import Grid from './components/Grid.js'
 import StateMap from './components/StateMap.js'
 import USAMap  from './components/USAMap.js'
+import AreaIsoCharts  from './components/AreaIsoCharts.js'
 
 export default {
 	Chart,
@@ -15,5 +16,6 @@ export default {
 	Filter,
 	Grid,
 	StateMap,
-	USAMap
+	USAMap,
+  AreaIsoCharts
 } 

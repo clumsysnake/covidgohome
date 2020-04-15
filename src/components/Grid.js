@@ -29,7 +29,6 @@ function Grid(props) {
 
   let sort = props.sort
   let states = props.states
-  let comps = []
 
   let chartForArea = (a, yDomain, xDomain) => {
     let chartTransform
@@ -101,11 +100,7 @@ function Grid(props) {
     return areas.map(a => chartForArea(a, yD, xD))
   }
 
-  if(props.aggregate === "country") {
-    comps = compsForAreas([M.AreaModel.createAggregate('USA', states)])
-  } else {
-    comps = compsForAreas(states.sort(sortFunction(sort)))
-  }
+  let comps = compsForAreas(states.sort(sortFunction(sort)))
 
   return <div className="grid">
     {states.length ? comps : "loading..."}
