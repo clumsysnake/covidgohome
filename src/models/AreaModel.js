@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from '../lodash.js'
 import Series from './Series.js'
 
 let allModels = []

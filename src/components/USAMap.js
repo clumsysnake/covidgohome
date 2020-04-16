@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux"
 import { useHistory } from "react-router-dom";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
-import _ from 'lodash'
+import _ from '../lodash.js'
 
 import * as H from '../helpers/chartHelpers'
 import M from '../models.js'

@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from '../lodash.js'
 import React from "react";
 import {connect} from "react-redux"
 import PropTypes from "prop-types"

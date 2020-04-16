@@ -1,6 +1,6 @@
 import * as Topo from 'topojson'
 import * as d3geo from 'd3-geo'
-import _ from 'lodash'
+import _ from '../lodash.js'
 
 //TODO: dynamically load into the store or just include the npm package
 //TODO: are these compatible? does the corresponding state in each file have all the same coords/paths?

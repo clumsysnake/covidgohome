@@ -1,6 +1,6 @@
 import Papa from 'papaparse'
 import moment from 'moment'
-import _ from 'lodash'
+import _ from '../lodash.js'
 import * as H from './pipeline/helpers.js'
 
 const JH_BASEURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports"

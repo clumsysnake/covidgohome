@@ -9,7 +9,7 @@
 //So for now, if all the fields are the same, then dont add a new entry. If anything has changed since last, add a new one.
 //Also unsure what date to really be using here...basically just incrementing one from the last entry.
 
-import _ from 'lodash'
+import _ from '../lodash.js'
 import Papa from 'papaparse'
 import moment from 'moment'
 import * as H from './pipeline/helpers.js'

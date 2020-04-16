@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from '../lodash.js'
 import React, { useState } from 'react'
 import { Line, Legend, Bar, YAxis } from 'recharts'
 import C from '../components.js'

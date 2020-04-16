@@ -1,5 +1,5 @@
 import { scaleLinear, scaleLog, scaleSqrt } from "d3-scale";
-import _ from 'lodash'
+import _ from '../lodash.js'
 import moment from 'moment'
 
 //TODO: lots of formatters, can we combine? messy. percentDisplay is cruft.

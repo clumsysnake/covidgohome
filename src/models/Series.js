@@ -1,7 +1,7 @@
 //TODO: the only strange part about Series/Transform is how rates are handled. its almost
 //      like they are a separate series that gets transformed differently...
 
-import _ from 'lodash'
+import _ from '../lodash.js'
 
 function finiteOrNull(v) {
   return (_.isFinite(v)) ? v : null

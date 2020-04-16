@@ -75,7 +75,6 @@ IMPROVE DATA ANALYSIS
 - speed: are county topologies being gzipped?
 - speed: minimize material ui bundle size: https://material-ui.com/guides/minimizing-bundle-size/
 - speed: mouseover on map is triggering an entire render() for StateMap and UsaMap... can i stop this?
-- speed: only import used functions in lodash
 - bug: alaska state display is broken
 - bug: scale matching broke for ChartsPage with total basis
 - bug: on USAMap, if you're looking at the county view, you can choose # test and total hospitalized, neither of which have data at the county level

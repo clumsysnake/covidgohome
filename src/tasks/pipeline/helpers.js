@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from '../../lodash.js'
 import fs from 'fs'
 import AWS from 'aws-sdk'
 import fetch from 'node-fetch'
