@@ -22,8 +22,8 @@ export default function App(props) {
         <header className="app-header">
           <nav>
             <ul className="nav">
-              <li><Link to={`/compare`}>States</Link></li>
               <li><Link to={`/country/usa`}>USA</Link></li>
+              <li><Link to={`/compare`}>States</Link></li>
               <li><Link to={`/about`}>About</Link></li>
             </ul>
           </nav>

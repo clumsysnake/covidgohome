@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 import ReactTooltip from 'react-tooltip'
 import {connect} from "react-redux"
 
@@ -61,8 +62,8 @@ const mapStateToProps = (state, ownProps) => ({
   counties: state.counties
 })
 
-//proptypes: states, counties, granularity, field, basis, scale
 MapPage.defaultProps = {
+  states: PropTypes.array
 }
 
 export default connect(mapStateToProps)(MapPage)
