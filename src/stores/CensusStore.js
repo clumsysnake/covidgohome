@@ -1,4 +1,4 @@
-import UsStateMapping from './us_state_mapping.json'
+import USPSCodeMapping from './usps_code_mapping.json'
 import UsStateCensus from './us_state_census.json'
 import UsCountyCensus from './us_county_census.json'
 
@@ -42,7 +42,7 @@ export function censusDataForFips(fips) {
 }
 
 export function stateNameForAbbrev(abb) {
-  const map = UsStateMapping.find((map) => map.abbreviation === abb) || null
+  const map = USPSCodeMapping.find((map) => map.abbreviation === abb) || null
   return map && map['name']
 }
 
@@ -52,4 +52,4 @@ export function censusDataForAbbrev(abbrev) {
   return name && censusDataForState(name)
 }
 
-export { UsStateMapping, UsCountyCensus, UsStateCensus }
+export { USPSCodeMapping, UsCountyCensus, UsStateCensus }
