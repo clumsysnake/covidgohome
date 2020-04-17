@@ -36,7 +36,7 @@
     "test": "react-scripts test -o --no-cache",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "eject": "react-scripts eject",
-    "tasks:pipeline:states:upload": "node --experimental-modules src/tasks/pipeline.js --upload",
+    "tasks:pipeline:states:upload": "node --experimental-modules src/tasks/pipeline.states.js --upload",
     "tasks:pipeline:counties:upload": "node --experimental-modules src/tasks/pipeline.counties.js --upload"
   },
   "eslintConfig": {
