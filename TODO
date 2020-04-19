@@ -20,6 +20,7 @@ DATASET / DATA FEED FIXES
 - add OMB PSA definitions for: MSAs, µSAs, CSAs, CBSAs
 - add state age data where found
 - add illness onset data where found
+- states.json removed territories/DC. add them back with clearer nomenclature.
 
 IMPROVE DATA ANALYSIS
 - show doubling rate; not sure how best to calculate that.

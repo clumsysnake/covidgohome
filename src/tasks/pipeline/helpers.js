@@ -7,7 +7,8 @@ export const CGH_DATE_FORMAT = 'YYYYMMDD'
 export const FORMAT_VERSION = 4
 export const COUNTIES_S3_KEY = "data/counties.json"
 export const STATES_S3_KEY = "data/states.json"
-const MAPPING_JSON = "src/stores/us_state_mapping.json"
+const US_REGIONS_JSON = "src/stores/us_regions.json"
+const USPS_MAPPING_JSON = "src/stores/usps_code_mapping.json"
 const STATE_CENSUS_JSON = "src/stores/census-2019-07-01-pop-estimate.json"
 const COUNTY_CENSUS_JSON = "src/stores/census-2019-07-01-pop-estimate.counties.json"
 
@@ -54,8 +55,11 @@ export function writeResults(json, filename = null) {
   }
 }
 
-export function readMapping() {
-	return JSON.parse(fs.readFileSync(MAPPING_JSON, {encoding: 'ascii'}))
+export function readUSRegions() {
+  return JSON.parse(fs.readFileSync(US_REGIONS_JSON, {encoding: 'ascii'}))
+}
+export function readUSPSMapping() {
+	return JSON.parse(fs.readFileSync(USPS_MAPPING_JSON, {encoding: 'ascii'}))
 }
 export function readStateCensus() {
   return JSON.parse(fs.readFileSync(STATE_CENSUS_JSON, {encoding: 'ascii'}))

@@ -1,0 +1,350 @@
+[
+  {
+    "name": "Alabama",
+    "type": "state"
+  },
+  {
+    "name": "Alaska",
+    "type": "state"
+  },
+  {
+    "name": "Arizona",
+    "type": "state"
+  },
+  {
+    "name": "Arkansas",
+    "type": "state"
+  },
+  {
+    "name": "California",
+    "type": "state"
+  },
+  {
+    "name": "Colorado",
+    "type": "state"
+  },
+  {
+    "name": "Connecticut",
+    "type": "state"
+  },
+  {
+    "name": "Delaware",
+    "type": "state"
+  },
+  {
+    "name": "Florida",
+    "type": "state"
+  },
+  {
+    "name": "Georgia",
+    "type": "state"
+  },
+  {
+    "name": "Hawaii",
+    "type": "state"
+  },
+  {
+    "name": "Idaho",
+    "type": "state"
+  },
+  {
+    "name": "Illinois",
+    "type": "state"
+  },
+  {
+    "name": "Indiana",
+    "type": "state"
+  },
+  {
+    "name": "Iowa",
+    "type": "state"
+  },
+  {
+    "name": "Kansas",
+    "type": "state"
+  },
+  {
+    "name": "Kentucky",
+    "type": "state"
+  },
+  {
+    "name": "Louisiana",
+    "type": "state"
+  },
+  {
+    "name": "Maine",
+    "type": "state"
+  },
+  {
+    "name": "Maryland",
+    "type": "state"
+  },
+  {
+    "name": "Massachusetts",
+    "type": "state"
+  },
+  {
+    "name": "Michigan",
+    "type": "state"
+  },
+  {
+    "name": "Minnesota",
+    "type": "state"
+  },
+  {
+    "name": "Mississippi",
+    "type": "state"
+  },
+  {
+    "name": "Missouri",
+    "type": "state"
+  },
+  {
+    "name": "Montana",
+    "type": "state"
+  },
+  {
+    "name": "Nebraska",
+    "type": "state"
+  },
+  {
+    "name": "Nevada",
+    "type": "state"
+  },
+  {
+    "name": "New Hampshire",
+    "type": "state"
+  },
+  {
+    "name": "New Jersey",
+    "type": "state"
+  },
+  {
+    "name": "New Mexico",
+    "type": "state"
+  },
+  {
+    "name": "New York",
+    "type": "state"
+  },
+  {
+    "name": "North Carolina",
+    "type": "state"
+  },
+  {
+    "name": "North Dakota",
+    "type": "state"
+  },
+  {
+    "name": "Ohio",
+    "type": "state"
+  },
+  {
+    "name": "Oklahoma",
+    "type": "state"
+  },
+  {
+    "name": "Oregon",
+    "type": "state"
+  },
+  {
+    "name": "Pennsylvania",
+    "type": "state"
+  },
+  {
+    "name": "Rhode Island",
+    "type": "state"
+  },
+  {
+    "name": "South Carolina",
+    "type": "state"
+  },
+  {
+    "name": "South Dakota",
+    "type": "state"
+  },
+  {
+    "name": "Tennessee",
+    "type": "state"
+  },
+  {
+    "name": "Texas",
+    "type": "state"
+  },
+  {
+    "name": "Utah",
+    "type": "state"
+  },
+  {
+    "name": "Vermont",
+    "type": "state"
+  },
+  {
+    "name": "Virginia",
+    "type": "state"
+  },
+  {
+    "name": "Washington",
+    "type": "state"
+  },
+  {
+    "name": "West Virginia",
+    "type": "state"
+  },
+  {
+    "name": "Wisconsin",
+    "type": "state"
+  },
+  {
+    "name": "Wyoming",
+    "type": "state"
+  },
+  {
+    "name": "District Of Columbia",
+    "type": "federal district"
+  },
+  {
+    "name": "American Samoa",
+    "type": "territory",
+    "disputed": false,
+    "inhabited": true,
+    "organized": false,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Guam",
+    "type": "territory",
+    "disputed": false,
+    "inhabited": true,
+    "organized": true,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Northern Mariana Islands",
+    "type": "territory",
+    "disputed": false,
+    "inhabited": true,
+    "organized": true,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Puerto Rico",
+    "type": "territory",
+    "disputed": false,
+    "inhabited": true,
+    "organized": true,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Virgin Islands",
+    "type": "territory",
+    "disputed": false,
+    "inhabited": true,
+    "organized": true,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Baker Island",
+    "type": "territory",
+    "disputed": false,
+    "inhabited": false,
+    "organized": false,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Howland Island",
+    "type": "territory",
+    "disputed": false,
+    "inhabited": false,
+    "organized": false,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Jarvis Island",
+    "type": "territory",
+    "disputed": false,
+    "inhabited": false,
+    "organized": false,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Navassa Island",
+    "type": "territory",
+    "disputed": true,
+    "inhabited": false,
+    "organized": false,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Johnston Atoll",
+    "type": "territory",
+    "disputed": false,
+    "inhabited": false,
+    "organized": false,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Kingman Reef",
+    "type": "territory",
+    "disputed": false,
+    "inhabited": false,
+    "organized": false,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Midway Islands",
+    "type": "territory",
+    "disputed": false,
+    "inhabited": true,
+    "organized": false,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Palmyra Atoll",
+    "type": "territory",
+    "disputed": false,
+    "inhabited": false,
+    "organized": false,
+    "incorporated": true,
+    "administers": true
+  },
+  {
+    "name": "Wake Island",
+    "type": "territory",
+    "disputed": true,
+    "inhabited": false,
+    "organized": false,
+    "incorporated": false,
+    "administers": true
+  },
+  {
+    "name": "Serranilla Bank",
+    "type": "territory",
+    "disputed": true,
+    "inhabited": false,
+    "organized": false,
+    "incorporated": false,
+    "administers": false
+  },
+  {
+    "name": "Bajo Nuevo Bank",
+    "type": "territory",
+    "disputed": true,
+    "inhabited": false,
+    "organized": false,
+    "incorporated": false,
+    "administers": false
+  }
+]

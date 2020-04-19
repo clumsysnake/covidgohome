@@ -118,29 +118,32 @@ function possiblyAddDaily(state, ctCurrent) {
   return true
 }
 
-//Fetch everything, then group it together
+//Fetch everything, then group it together by state
 function groupSources(then) {
   return Promise.all([
     H.handleFetch(CT_STATESDAILY_URL),
     H.handleFetch(CT_STATESCURRENT_URL),
     H.handleFetch(NYT_STATES_URL, 'text')
   ]).then(([ctStatesDaily, ctStatesCurrent, nytStatesCsv]) => {
-    let mappingJson = H.readMapping()
+    let uspsCodeJson = H.readUSPSMapping()
     let censusJson = H.readStateCensus()
     let nytStates = Papa.parse(nytStatesCsv).data //TODO: handle error
+    let states = H.readUSRegions().filter(x => x.type === "state")
 
-    //TODO: report on all errors
-    
-    let groups = _.compact(mappingJson.map(mapping => {
-      let census = censusJson.find((r) => mapping.name === r[2] )
-      return {
-        name: mapping.name,
-        abbreviation: mapping.abbreviation,
-        census: census,
-        nyt: _.sortBy(nytStates.filter(x => x.state === mapping.name), 'date'),
-        ctDaily: ctStatesDaily.filter(x => x.state === mapping.abbreviation),
-        ctCurrent: ctStatesCurrent.filter(x => x.state === mapping.abbreviation)[0]
-      }
+    let groups = _.compact(states.map(state => {
+      let census = censusJson.find(r => r[2] === state.name)
+      let abbreviation = uspsCodeJson.find(x => x.name === state.name).abbreviation
+      let nyt = _.sortBy(nytStates.filter(x => x.state === state.name), 'date')
+      let ctDaily = ctStatesDaily.filter(x => x.state === abbreviation)
+      let ctCurrent = ctStatesCurrent.filter(x => x.state === abbreviation)[0]
+
+      if(_.isNil(census)) { console.log(`census data could not be found for ${state.name}`) }
+      if(_.isNil(abbreviation)) { console.log(`usps abbrev could not be found for ${state.name}`)}
+      if(_.isNil(nyt)) { console.log(`nyt data could not be found for ${state.name}`)}
+      if(_.isNil(ctDaily)) { console.log(`daily CovidTracking data could not be found for ${state.name}`)}
+      if(_.isNil(ctCurrent)) { console.log(`current CovidTracking data could not be found for ${state.name}`)}
+
+      return { name: state.name, abbreviation, census, nyt, ctDaily, ctCurrent}
     }))
 
     then(groups)
