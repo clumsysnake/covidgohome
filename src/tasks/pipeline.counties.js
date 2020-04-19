@@ -1,10 +1,12 @@
 import Papa from 'papaparse'
 import moment from 'moment'
+import fs from 'fs'
 import _ from '../lodash.js'
 import * as H from './pipeline/helpers.js'
 
 const JH_BASEURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports"
 const JH_DATEFORMAT = 'MM-DD-YYYY'
+const JH_CACHE_DIR = H.ROOT_DIR + "/src/stores/jh"
 const DAYS_PREVIOUS_WINDOW = parseInt(process.env.DAYS_PREVIOUS_WINDOW) || 1
 
 const datesToFetch = _.times(DAYS_PREVIOUS_WINDOW, (n) => {
@@ -41,11 +43,28 @@ function csvDateMaps(csvs) {
   }).reverse() // crucial reverse to get dates sorted
 }
 
+function cachedFilePath(date) {
+  return `${JH_CACHE_DIR}/${date}.csv`
+}
+
+function cachedFetch(date) {
+  return new Promise((success, error) => {
+    fs.readFile(cachedFilePath(date), {encoding: 'ascii'}, (err, data) => {
+      if(err) {
+        H.handleFetch(csvUrl(date), 'text').then(x => success(x)).catch(x => error(x))
+      } else {
+        console.log(`Used jh/${date}.csv in cache dir`)
+        success(data)
+      }
+    })
+  })
+}
+
 //Fetch everything, then group it together
 function groupSources(then) {
   return Promise.all(datesToFetch.map(date => {
-    return H.handleFetch(csvUrl(date), 'text')
-  })).then((csvs) => {  
+    return cachedFetch(date)
+  })).then((csvs) => {
     let dateMaps = csvDateMaps(csvs)
 
     let groups = censusCounties.map(censusData => {

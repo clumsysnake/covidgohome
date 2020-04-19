@@ -1,7 +1,12 @@
 import _ from '../../lodash.js'
 import fs from 'fs'
+import path from 'path'
 import AWS from 'aws-sdk'
 import fetch from 'node-fetch'
+
+//TODO: whats best practice for this?
+let pathname = (new URL(import.meta.url)).pathname
+export const ROOT_DIR = path.resolve(pathname, '../../../..')
 
 export const CGH_DATE_FORMAT = 'YYYYMMDD'
 export const FORMAT_VERSION = 4
