@@ -21,6 +21,7 @@ DATASET / DATA FEED FIXES
 - add state age data where found
 - add illness onset data where found
 - states.json removed territories/DC. add them back with clearer nomenclature.
+- jh csv parse error "expected 12 fields but parsed one" error on zambia line, but looks ok to me
 
 IMPROVE DATA ANALYSIS
 - show doubling rate; not sure how best to calculate that.
@@ -90,6 +91,7 @@ IMPROVE DATA ANALYSIS
 - bug: state dropdown can select territories that break the page
 - bug: prevent dateslider pop-in... i hate page reflows
 - bug: show a reasonable slider if DateSlider only spanning one day
+- bug: github complaining about some node package vulnerabilities
 
 REFACTOR
 - unite the maps, or split into one that shows counties and one that doesn't.
