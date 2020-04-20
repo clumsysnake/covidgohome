@@ -1,0 +1,69 @@
+Statistical Areas (SAs) from Wikipedia: 
+  569 Primary Statistical Areas (PSAs)
+  176 Combined Statistical Areas (CSAs)
+    - comprises 2 or more CBSAs with employment interchange of >=15%
+  938 Core Based Statistical Areas (CBSAs)
+    - comprises 1 or more county or county equivalents. 
+    - describes an urban core area with adjacent territory with high economic integration to core, as measured by commuting ties
+    two types of CBSAs:
+      392 Metropolitan Statistical Areas (MSAs) - urban core pop. >= 50k
+      546 Micropolitan Statistical Areas (µSAs) - urban core pop. 10k-50k
+
+CBSA
+  CBSA Code (5 digits)
+  CBSA Title
+  labeled either metropolitan statistical area or micropolitican statistical area
+
+CSA
+  CSA Code (3 digits)
+  CSA Title
+  Comprises 2 or more CBSAs
+
+PSA
+  - The OMB does not currently use the term Primary Statistical Area
+  - its commonly used to identify the most extensive SA for a given county
+  - I think this means
+
+County & County Equivalents
+  - ~3143 counties and county equivalents in states and DC
+  - ~100 county equivalents in US territories
+  - they are "admin2", second-level administrative divisions.
+  - equivalents (usually just different historical names it seems)
+    - Louisiana's parishes
+    - Alaska's organized bouroughs
+    - Alaska's Unorganized Borough comprises 11 census areas equivalent to counties
+    - Virginia, Maryland, Missouri, Nevada have "independent cities"
+    - American Samoa's districts and unorganized atolls
+    - USVI has districts (2)
+
+Notes:
+  - the OMB likes the term "delineate". the files are "delineation files". afaik that just means
+  grouping of county/county-equivalents
+  - all the SAs ignore state lines, there are many cross-state SAs.
+  - PR and DC participate in the SAs also. PR has 12 CBSAs and 3 CSAs
+  - Afaik other territories have no SAs
+
+Questions:
+  - what is a Consolidated city-county? how can i represent that? i may need to for NYC
+  - Counties sometimes fall into Metropolitan Division Codes, what are those?
+  - what is a PCSA exactly? Primary Census statistical area?
+  - how does the census "urban area" compare to the SAs? census tracts dont match with counties?
+  - what is an "urban agglomeration"? again i think a census term
+  - not everything in a SA is a county, it also might be a county equivalent! what are those?
+  - also see these atleast in census.gov, what are the equivalents?
+    - "state or statistical equvialent"
+    - CBSA county or statistical equivalent
+    - CBSA incorporated place that is legally independent of any county
+  - can i reliably calc the population if each SA from county population? or is there a better way
+  - is it correct to say i only need to worry about MSAs anyway.... all large CBSAs are MSAs?
+  - just curious, is there any CSA with one CBSA, or any CBSA with one county/equivalent?
+
+
+Example: CBSA 35620, CSA 408
+  - CBSA: New York-Newark-Jersey City, NY-NJ-PA
+  - CSA: New York-Newark, NY-NJ-CT-PA
+  CBSA Code:  35620
+CBSA Name: New York-Newark-Jersey City, NY-NJ-PA
+["34003", "34013", "34017", "34019", "34023", "34025", "34027", "34029", "34031", "34035",
+ "34037", "34039", "36005", "36047", "36059", "36061", "36079", "36081", "36085", "36087", 
+ "36103", "36119", "42103"]

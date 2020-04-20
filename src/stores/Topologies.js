@@ -50,10 +50,11 @@ function neighborsNumbers(nums, depth) {
 //     So do manually, then trigger an arc prune with an empty filter, and manually set bbox
 let stateTopologies = []
 export function topologyForState(state, granularity = "county", includeStateNeighborsDepth = 0) {
-  let topo = topoJson(granularity)
-  let key = (granularity === 'county') ? TOPO_COUNTIES_KEY : TOPO_STATES_KEY
   let cache = stateTopologies.find(t => t.state === state && t.granularity === granularity && t.includeStateNeighborsDepth === includeStateNeighborsDepth)
   if(cache) { return cache.topo }
+
+  let topo = topoJson(granularity)
+  let key = (granularity === 'county') ? TOPO_COUNTIES_KEY : TOPO_STATES_KEY
 
   //filter out objects that arent part of our state.
   let stateNumber = state.censusData.number
@@ -71,6 +72,14 @@ export function topologyForState(state, granularity = "county", includeStateNeig
   let neighborGeometries = neighborNumbers.map(n => topo.objects.states.geometries.find(g => g.id === n))
   let geometries = _.concat(neighborGeometries, inStateGeometries)
 
+  let newTopo = adjustedTopoForGeometries(topo, geometries)
+
+  stateTopologies.push({state, granularity, topo: newTopo, includeStateNeighborsDepth})
+
+  return newTopo
+}
+
+function adjustedTopoForGeometries(topo, geometries) {
   let newTopo = {
     arcs: topo.arcs,
     bbox: topo.bbox,
@@ -86,21 +95,36 @@ export function topologyForState(state, granularity = "county", includeStateNeig
 
   newTopo = Topo.filter(newTopo) //This prunes the arcs
   newTopo.bbox =  Topo.bbox(newTopo)
+  return newTopo;
+}
 
-  stateTopologies.push({state, granularity, topo: newTopo, includeStateNeighborsDepth})
-  return newTopo
+//TODO: not cached...
+export function topologyForCounties(countiesFips) {
+  let topo = topoJson('county')
+  let geometries = topo.objects[TOPO_COUNTIES_KEY].geometries.filter(g => countiesFips.includes(g.id)) 
+  return adjustedTopoForGeometries(topo, geometries)
 }
 
 //TODO: possibly, different parallels could make it slightly less distorted?
 export function projectionForState(state) {
   let topo = topologyForState(state, 'state')
+  let geoTopo = Topo.feature(topo, topo.objects.mixed.geometries[0])
+  return projection(topo, geoTopo)
+}
 
+export function projectionForTopo(topo) {
+  return projection(
+    topo, 
+    Topo.merge(topo, topo.objects.mixed.geometries)
+  )
+}
+
+function projection(topo, geometryBox) {
   let center = [(topo.bbox[0] + topo.bbox[2])/2, (topo.bbox[1] + topo.bbox[3])/2]
 
-  let geoTopo = Topo.feature(topo, topo.objects.mixed.geometries[0])
   return d3geo.geoConicEqualArea()
     .parallels([topo.bbox[1], topo.bbox[3]]) // sets standard parallels for projection to bracket state
     .rotate([-center[0], 0]) //possibly faster to use canvas rotate?
     .center(center)
-    .fitSize([800,600], geoTopo) // this sets .scale() and .translate()
+    .fitSize([800,600], geometryBox) // this sets .scale() and .translate()
 }

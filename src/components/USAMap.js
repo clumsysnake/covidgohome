@@ -1,11 +1,11 @@
 import React from "react";
 import {connect} from "react-redux"
 import { useHistory } from "react-router-dom";
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import _ from '../lodash.js'
 
 import * as H from '../helpers/chartHelpers'
 import M from '../models.js'
+import C from '../components.js'
 import "./USAMap.css"
 
 const countiesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
@@ -27,7 +27,7 @@ function USAMap(props) {
     case "county":
       geoUrl = countiesGeoUrl; 
       areas = props.counties
-      areaFindF = geo => M.CountyModel.findByFips(parseInt(geo.id))
+      areaFindF = geo => M.CountyModel.findByFips(geo.id)
       clickedAreaF = (county) => history.push("/states/" + county.state.abbreviation)
       break
     case "state":
@@ -42,63 +42,56 @@ function USAMap(props) {
 
   let max = M.AreaModel.fieldMax(areas, field, props.basis)
   let colorF = H.colorScale(props.colorScale, max)
-  let date = props.date || M.AreaModel.fieldMax(areas, 'date')
+  let date = props.date || M.AreaModel.findMostRecentCommonFrameDate(areas)
 
-  return (
-    <ComposableMap data-tip="" projection="geoAlbersUsa">
-      <Geographies geography={geoUrl}>
-        {({ geographies }) =>
-          geographies.map(geo => {
-            let color, tooltip = ""
-            let area = areaFindF(geo)
-            if(area && area.frames && area.frameForDate(date)) {
-              let [tooltipTransform, transform] = H.basisTransforms(area, props.basis)
-              let value = transform.frameForDate(date)[props.field]
-              let tooltipValue = tooltipTransform.frameForDate(date)[props.field]
-              color = (_.isFinite(value)) ? color = colorF(value) : NO_COUNTY_DATA_COLOR
-              tooltip = `${area.name} -- ${H.safeSmartNumPlaces(tooltipValue || 0, 1)} ${field}`
-              if(perMillion) { tooltip += " per million people" }
-            } else if(area) {
-              color = NO_COUNTY_DATA_COLOR
-              tooltip = area.name
-            } else {
-               color = UNKNOWN_AREA_COLOR
-              tooltip = "unknown area"
-            }
+  let mappingFunction = geo => {
+    let color, tooltip
+    let area = areaFindF(geo)
 
-            return <Geography
-              key={geo.rsmKey}
-              geography={geo}
-              onMouseEnter={() => { props.setTooltipContent(tooltip) }}
-              onMouseLeave={() => { props.setTooltipContent("") }}
-              onClick={() => {clickedAreaF(area)}}
-              style={{
-                default: {
-                  fill: color,
-                  stroke: "#607D8B",
-                  strokeWidth: 0.25,
-                  outline: "none",
-                },
-                hover: {
-                  fill: color,
-                  stroke: "#607D8B",
-                  strokeWidth: 2,
-                  outline: "none",
-                  cursor: "pointer"
-                },
-                pressed: {
-                  fill: color,
-                  stroke: "black",
-                  strokeWidth: 2,
-                  outline: "none",
-                }
-              }}
-            />
-          })
+    if(area && area.frames && area.frameForDate(date)) {
+      let [tooltipTransform, transform] = H.basisTransforms(area, props.basis)
+      let value = transform.frameForDate(date)[props.field]
+      let tooltipValue = tooltipTransform.frameForDate(date)[props.field]
+      color = (_.isFinite(value)) ? color = colorF(value) : NO_COUNTY_DATA_COLOR
+      tooltip = `${area.name} -- ${H.safeSmartNumPlaces(tooltipValue || 0, 1)} ${field}`
+      if(perMillion) { tooltip += " per million people" }
+    } else if(area) {
+      color = NO_COUNTY_DATA_COLOR
+      tooltip = area.name
+    } else {
+       color = UNKNOWN_AREA_COLOR
+       tooltip = "unknown area"
+    }
+
+    return {
+      onMouseEnter: () => { props.setTooltipContent(tooltip) },
+      onMouseLeave: () => { props.setTooltipContent("") },
+      onClick: () => { clickedAreaF(area) },
+      style: {
+        default: {
+          fill: color,
+          stroke: "#607D8B",
+          strokeWidth: 0.25,
+          outline: "none",
+        },
+        hover: {
+          fill: color,
+          stroke: "#607D8B",
+          strokeWidth: 2,
+          outline: "none",
+          cursor: "pointer"
+        },
+        pressed: {
+          fill: color,
+          stroke: "black",
+          strokeWidth: 2,
+          outline: "none",
         }
-      </Geographies>
-    </ComposableMap>
-  );
+      }
+    }
+  }
+
+  return <C.Map projection="geoAlbersUsa" topo={geoUrl} mappingFunction={mappingFunction}/>
 }
 
 const mapStateToProps = (state, ownProps) => ({

@@ -28,7 +28,7 @@ function StatePage(props) {
   let endDate = M.AreaModel.fieldMax(state.counties, 'date')
 
   return (
-    <div className="state-page">
+    <div className="state-page iso-page">
       <div className="top">
         <div className="left">
           <div className="filters">
@@ -52,7 +52,6 @@ function StatePage(props) {
               state={state}
               field={mapField}
               basis={basis}
-              granularity="county"
               colorScale={colorScale}
               setTooltipContent={setTooltip}
               date={mapDate || endDate}
@@ -66,64 +65,37 @@ function StatePage(props) {
                   onChange={option => history.push("/states/" + option.value)}
                   options={props.stateOptions}
                   placeholder={state.name}/>
-          <ul>
-            <li>
-              <span className="label">Population</span>
-              <span className="value">{H.numberWithCommas(state.population)}</span>
-            </li>
-            <li>
-              <span className="label">Tests Performed</span>
-              <span className="value">{H.numberWithCommas(current.results)} or {H.percentWithPlaces(currentPer1M.results/10000, 2)}</span>
-            </li>
-            <li>
-              <span className="label">Tests Positive</span>
-              <span className="value">{H.numberWithCommas(current.positives)} or {H.percentWithPlaces(100*current.positiveRate, 2)}</span>
-            </li>
-            <li>
-              <span className="label">Attack Rate</span>
-              <span className="value">{H.percentWithPlaces(100*state.attackRate, 3)}</span>
-            </li>
-            <li>
-              <span className="label">CFR</span>
-              <span className="value">{H.percentWithPlaces(100* current.deathRate, 2)} (estimated)</span>
-            </li>
-            <li>
-              <span className="label">Dead</span>
-              <span className="value">{H.numberWithCommas(current.deaths)} or {H.withPlaces(currentPer1M.deaths, 2)}/million</span>
-            </li>
-            <li>
-              <span className="label">Hospitalizations</span>
-              <span className="value">{H.percentWithPlaces(100 * current.admissionRate, 2) || "unknown"} admission rate</span>
-            </li>
-            <li>  
-              <span className="label"></span>
-              <span className="value">{H.numberWithCommas(current.admissions) || "unknown"} cumulative</span>
-            </li>
-            <li>
-              <span className="label"></span>
-              <span className="value">{H.numberWithCommas(current.inHospital) || "unknown"} currently</span>
-            </li>
-            <li>
-              <span className="label"></span>
-              <span className="value">{H.numberWithCommas(current.recovered) || "unknown"} recovered</span>
-            </li>
-            <li>
-              <span className="label">In ICU</span>
-              <span className="value">{H.numberWithCommas(current.inICU) || "unknown"} currently</span>
-            </li>
-            <li>
-              <span className="label"></span>
-              <span className="value">{H.numberWithCommas(current.intensifications) || "unknown"} cumulatively</span>
-            </li>
-            <li>
-              <span className="label">Ventilated</span>
-              <span className="value">{H.numberWithCommas(current.onVentilator) || "unknown"} currently</span>
-            </li>
-            <li>
-              <span className="label"></span>
-              <span className="value">{H.numberWithCommas(current.ventilations) || "unknown"} cumulative</span>
-            </li>
-          </ul>
+          <C.Stats>
+            <C.Stat label="Population" value={H.numberWithCommas(state.population)} />
+            <C.Stat label="Tests Performed">
+              {H.numberWithCommas(current.results)} or {H.percentWithPlaces(currentPer1M.results/10000, 2)}
+            </C.Stat>
+            <C.Stat label="Tests Positive">
+              {H.numberWithCommas(current.positives)} or {H.percentWithPlaces(100*current.positiveRate, 2)}
+            </C.Stat>
+            <C.Stat label="Attack Rate" value={H.percentWithPlaces(100*state.attackRate, 3)} />
+            <C.Stat label="CFR">
+              {H.percentWithPlaces(100* current.deathRate, 2)} (estimated)
+            </C.Stat>
+            <C.Stat label="Dead">
+              {H.numberWithCommas(current.deaths)} or {H.withPlaces(currentPer1M.deaths, 2)}/million
+            </C.Stat>
+            <C.Stat label="Hospitalizations">
+              {H.percentWithPlaces(100 * current.admissionRate, 2) || "unknown"} admission rate
+            </C.Stat>
+            <C.Stat>{H.numberWithCommas(current.admissions) || "unknown"} cumulative
+            </C.Stat>
+            <C.Stat>{H.numberWithCommas(current.inHospital) || "unknown"} currently</C.Stat>
+            <C.Stat>{H.numberWithCommas(current.recovered) || "unknown"} recovered</C.Stat>
+            <C.Stat label="In ICU">
+              {H.numberWithCommas(current.inICU) || "unknown"} currently
+            </C.Stat>
+            <C.Stat>{H.numberWithCommas(current.intensifications) || "unknown"} cumulatively</C.Stat>
+            <C.Stat label="Ventilated">
+              {H.numberWithCommas(current.onVentilator) || "unknown"} currently
+            </C.Stat>
+            <C.Stat>{H.numberWithCommas(current.ventilations) || "unknown"} cumulative</C.Stat>
+          </C.Stats>
         </div>
       </div>
       <hr />

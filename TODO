@@ -44,6 +44,12 @@ IMPROVE DATA ANALYSIS
 - add horizontal lines showing major events for areas: governor announcements, testing centers open, etc
 - can/should we vary the width of the positive %age line depending on how accurate the %age is according to test count?
 - confirm i should be using per-1m not per-100k. i've seen elsewhere that per-100k may be more standard for low events?
+- add Rt curves
+
+- SA Page
+  - AreaIsoCharts shouldnt display the hospitalization data we dont have.
+  - figure out why recovered isn't showing up
+  - add greyed out state topos for context.
 
 - make mobile-friendly
   - fixed header looks wrong
@@ -57,13 +63,11 @@ IMPROVE DATA ANALYSIS
 - investigate desirable behavior for storing filter settings in localstorage
 - switching from USA map to state map should keep filters same as much as possible
 - no longer fixed header, and header padding wrong, after adding react-router
-- confirm all the withPlaces helpers are rounding off? thought some weren't
 - the state maps can be better rotated/projected, just not sure how. they are too curved as is.
 - for the country also see if we can use a flat USA projection, like google maps
 - truly address the NYC problem
 - styling: i want the state name to always be always centered over the stats on the state page, but the table to take up all the room to the left and right
 - styling: make state page stats a true table so word wrap takes place only on its side of the stats
-- styling: charts should always take up entire width until a breakpoint, and then multiple charts can exist horizontally
 - counties.json / states.json
   - have the page poll for updated states.json atleast
   - states.json needs to be served gzipped, counties MUST BE or its too big.
@@ -72,11 +76,13 @@ IMPROVE DATA ANALYSIS
   - for each run save the output files (and possible the source files?) to s3
   - heroku uses 12.16.1 node! so i should prolly use that locally unless i can upgrae?
   - make sure density is saved as number not string
+  - speed: consider reorganizing county json to reduce space. sequences? positives: [1,4,5,20,34,55,56].. etc
 - add banner ability to top header
 - for dateslider, consider having the width be determined by the number of days. 
 - speed: are county topologies being gzipped?
 - speed: minimize material ui bundle size: https://material-ui.com/guides/minimizing-bundle-size/
 - speed: mouseover on map is triggering an entire render() for StateMap and UsaMap... can i stop this?
+- bug: confirm all the withPlaces helpers are rounding off? thought some weren't
 - bug: alaska state display is broken
 - bug: scale matching broke for ChartsPage with total basis
 - bug: on USAMap, if you're looking at the county view, you can choose # test and total hospitalized, neither of which have data at the county level
@@ -88,10 +94,11 @@ IMPROVE DATA ANALYSIS
 - bug: statepage dropdown: remove blue outline; when selected remove placeholder text
 - bug: if you go to states/<unknown code> it just says loading forever
 - bug: recharts has uneven ticks on both axes
-- bug: state dropdown can select territories that break the page
 - bug: prevent dateslider pop-in... i hate page reflows
 - bug: show a reasonable slider if DateSlider only spanning one day
 - bug: github complaining about some node package vulnerabilities
+- bug: when switching between states with dropdown some fields say NaN
+- bug: NAN% in states grid showing w/ new cases
 
 REFACTOR
 - unite the maps, or split into one that shows counties and one that doesn't.
@@ -109,6 +116,10 @@ REFACTOR
 - ideally neighborNumbers shouldn't return numbers it was given.
 - record s3 bucket policy and cors should i need to rebuild... terraform?
 - reduce us_county_census.json fields
-- consider reorganizing county json to reduce space. sequences? positives: [1,4,5,20,34,55,56].. etc
 - move PM files to wiki
 - simply connect heroku to github
+- add static type checking
+- does the data-tip= really belong in Map.js? isn't that a tooltip attr, should be outside of that component?
+- read files with utf8 instead of ascii encoding?
+- are county FIPS supposed to be 5 digits or not? or are they three digits and state fips are two digits and there's
+no "combined fips" code? and are they usually represented as numbers or strings?

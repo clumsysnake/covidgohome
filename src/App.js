@@ -8,6 +8,8 @@ import ChartsPage from './pages/ChartsPage.js'
 import MapPage from './pages/MapPage.js'
 import AboutPage from './pages/AboutPage.js'
 import StatePage from './pages/StatePage.js'
+import CBSAPage from './pages/CBSAPage.js'
+import CSAPage from './pages/CSAPage.js'
 
 export default function App(props) {
   useEffect(() => {
@@ -31,10 +33,12 @@ export default function App(props) {
         </header>
         <div className="page">
           <Switch>
-            <Route path="/country/usa" component={MapPage} />
+            <Route exact path="/country/usa" component={MapPage} />
             <Route path="/about" component={AboutPage} />
             <Route path="/compare" component={ChartsPage} />
             <Route path="/states/:stateAbbrev" component={StatePage} /> 
+            <Route path="/country/usa/cbsa/:id" component={CBSAPage} />
+            <Route path="/country/usa/csa/:id" component={CSAPage} />
             <Route exact path="/">
               <Redirect to="/country/usa" />
             </Route>

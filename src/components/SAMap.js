@@ -1,27 +1,27 @@
 import _ from '../lodash.js'
 import React from "react";
-import {connect} from "react-redux"
 import PropTypes from "prop-types"
 
 import * as H from '../helpers/chartHelpers'
 import M from '../models.js'
 import C from '../components.js'
-import { projectionForState, topologyForState } from '../stores/Topologies.js'
+import { projectionForTopo, topologyForCounties } from '../stores/Topologies.js'
 
 //CRZ: choosing to display counties without data as white. I'm not sure if JH
 //     just doesn't have data for the counties, or if they choose not to include counties
 //     with all zero counts to save space.
 const NO_COUNTY_DATA_COLOR = 'white'
 
-function StateMap(props) {
+function SAMap(props) {
   const perMillion = ["per-1m", "squared-per-1m"].includes(props.basis)
 
-  let areas = props.state.counties
-  let topo = topologyForState(props.state, props.granularity, 2) //2 so neighbors of neighbors are displayed
-  let projection = projectionForState(props.state)
+  let areas = props.counties
+  let topo = topologyForCounties(areas.map(a => a.fips))
+
   let areaFindF = geo => M.CountyModel.findByFips(geo.id)
   let max = M.AreaModel.fieldMax(areas, props.field, props.basis)
   let colorF = H.colorScale(props.colorScale, max)
+  let projection = projectionForTopo(topo)
   let date = props.date
 
   //CRZ: TODO: memoize this?
@@ -76,18 +76,13 @@ function StateMap(props) {
   )
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  states: state.states,
-  counties: state.counties
-})
-
-StateMap.propTypes = {
+SAMap.propTypes = {
+  counties: PropTypes.array,
   date: PropTypes.number,
-  state: PropTypes.object,
   setTooltipContent: PropTypes.func,
   field: PropTypes.string,
   basis: PropTypes.string,
   colorScale: PropTypes.string
 }
 
-export default connect(mapStateToProps)(StateMap)
+export default SAMap

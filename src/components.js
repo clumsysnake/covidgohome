@@ -7,6 +7,11 @@ import Grid from './components/Grid.js'
 import StateMap from './components/StateMap.js'
 import USAMap  from './components/USAMap.js'
 import AreaIsoCharts  from './components/AreaIsoCharts.js'
+import Map from './components/Map.js'
+import SAMap from './components/SAMap.js'
+import SAIso from './components/SAIso.js'
+import Stats from './components/Stats.js'
+import Stat from './components/Stat.js'
 
 export default {
 	Chart,
@@ -17,5 +22,10 @@ export default {
 	Grid,
 	StateMap,
 	USAMap,
-  AreaIsoCharts
+  AreaIsoCharts,
+  Map,
+  SAMap,
+  SAIso,
+  Stats,
+  Stat
 } 

@@ -98,3 +98,32 @@ hr {
   border-top: 0;
   margin: 20px 50px;
 }
+
+.stats ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.stats li {
+  font-size: 1.2em;
+  list-style-type: none;
+  margin: 5px 0;
+}
+
+.stats li .label {
+  width: 40%;
+  text-align: right;
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 0.9em;
+  text-decoration: underline
+}
+.stats li .value {
+  vertical-align: top;
+  font-weight: bold;
+}
+
+.sa-name {
+  font-size: 2em;
+  word-wrap: break-word;
+}

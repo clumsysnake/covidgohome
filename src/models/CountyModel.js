@@ -7,7 +7,7 @@ class CountyModel extends AreaModel {
   constructor(props) {
     super(props)
 
-    this.fips = parseInt(props.fips)
+    this.fips = props.fips
     this.stateName = props.stateName
 
     allModels.push(this)

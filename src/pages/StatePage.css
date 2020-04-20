@@ -1,21 +1,21 @@
 
-.state-page > .top > div {
+.iso-page > .top > div {
   float: left;
 }
 
-.state-page > .top > .left {
+.iso-page > .top > .left {
   width: 54%;
 }
 
-.state-page > .top > .state-map {
+.iso-page > .top > .state-map {
   padding: 0 1% 0 0;
 }
 
-.state-page > .top > .stats {
+.iso-page > .top > .stats {
   width: 45%;
 }
 
-.state-page > .top::after {
+.iso-page > .top::after {
   content: "";
   clear: both;
   display: table;
@@ -26,30 +26,6 @@
   padding: 0;
   text-align: center;
   margin: 0 10% 20px 0px;
-}
-
-.state-page .stats ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-.state-page .stats li {
-  font-size: 1.2em;
-  list-style-type: none;
-  margin: 5px 0;
-}
-
-.state-page .stats li .label {
-  width: 40%;
-  text-align: right;
-  display: inline-block;
-  margin-right: 5px;
-  font-size: 0.9em;
-  text-decoration: underline
-}
-.state-page .stats li .value {
-  vertical-align: top;
-  font-weight: bold;
 }
 
 /* TODO: need sass to apply clearfix as needed */
