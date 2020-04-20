@@ -104,7 +104,7 @@ REFACTOR
 - unite the maps, or split into one that shows counties and one that doesn't.
 - introduce administration level into terminology (admin=1 is country, admin=2 is state, admin=3 is county, etc.)
 - switch to graphql interface
-- USAMap should use topologies
+- reconcile bundled vs CDN'ed topo files - which to use, when?
 - investigate other chloropleth packages, including google-map-react, http://polymaps.org/
 - consider redux-orm
 - decide where CensusStore goes now

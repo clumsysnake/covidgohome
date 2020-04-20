@@ -7,6 +7,10 @@ import _ from '../lodash.js'
 import countiesTopoJSON from "../stores/counties-10m.json";
 import statesTopoJSON from "../stores/states-10m.json";
 
+//CRZ: TODO: is this a good way of doing delayed loading or does it not matter
+export const countiesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
+export const statesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
+
 const TOPO_COUNTIES_KEY = 'counties'
 const TOPO_STATES_KEY = 'states'
 

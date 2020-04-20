@@ -3,13 +3,11 @@ import {connect} from "react-redux"
 import { useHistory } from "react-router-dom";
 import _ from '../lodash.js'
 
+import { countiesGeoUrl, statesGeoUrl } from '../stores/Topologies.js'
 import * as H from '../helpers/chartHelpers'
 import M from '../models.js'
 import C from '../components.js'
 import "./USAMap.css"
-
-const countiesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json";
-const statesGeoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
 //CRZ: choosing to display counties with null fields as white. this is because I
 //     am assuming that JH is not listing counties when they have count=0.
