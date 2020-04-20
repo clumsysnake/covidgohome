@@ -30,6 +30,8 @@ class AreaModel {
   }
 
   //TODO: need to doublecheck this Math.min way of comparing..
+  //TODO: proper return value if some areas have no frames at all?
+  //TODO: proper return value if all areas have frames but no common frame?
   static findMostRecentCommonFrameDate(areas) {
     return areas.reduce(
       (mrcd, a) => Math.min(mrcd, a.lastFrame.date),
