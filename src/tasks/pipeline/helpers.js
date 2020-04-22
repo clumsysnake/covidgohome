@@ -35,7 +35,7 @@ export function handleFetch(url, type = 'json') {
   )
 }
 
-function stringify(json) {
+export function stringify(json) {
   return JSON.stringify(json)
 }
 

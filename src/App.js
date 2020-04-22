@@ -37,8 +37,8 @@ export default function App(props) {
             <Route path="/about" component={AboutPage} />
             <Route path="/compare" component={ChartsPage} />
             <Route path="/states/:stateAbbrev" component={StatePage} /> 
-            <Route path="/country/usa/cbsa/:id" component={CBSAPage} />
-            <Route path="/country/usa/csa/:id" component={CSAPage} />
+            <Route path="/country/usa/cbsa/:code" component={CBSAPage} />
+            <Route path="/country/usa/csa/:code" component={CSAPage} />
             <Route exact path="/">
               <Redirect to="/country/usa" />
             </Route>

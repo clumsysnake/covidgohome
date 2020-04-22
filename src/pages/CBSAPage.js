@@ -1,24 +1,25 @@
 import React from 'react';
 import {connect} from "react-redux"
-import * as OMB from '../stores/OMBStore.js'
 import M from '../models.js'
 import C from '../components.js'
 
-function CBSAPage(props) {
-  if(props.counties.length === 0 || props.cbsa === null) { return null }
+function CSAPage(props) {
+  if(props.counties.length === 0 || props.model === null) { return null }
 
-  let cbsaCounties = props.counties.filter(x => props.cbsa.countiesFIPS.includes(x.fips))
-  let area = M.AreaModel.createAggregate(props.cbsa.shortName, cbsaCounties)
+  let area = props.model.createAreaAggregate()
 
-  return <C.SAIso counties={cbsaCounties} area={area}/>
+  return <C.SAIso counties={props.counties} area={area}/>
 }
 
 function mapStateToProps(state, ownProps) {
-  let id = ownProps.match.params.id
+  let code = ownProps.match.params.code
+  let model = M.SAModel.findByCodeAndType(code, 'CBSA')
+
   return {
-    counties: state.counties,
-    cbsa: OMB.CBSAForCode(id)
+    model,
+    //required or when CountyModel loads rerender wont trigger
+    counties: model && model.counties 
   }
 }
 
-export default connect(mapStateToProps)(CBSAPage)
+export default connect(mapStateToProps)(CSAPage)
