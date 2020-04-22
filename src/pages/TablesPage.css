@@ -8,7 +8,7 @@
 }
 
 .tables-page .sa-table {
-  grid-template-columns: auto repeat(5, max-content)
+  grid-template-columns: auto repeat(7, max-content)
 }
 
 .tables-page .table > div {

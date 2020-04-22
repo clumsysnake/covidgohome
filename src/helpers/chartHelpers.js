@@ -80,6 +80,17 @@ const plussed = (n, str=null) => {
   return (n>0) ? `+${s}` : s
 }
 
+//TODO: use gradual colors, prolly with d3?
+export function colorForDeltaRate(delta) {
+  if(delta < 0) {
+    return "red"
+  } else if(delta > 0) {
+    return "green"
+  } else {
+    return "white"
+  }
+}
+
 export function colorScale(scaleType, max) {
   let f;
   switch(scaleType) {

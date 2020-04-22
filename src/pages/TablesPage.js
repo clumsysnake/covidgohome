@@ -48,12 +48,16 @@ function SATable(props) {
       <div>Positives<br/> / 1m</div>
       <div>Deaths</div>
       <div>Deaths<br/> / 1m</div>
+      <div>Deaths<br/> / 1m<br/>last 7d</div>
+      <div>Deaths<br/> / 1m<br/>∂</div>
 
       {sas.map ((sa, i) => {
         let url = sa.code ? "/country/usa/csa/" + sa.code : null
         let a = sa.area
         let last = a.lastFrame
         let last1M = a.series.scale(1000000/a.population).last
+        let lastL7d1M = a.series.deltize(7).scale(1000000/a.population).last
+        let deathDelta1ML7d = lastL7d1M.deaths - last1M.deaths
 
         return <React.Fragment key={"sa-" + sa.title}>
           <div className="name">
@@ -61,9 +65,13 @@ function SATable(props) {
           </div>
           <div className="population">{H.numberWithCommas(a.population)}</div>
           <div className="positives">{last && H.numberWithCommas(last.positives)}</div>
-          <div className="positive/1m">{last1M && H.safeSmartNumPlaces(last1M.positives)}</div>
+          <div className="positive-per-1m">{last1M && H.safeSmartNumPlaces(last1M.positives)}</div>
           <div className="deaths">{last && last.deaths}</div>
-          <div className="deaths/1m">{last1M && H.safeSmartNumPlaces(last1M.deaths)}</div>
+          <div className="deaths-per-1m">{last1M && H.safeSmartNumPlaces(last1M.deaths)}</div>
+          <div className="deaths-per-1m-l7d">{lastL7d1M && H.safeSmartNumPlaces(lastL7d1M.deaths)}</div>
+          <div className="deaths-per-1m-delta" style={{"backgroundColor": H.colorForDeltaRate(deathDelta1ML7d)}}>
+            {H.safeSmartNumPlaces(deathDelta1ML7d, 1)}
+          </div>
         </React.Fragment>
       })}
     </div>
@@ -91,6 +99,7 @@ function StateTable(props) {
         let last = a.transform().last
         let last1M = a.transform().scale(1000000/a.population).last
         let lastL7d = a.series.deltize(7).last
+        let deltaL7d = lastL7d.positiveRate - last.positiveRate
 
         return <React.Fragment key={"state-" + a.name}>
           <div className="name">
@@ -105,7 +114,9 @@ function StateTable(props) {
           <div className="deaths-per-1m">{last1M && H.safeSmartNumPlaces(last1M.deaths)}</div>
           <div className="positive-rate">{last && H.percentDisplay(100*last.positiveRate, 2)}%</div>
           <div className="positive-rate-trailing">{lastL7d && H.percentDisplay(100*lastL7d.positiveRate, 2)}%</div>
-          <div>{H.percentDisplay(100*(lastL7d.positiveRate-last.positiveRate), 2)}%</div>
+          <div className="positive-rate-delta" style={{"backgroundColor": H.colorForDeltaRate(deltaL7d)}}>
+            {H.percentDisplay(100*(deltaL7d), 2)}%
+          </div>
         </React.Fragment>
       })}
     </div>
