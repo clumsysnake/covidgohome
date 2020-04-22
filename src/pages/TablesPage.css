@@ -4,11 +4,11 @@
 }
 
 .tables-page .state-table {
-  grid-template-columns: auto repeat(10, max-content)
+  grid-template-columns: auto repeat(11, max-content)
 }
 
 .tables-page .sa-table {
-  grid-template-columns: auto repeat(7, max-content)
+  grid-template-columns: auto repeat(8, max-content)
 }
 
 .tables-page .table > div {

@@ -46,6 +46,7 @@ function SATable(props) {
     <div className="table sa-table">
       <div className="name header"></div>
       <div>Population</div>
+      <div>CFR</div>
       <div>Cases</div>
       <div>Cases<br/> / 1m</div>
       <div>Deaths</div>
@@ -56,7 +57,7 @@ function SATable(props) {
       {sas.map ((sa, i) => {
         let url = sa.code ? "/country/usa/csa/" + sa.code : null
         let a = sa.area
-        let last = a.lastFrame
+        let last = a.transform().last
         let last1M = a.series.scale(1000000/a.population).last
         let lastL7d1M = a.series.deltize(7).scale(1000000/a.population).last
         let deathDeltaP1ML7d = 100*(lastL7d1M.deaths - last1M.deaths)/last1M.deaths
@@ -66,6 +67,7 @@ function SATable(props) {
             {url ? <Link to={url}>{a.name}</Link> : a.name}
           </div>
           <div className="population">{H.numberWithCommas(a.population)}</div>
+          <div className="cfr">{H.percentDisplay(100*last.deathRate, 2)}%</div>
           <div className="positives">{last && H.numberWithCommas(last.positives)}</div>
           <div className="positive-per-1m">{last1M && H.safeSmartNumPlaces(last1M.positives)}</div>
           <div className="deaths">{last && last.deaths}</div>
@@ -88,6 +90,7 @@ function StateTable(props) {
     <div className="table state-table">
       <div className="name header"></div>
       <div>Population</div>
+      <div>CFR</div>
       <div>Cases</div>
       <div>Cases<br/> / 1m</div>
       <div>Deaths</div>
@@ -113,6 +116,7 @@ function StateTable(props) {
             {url ? <Link to={url}>{a.name}</Link> : a.name}
           </div>
           <div className="population">{H.numberWithCommas(a.population)}</div>
+          <div className="cfr">{H.percentDisplay(100*last.deathRate, 2)}%</div>
           <div className="positives">{last && H.numberWithCommas(last.positives)}</div>
           <div className="positive-per-1m">
             {last1M && H.safeSmartNumPlaces(last1M.positives)}
