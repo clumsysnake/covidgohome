@@ -26,7 +26,7 @@ export default function App(props) {
           <nav>
             <ul className="nav">
               <li><Link to={`/country/usa`}>USA</Link></li>
-              <li><Link to={`/compare`}>States</Link></li>
+              <li><Link to={`/charts`}>Charts</Link></li>
               <li><Link to={`/tables`}>Tables</Link></li>
               <li><Link to={`/about`}>About</Link></li>
             </ul>
@@ -37,7 +37,7 @@ export default function App(props) {
           <Switch>
             <Route exact path="/country/usa" component={MapPage} />
             <Route path="/about" component={AboutPage} />
-            <Route path="/compare" component={ChartsPage} />
+            <Route path="/charts" component={ChartsPage} />
             <Route path="/tables" component={TablesPage} />
             <Route path="/states/:stateAbbrev" component={StatePage} /> 
             <Route path="/country/usa/cbsa/:code" component={CBSAPage} />
