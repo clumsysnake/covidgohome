@@ -6,7 +6,7 @@ import C from '../components.js'
 function CSAPage(props) {
   if(props.counties.length === 0 || props.model === null) { return null }
 
-  let area = props.model.createAreaAggregate()
+  let area = props.model.area
 
   return <C.SAIso counties={props.counties} area={area}/>
 }

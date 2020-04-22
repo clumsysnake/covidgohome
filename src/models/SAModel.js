@@ -46,10 +46,9 @@ export default class SAModel {
     return this.title.split(',')[0]
   }
 
-  createAreaAggregate() {
-    return M.AreaModel.createAggregate(this.shortTitle, this.counties)
+  get area() {
+    return this.__area || (this.__area = M.AreaModel.createAggregate(this.shortTitle, this.counties))
   }
-
 }
 
 allSAs.map(x => new SAModel(x))

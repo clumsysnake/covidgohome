@@ -1,6 +1,14 @@
 .tables-page .table {
   display: grid;
-  grid-template-columns: 5fr 1fr 1fr 1fr 1fr 1fr;
+  font-family: Monaco, monospace;
+}
+
+.tables-page .state-table {
+  grid-template-columns: auto repeat(8, max-content)
+}
+
+.tables-page .sa-table {
+  grid-template-columns: auto repeat(5, max-content)
 }
 
 .tables-page .table > div {
@@ -8,4 +16,9 @@
   grid-row: auto;
   padding: 5px;
   border: 1px solid grey;
+  text-align: right;
+}
+
+.tables-page .table > div.name {
+  text-align: left;
 }

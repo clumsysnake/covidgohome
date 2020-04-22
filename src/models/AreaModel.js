@@ -88,7 +88,7 @@ class AreaModel {
       } else {
         //TODO: fugly
         Series.FUNDAMENTAL_METRICS.forEach((key) => {
-          if(frame.hasOwnProperty(key)) {
+          if(frame.hasOwnProperty(key) && _.isFinite(frame[key])) {
             s[key] += frame[key]
           }
         })

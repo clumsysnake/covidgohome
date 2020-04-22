@@ -1,3 +1,4 @@
+import _ from '../lodash'
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import {connect} from "react-redux"
@@ -8,17 +9,17 @@ import "./TablesPage.css"
 
 function TablesPage(props) {
   const [entity, setEntity] = useState('csa')
-  const [sort, setSort] = useState('most-positives')
+
+  if(props.counties.length === 0) { return null }
 
   let table
   if(entity === "csa") {
     let models = M.SAModel.all.filter(x => x.type === 'CSA')
-    let areas = models.map(x => x.createAreaAggregate())
-    areas.sort(M.AreaModel.sortFunction(sort))
-    table = <SATable sas={models} areas={areas} />
+    models.sort((a, b) => M.AreaModel.sortFunction('most-positives')(a.area, b.area))
+    table = <SATable sas={models} />
   } else {
     let models = M.StateModel.all
-    models.sort(M.AreaModel.sortFunction(sort))
+    models.sort(M.AreaModel.sortFunction('most-positives'))
     table = <StateTable states={models} />
   }
 
@@ -34,23 +35,32 @@ function TablesPage(props) {
 }
 
 function SATable(props) {
+  let totalArea = M.AreaModel.createAggregate('Total', props.sas.map(x => x.area))
+
+  //Create psuedo sa for total row
+  let sas = _.concat([], [{area: totalArea}], props.sas)
+
   return (
-    <div className="table">
-      <div>Name</div>
+    <div className="table sa-table">
+      <div className="name">Name</div>
       <div>Population</div>
       <div>Positives</div>
-      <div>Positives/1m</div>
+      <div>Positives<br/> / 1m</div>
       <div>Deaths</div>
-      <div>Deaths/1m</div>
+      <div>Deaths<br/> / 1m</div>
 
-      {props.areas.map ((a, i) => {
-        let url = "/country/usa/csa/" + props.sas[i].code
-        let last1M = a.series.scale(1000000/a.population).last
+      {sas.map ((sa, i) => {
+        let url = sa.code ? "/country/usa/csa/" + sa.code : null
+        let a = sa.area
         let last = a.lastFrame
-        return <React.Fragment>
-          <div className="name"><Link to={url}>{a.name}</Link></div>
-          <div className="population">{a.population}</div>
-          <div className="positives">{last && last.positives}</div>
+        let last1M = a.series.scale(1000000/a.population).last
+
+        return <React.Fragment key={"sa-" + sa.title}>
+          <div className="name">
+            {url ? <Link to={url}>{a.name}</Link> : a.name}
+          </div>
+          <div className="population">{H.numberWithCommas(a.population)}</div>
+          <div className="positives">{last && H.numberWithCommas(last.positives)}</div>
           <div className="positive/1m">{last1M && H.safeSmartNumPlaces(last1M.positives)}</div>
           <div className="deaths">{last && last.deaths}</div>
           <div className="deaths/1m">{last1M && H.safeSmartNumPlaces(last1M.deaths)}</div>
@@ -61,24 +71,41 @@ function SATable(props) {
 }
 
 function StateTable(props) {
+  let totalArea = M.AreaModel.createAggregate('Total', props.states)
+  let areas = _.concat([], [totalArea], props.states)
+
   return (
-    <div className="table">
-      <div>Name</div>
+    <div className="table state-table">
+      <div className="name">Name</div>
       <div>Population</div>
       <div>Positives</div>
-      <div>Positives/1m</div>
+      <div>Positives<br/> / 1m</div>
       <div>Deaths</div>
-      <div>Deaths/1m</div>
+      <div>Deaths<br/> / 1m</div>
+      <div>Positive<br/> Rate <br/> all time</div>
+      <div>Positive<br/> Rate <br/> last 7d</div>
+      <div>Positive<br/> Rate <br/> ∂</div>
 
-      {props.states.map ((a, i) => {
-        let url = "/state/csa/" + a.code
-        return <React.Fragment>
-          <div className="name"><Link to={url}>{a.name}</Link></div>
-          <div className="population">{a.population}</div>
-          <div className="positives">{a.lastFrame && a.lastFrame.positives}</div>
-          <div className="positive/1m">{a.lastFrame && H.safeSmartNumPlaces(a.lastFrame.positives)}</div>
-          <div className="deaths">{a.lastFrame && a.lastFrame.deaths}</div>
-          <div className="deaths/1m">{a.lastFrame && H.safeSmartNumPlaces(a.lastFrame.deaths)}</div>
+      {areas.map ((a, i) => {
+        let url = a.abbreviation ? "/states/" + a.abbreviation : null
+        let last = a.transform().last
+        let last1M = a.transform().scale(1000000/a.population).last
+        let lastL7d = a.series.deltize(7).last
+
+        return <React.Fragment key={"state-" + a.name}>
+          <div className="name">
+            {url ? <Link to={url}>{a.name}</Link> : a.name}
+          </div>
+          <div className="population">{H.numberWithCommas(a.population)}</div>
+          <div className="positives">{last && H.numberWithCommas(last.positives)}</div>
+          <div className="positive-per-1m">
+            {last1M && H.safeSmartNumPlaces(last1M.positives)}
+          </div>
+          <div className="deaths">{last && last.deaths}</div>
+          <div className="deaths-per-1m">{last1M && H.safeSmartNumPlaces(last1M.deaths)}</div>
+          <div className="positive-rate">{last && H.percentDisplay(100*last.positiveRate, 2)}%</div>
+          <div className="positive-rate-trailing">{lastL7d && H.percentDisplay(100*lastL7d.positiveRate, 2)}%</div>
+          <div>{H.percentDisplay(100*(lastL7d.positiveRate-last.positiveRate), 2)}%</div>
         </React.Fragment>
       })}
     </div>
@@ -89,7 +116,7 @@ function StateTable(props) {
 function mapStateToProps(state, ownProps) {  
   return {
     //retrigger when counties are loaded.
-    counties: M.CountyModel.all.length
+    counties: state.counties
   }
 }
 

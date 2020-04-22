@@ -153,8 +153,10 @@ class Transform {
           }, Object.assign({}, f))
         })
       case 'deltize':
+        let period = (args[0]) ? args[0] : 1
+
         return data.map((curr, fidx, arr) => {
-          let prev = arr[fidx-1]
+          let prev = arr[fidx-period]
           return Series.METRICS.reduce((h, metric) => {
             if(h.hasOwnProperty(metric)) {
               if(_.isFinite(curr[metric]) && prev && _.isFinite(prev[metric]) && prev[metric] > 0) {
