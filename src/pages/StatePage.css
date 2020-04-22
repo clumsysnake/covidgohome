@@ -7,6 +7,10 @@
   width: 54%;
 }
 
+.iso-page > .top > .right {
+  width: 46%;
+}
+
 .iso-page > .top > .state-map {
   padding: 0 1% 0 0;
 }
