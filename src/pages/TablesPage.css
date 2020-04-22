@@ -1,0 +1,11 @@
+.tables-page .table {
+  display: grid;
+  grid-template-columns: 5fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.tables-page .table > div {
+  grid-column: auto;
+  grid-row: auto;
+  padding: 5px;
+  border: 1px solid grey;
+}

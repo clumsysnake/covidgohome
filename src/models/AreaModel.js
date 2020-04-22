@@ -8,6 +8,32 @@ class AreaModel {
     return allModels
   }
 
+  static sortFunction(type) {
+    switch(type) {
+      case "alpha":
+        return (a, b) => (a.name < b.name) ? -1 : 1
+      case "most-positives":
+      case "most-cases":
+        return (a, b) => {
+          let aVal = (a.series.last && a.series.last.positives)
+          let bVal = (b.series.last && b.series.last.positives)
+          if(!_.isFinite(aVal)) { return 1 }
+          if(!_.isFinite(bVal)) { return -1 }
+          return (aVal > bVal) ? -1 : 1
+        }
+      case "most-tests":
+        return (a, b) => {
+          let aVal = (a.series.last && a.series.last.results)
+          let bVal = (b.series.last && b.series.last.results)
+          if(!_.isFinite(aVal)) { return 1 }
+          if(!_.isFinite(bVal)) { return -1 }
+          return (aVal > bVal) ? -1 : 1
+        }
+      default:
+        throw new TypeError(`unknown sort function type ${type}`)
+    }
+  }
+
   //TODO: perMillion flags are weird. either perPopulation flag (capita = 1) or perCapita as integer
   static fieldMax(areas, field, basis = "total") {
     return AreaModel.fieldExtremum(areas, field, 'max', basis)

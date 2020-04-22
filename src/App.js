@@ -10,6 +10,7 @@ import AboutPage from './pages/AboutPage.js'
 import StatePage from './pages/StatePage.js'
 import CBSAPage from './pages/CBSAPage.js'
 import CSAPage from './pages/CSAPage.js'
+import TablesPage from './pages/TablesPage.js'
 
 export default function App(props) {
   useEffect(() => {
@@ -26,6 +27,7 @@ export default function App(props) {
             <ul className="nav">
               <li><Link to={`/country/usa`}>USA</Link></li>
               <li><Link to={`/compare`}>States</Link></li>
+              <li><Link to={`/tables`}>Tables</Link></li>
               <li><Link to={`/about`}>About</Link></li>
             </ul>
           </nav>
@@ -36,6 +38,7 @@ export default function App(props) {
             <Route exact path="/country/usa" component={MapPage} />
             <Route path="/about" component={AboutPage} />
             <Route path="/compare" component={ChartsPage} />
+            <Route path="/tables" component={TablesPage} />
             <Route path="/states/:stateAbbrev" component={StatePage} /> 
             <Route path="/country/usa/cbsa/:code" component={CBSAPage} />
             <Route path="/country/usa/csa/:code" component={CSAPage} />

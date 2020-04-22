@@ -47,7 +47,7 @@ export default class SAModel {
   }
 
   createAreaAggregate() {
-    return M.AreaModel.createAggregate(`${this.type}: ${this.shortTitle}`, this.counties)
+    return M.AreaModel.createAggregate(this.shortTitle, this.counties)
   }
 
 }

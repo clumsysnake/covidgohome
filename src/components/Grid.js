@@ -10,23 +10,6 @@ import DailyNewPositivesChart from './DailyNewPositivesChart.js'
 const DOMAIN_MAX_STEPS = 20 //CRZ: give a certain OOM, how many possible domain maxes 
 
 function Grid(props) {
-  function sortFunction(sort) {
-    switch(sort) {
-      case "alpha":
-        return (a, b) => (a.code < b.code) ? -1 : 1
-      case "most-cases":
-        return (a, b) => {
-          return ((a.series.last && a.series.last.positives) > (b.series.last && b.series.last.positives)) ? -1 : 1
-        }
-      case "most-tests":
-        return (a, b) => {
-          return ((a.series.last && a.series.last.results) > (b.series.last && b.series.last.results)) ? -1 : 1
-        }
-      default:
-        return undefined //TODO
-    }
-  }
-
   let sort = props.sort
   let states = props.states
 
@@ -100,7 +83,7 @@ function Grid(props) {
     return areas.map(a => chartForArea(a, yD, xD))
   }
 
-  let comps = compsForAreas(states.sort(sortFunction(sort)))
+  let comps = compsForAreas(states.sort(M.AreaModel.sortFunction(sort)))
 
   return <div className="grid">
     {states.length ? comps : "loading..."}
