@@ -4,7 +4,7 @@
 }
 
 .tables-page .state-table {
-  grid-template-columns: auto repeat(8, max-content)
+  grid-template-columns: auto repeat(10, max-content)
 }
 
 .tables-page .sa-table {
