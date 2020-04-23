@@ -22,6 +22,8 @@ DATASET / DATA FEED FIXES
 - add illness onset data where found
 - states.json removed territories/DC. add them back with clearer nomenclature.
 - jh csv parse error "expected 12 fields but parsed one" error on zambia line, but looks ok to me
+- incorporate covid tracking info.json for states
+- add more county data per state from individual state dashboards! atleast NJ and NY have it and i need # of results.
 
 IMPROVE DATA ANALYSIS
 - show doubling rate; not sure how best to calculate that.
@@ -45,6 +47,7 @@ IMPROVE DATA ANALYSIS
 - can/should we vary the width of the positive %age line depending on how accurate the %age is according to test count?
 - confirm i should be using per-1m not per-100k. i've seen elsewhere that per-100k may be more standard for low events?
 - add Rt curves
+- possibly incorporate metropolitan divisions
 
 - SA Page
   - AreaIsoCharts shouldnt display the hospitalization data we dont have.
@@ -77,6 +80,9 @@ IMPROVE DATA ANALYSIS
   - heroku uses 12.16.1 node! so i should prolly use that locally unless i can upgrae?
   - make sure density is saved as number not string
   - speed: consider reorganizing county json to reduce space. sequences? positives: [1,4,5,20,34,55,56].. etc
+- sas.json
+  - should the CSA's inline all the counties? technically redundant
+  - should the SA's inline the county and state names? again redundant
 - add banner ability to top header
 - for dateslider, consider having the width be determined by the number of days. 
 - speed: are county topologies being gzipped?
@@ -99,6 +105,8 @@ IMPROVE DATA ANALYSIS
 - bug: github complaining about some node package vulnerabilities
 - bug: when switching between states with dropdown some fields say NaN
 - bug: NAN% in states grid showing w/ new cases
+- bug: when on NM state page i dont see arizona
+- bug: san juan-bayamón CSA is missing its accented o! always read by utf8, and update sas.json
 
 REFACTOR
 - unite the maps, or split into one that shows counties and one that doesn't.
@@ -120,6 +128,5 @@ REFACTOR
 - simply connect heroku to github
 - add static type checking
 - does the data-tip= really belong in Map.js? isn't that a tooltip attr, should be outside of that component?
-- read files with utf8 instead of ascii encoding?
-- are county FIPS supposed to be 5 digits or not? or are they three digits and state fips are two digits and there's
-no "combined fips" code? and are they usually represented as numbers or strings?
+- are county FIPS supposed to be 5 digits or not? or are they three digits and state fips are two digits and there's no "combined fips" code? and are they usually represented as numbers or strings?
+- CSAPAge and CBSAPage all ready to be united, need to read up on react router

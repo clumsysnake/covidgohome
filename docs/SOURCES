@@ -1,5 +1,6 @@
 sources
 
+https://github.com/datasets/covid-19
 http://covidtracking.com
 https://covidtracking.com/api/counties - links to some county pages, not sure if more info than state pages?
   - for example just LA county announces age group, hospitalization, and cases by community (agoura hills, brentwood, etc)
