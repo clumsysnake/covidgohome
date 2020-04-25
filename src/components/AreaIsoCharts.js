@@ -70,7 +70,7 @@ export default function AreaIsoCharts(props) {
 	        ]}/>
 	        <C.Filter accessors={[timeframe, setTimeframe]} options={[
 	          [null, 'all'],
-	          ['first-death', 'from first death'],
+	          ['first-death', 'from 1st death'],
 	          // [14, 'last 14d'],
 	        ]}/>
 	        <C.Filter accessors={[averageDays, setAverageDays]} label="smoothing" options={[
